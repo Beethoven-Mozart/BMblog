@@ -18,5 +18,3 @@ export var login_post = (ctx) =>{
         }
     });
 };
-
-

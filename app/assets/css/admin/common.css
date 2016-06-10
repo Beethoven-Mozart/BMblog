@@ -34,7 +34,7 @@ body {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    background: #444 url("debut_dark.png") repeat;
+    background: #444 url("../../img/admin/debut_dark.png") repeat;
     color: #666;
     font: 400 100%/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
 }
@@ -204,7 +204,7 @@ a:active, a:hover {
         margin: 0 -2em 1em 0;
         text-indent: -9999px;
         overflow: hidden;
-        background: #444 url("hamburger.gif") no-repeat 50% 33%
+        background: #444 url("../../img/admin/hamburger.gif") no-repeat 50% 33%
     }
 
     .main {
@@ -224,7 +224,7 @@ a:active, a:hover {
 
 @media screen and (-webkit-min-device-pixel-ratio: 1.3), screen and (min--moz-device-pixel-ratio: 1.3), screen and (-o-min-device-pixel-ratio: 2 / 1), screen and (min-device-pixel-ratio: 1.3), screen and (min-resolution: 192dpi), screen and (min-resolution: 2dppx) {
     body {
-        background-image: url("debut_dark_@2X.png");
+        background-image: url("../../img/admin/debut_dark_@2X.png");
         -webkit-background-size: 200px 200px;
         -moz-background-size: 200px 200px;
         -o-background-size: 200px 200px;
@@ -232,7 +232,7 @@ a:active, a:hover {
     }
 
     #toggle {
-        background-image: url("hamburger-retina.gif");
+        background-image: url("../../img/admin/hamburger-retina.gif");
         -webkit-background-size: 100px 100px;
         -moz-background-size: 100px 100px;
         -o-background-size: 100px 100px;
