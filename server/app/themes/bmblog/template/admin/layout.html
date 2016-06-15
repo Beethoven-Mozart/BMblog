@@ -15,26 +15,47 @@
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
-    <script src="/ssets/js/vendor/html5shiv.js"></script>
+    <script src="/assets/js/vendor/html5shiv.js"></script>
     <script src="/assets/js/vendor/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
+<div class="admin-top">
+    <div class="admin-top-menu">
+        <div class="admin-top-menu-left">
+            <div class="admin-top-logo">
+                <img src="/assets/img/logo-mini.png">
+            </div>
+            <div class="admin-top-title">
+                控制面板
+            </div>
+            <div class="admin-top-bars">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="admin-top-menu-right">
+            <div class="admin-top-avatar">
+                <img class="img-circle" src="/assets/img/admin/avatar.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div role="navigation" id="nav" class="nav-collapse">
     <ul>
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Blog</a></li>
+        <li class="active"><a href="#">仪表盘</a></li>
+        <li><a href="#">主题</a></li>
+        <li><a href="#">插件</a></li>
+        <li><a href="#">工具</a></li>
     </ul>
+    <div class="admin-footer">
+        BMblog
+    </div>
 </div>
 <div class="container">
     {% block content %}
     <p>Missing content!</p>
     {% endblock %}
-    <div class="blog-footer">
-        Copyright © 2015 BMblog. All Rights Reserved.
-    </div>
 </div>
 <script src="/assets/js/vendor/jquery-2.2.3.min.js"></script>
 <script src="/assets/js/vendor/video.js"></script>
