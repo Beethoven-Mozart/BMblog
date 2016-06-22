@@ -17,21 +17,39 @@ var nav = responsiveNav(".nav-collapse", { // Selector
     } // Function: Close callback
 });
 
-$('document').ready(function () {
+//菜单
+var menu = function () {
+    var tmp = 1;
+    var $last = $('.active');
+    $(".active > .son").show();
     $('.nav-collapse > ul > li').click(function () {
         if($(this).attr("class") != "active"){
             $('.nav-collapse > ul > li').removeClass('active');
             $(this).addClass("active");
 
-            $(".nav-collapse > ul > li > ul").hide();
+            $last.children("ul").hide();
+            $last.find('.icon-right i').attr('class','fa fa-angle-left');
             $(this).find('.icon-right i').attr('class','fa fa-angle-down');
             $(this).children("ul").show(200);
+            $last = $(this);
+            tmp = 1;
         }else{
             var $tmp = $(this);
-            $tmp.children("ul").hide(200,function () {
-                $tmp.find('.icon-right i').attr('class','fa fa-angle-left');
-            });
+            if(tmp == 1){
+                $tmp.children("ul").hide(200,function () {
+                    $tmp.find('.icon-right i').attr('class','fa fa-angle-left');
+                });
+                tmp = 2;
+            }else{
+                $tmp.find('.icon-right i').attr('class','fa fa-angle-down');
+                $tmp.children("ul").show(200);
+                tmp = 1;
+            }
         }
+    });
+};
 
-    })
+$('document').ready(function () {
+    menu();
+    
 });
