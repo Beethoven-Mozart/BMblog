@@ -9,8 +9,29 @@ var nav = responsiveNav(".nav-collapse", { // Selector
     navClass: "nav-collapse", // String: Default CSS class. If changed, you need to edit the CSS too!
     navActiveClass: "js-nav-active", // String: Class that is added to  element when nav is active
     jsClass: "js", // String: 'JS enabled' class which is added to  element
-    init: function(){
+    init: function () {
     }, // Function: Init callback
-    open: function(){}, // Function: Open callback
-    close: function(){} // Function: Close callback
+    open: function () {
+    }, // Function: Open callback
+    close: function () {
+    } // Function: Close callback
+});
+
+$('document').ready(function () {
+    $('.nav-collapse > ul > li').click(function () {
+        if($(this).attr("class") != "active"){
+            $('.nav-collapse > ul > li').removeClass('active');
+            $(this).addClass("active");
+
+            $(".nav-collapse > ul > li > ul").hide();
+            $(this).find('.icon-right i').attr('class','fa fa-angle-down');
+            $(this).children("ul").show(200);
+        }else{
+            var $tmp = $(this);
+            $tmp.children("ul").hide(200,function () {
+                $tmp.find('.icon-right i').attr('class','fa fa-angle-left');
+            });
+        }
+
+    })
 });
