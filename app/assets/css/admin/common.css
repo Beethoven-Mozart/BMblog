@@ -126,11 +126,16 @@ a:active, a:hover {
 
 .nav-collapse .active a {
     color: #fff;
-    background: rgba(0, 0, 0, .4)
+    background: rgba(0, 0, 0, .4);
+    border-top: 0 solid rgba(0, 0, 0, .2);
 }
 
-.nav-collapse li:first-child a {
+.nav-collapse li li:first-child a {
     border-top: 0
+}
+
+.nav-collapse > ul {
+    border-top: 1px solid rgba(0, 0, 0, .2);
 }
 
 .nav-collapse li:last-child a {
@@ -237,23 +242,23 @@ a:active, a:hover {
     float: right;
 }
 
-.son {
+.nav-collapse > ul > li > ul {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.son li {
+.nav-collapse > ul > li > ul > li {
     margin-left: 20px;
 }
 
-.son a {
+.nav-collapse > ul > li > ul a {
     background-color: transparent !important;
 }
 
-.son a:hover {
+.nav-collapse > ul > li > ul a:hover {
     background-color: rgba(0, 0, 0, .3) !important;
 }
 
-.nav-collapse li ul {
+.nav-collapse > ul > li > ul {
     display: none;
 }
 
