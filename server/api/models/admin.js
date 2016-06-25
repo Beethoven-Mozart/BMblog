@@ -1,5 +1,7 @@
 import {query_once_start, querys_Tx} from '../db/mysql.js';
 import {CheckPassword} from '../../app/tool/ass';
+import fs from 'fs';
+import path from 'path';
 
 export var login_post = (ctx)=> {
     return query_once_start().then((conn) => {
@@ -51,5 +53,69 @@ export var login_post = (ctx)=> {
             conn.release();
             return result;
         });
+    });
+};
+
+export var page_post = (ctx)=> {
+    var path_url = path.join(__dirname, '../../app/themes/bmblog/template/admin/page/' + ctx.params.name + '/');
+    var paths = path_url + 'index';
+    var get_html = new Promise(function (resolve, reject) {
+        fs.exists(paths + '.html', function (exists) {
+            if (exists) {
+                fs.readFile(paths + '.html', 'utf-8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(data);
+                    }
+                });
+            } else {
+                resolve('404');
+            }
+        });
+    });
+
+    var get_css = new Promise(function (resolve, reject) {
+        fs.exists(paths + '.css', function (exists) {
+            if (exists) {
+                fs.readFile(paths + '.css', 'utf-8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(data);
+                    }
+                });
+            } else {
+                resolve('404');
+            }
+        });
+    });
+
+    var get_js = new Promise(function (resolve, reject) {
+        fs.exists(paths + '.js', function (exists) {
+            if (exists) {
+                fs.readFile(paths + '.js', 'utf-8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(data);
+                    }
+                });
+            } else {
+                resolve('404');
+            }
+        });
+    });
+
+    return Promise.all([
+        get_html,
+        get_css,
+        get_js
+    ]).then(([html, css, js]) => {
+        return {
+            html: html,
+            css: css,
+            js: js
+        };
     });
 };

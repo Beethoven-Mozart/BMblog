@@ -24,24 +24,24 @@ var menu = function () {
     $(".active > ul").show();
     $('.nav-collapse > ul > li > a').click(function () {
         var $tmp = $(this).parent();
-        if($tmp.attr("class") == "active"){
-            if(tmp == 1){
-                $tmp.children("ul").hide(200,function () {
-                    $tmp.find('.icon-right i').attr('class','fa fa-angle-left');
+        if ($tmp.attr("class") == "active") {
+            if (tmp == 1) {
+                $tmp.children("ul").hide(200, function () {
+                    $tmp.find('.icon-right i').attr('class', 'fa fa-angle-left');
                 });
                 tmp = 2;
-            }else{
-                $tmp.find('.icon-right i').attr('class','fa fa-angle-down');
+            } else {
+                $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
                 $tmp.children("ul").show(200);
                 tmp = 1;
             }
-        }else{
+        } else {
             $last.removeClass('active');
             $tmp.addClass("active");
 
             $last.children("ul").hide();
-            $last.find('.icon-right i').attr('class','fa fa-angle-left');
-            $tmp.find('.icon-right i').attr('class','fa fa-angle-down');
+            $last.find('.icon-right i').attr('class', 'fa fa-angle-left');
+            $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
             $tmp.children("ul").show(200);
             $last = $tmp;
             tmp = 1;
@@ -51,50 +51,70 @@ var menu = function () {
     //菜单隐藏
     var tmp2 = 1;
     $(".admin-top-bars").click(function () {
-        if(tmp2 == 1){
+        if (tmp2 == 1) {
             $("#nav").hide();
-            $(".main").css("width","100%");
+            $(".main").css("width", "100%");
             tmp2 = 0;
-        }else{
+        } else {
             $("#nav").show(200);
-            $(".main").css("width","76%");
+            $(".main").css("width", "76%");
             tmp2 = 1;
         }
     });
 };
 
+//路由
+var routers = function () {
+    var active = function (route) {
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: "/admin/page/" + route,
+            async: true,
+            data: {
+                img: "1"
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result.html == 404) {
+                    $('#ajax-css').remove();
+                    $("#content-main").html('<h1>页面不存在!</h1>');
+                } else {
+                    $("#content-main").html(result.html);
+                    $('#ajax-css').remove();
+                    $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
+                    eval(result.js);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+                alert("通信发送错误,请检查网络连接.");
+            }
+        });
+    };
 
+    var route = window.location.hash.slice(1);
+    if (route == null || route == "") {
+        route = 'index';
+        active(route);
+    }
 
-$('document').ready(function () {
-    menu();
+    var allroutes = function () {
 
-    //路由
-    var showAuthorInfo = function () { console.log("showAuthorInfo"); };
-    var listBooks = function () { console.log("listBooks"); };
+    };
 
-    var allroutes = function() {
-        var route = window.location.hash.slice(2);
-        var sections = $('section');
-        var section;
+    var routes = {
+        '/:route': {
+            before: function (route) {
 
-        section = sections.filter('[data-route=' + route + ']');
-
-        if (section.length) {
-            sections.hide(250);
-            section.show(250);
+            },
+            on: function (route) {
+                active(route);
+            }
         }
     };
-
     //
-    // define the routing table.
-    //
-    var routes = {
-        '/author': showAuthorInfo,
-        '/books': listBooks
-    };
-
-    //
-    // instantiate the router.
+    //routes[route] = eval(active(route));
     //
     var router = Router(routes);
 
@@ -106,4 +126,85 @@ $('document').ready(function () {
     });
 
     router.init();
+};
+
+//异步加载js
+var JSLoader = function () {
+    //    JSLoader.load('js/test.js' , function () {a();})
+    var scripts = {}; // scripts['a.js'] = {loaded:false,funs:[]}
+
+    function getScript(url) {
+        var script = scripts[url];
+        if (!script) {
+            script = {loaded: false, funs: []};
+            scripts[url] = script;
+            add(script, url);
+        }
+        return script;
+    }
+
+
+    function run(script) {
+        var funs = script.funs,
+            len = funs.length,
+            i = 0;
+
+        for (; i < len; i++) {
+            var fun = funs.pop();
+            fun();
+        }
+    }
+
+    function add(script, url) {
+        var scriptdom = document.createElement('script');
+        scriptdom.type = 'text/javascript';
+        scriptdom.loaded = false;
+        scriptdom.src = url;
+
+        scriptdom.onload = function () {
+            scriptdom.loaded = true;
+            run(script);
+            scriptdom.onload = scriptdom.onreadystatechange = null;
+        };
+
+        //for ie
+        scriptdom.onreadystatechange = function () {
+            if ((scriptdom.readyState === 'loaded' ||
+                scriptdom.readyState === 'complete') && !scriptdom.loaded) {
+
+                run(script);
+                scriptdom.onload = scriptdom.onreadystatechange = null;
+            }
+        };
+
+        document.getElementsByTagName('head')[0].appendChild(scriptdom);
+    }
+
+    return {
+        load: function (url) {
+            var arg = arguments,
+                len = arg.length,
+                i = 1,
+                script = getScript(url),
+                loaded = script.loaded;
+
+            for (; i < len; i++) {
+                var fun = arg[i];
+                if (typeof fun === 'function') {
+                    if (loaded) {
+                        fun();
+                    } else {
+                        script.funs.push(fun);
+                    }
+                }
+            }
+        }
+    };
+};
+
+
+$('document').ready(function () {
+    menu();
+    routers();
+
 });

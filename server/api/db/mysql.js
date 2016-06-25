@@ -16,17 +16,17 @@ export var pool = mysql.createPool({
 //执行一行SQL语句并返回结果
 export function query(sql) {
     return pool.query(sql);
-};
+}
 
 //异步执行多行SQL语句并返回结果
 export function querys(sqls) {
     return querys_Parallelism(sqls);
-};
+}
 
 //建立MySQL连接
 export function getConnection() {
     return pool.getConnection();
-};
+}
 
 //并发执行多行SQL语句并返回结果
 export function querys_Parallelism(sqls) {
@@ -40,7 +40,7 @@ export function querys_Parallelism(sqls) {
         }
         return result;
     });
-};
+}
 
 //顺序执行多行SQL语句并返回结果
 // query(sql_1)

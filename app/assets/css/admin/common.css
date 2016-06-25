@@ -127,6 +127,9 @@ a:active, a:hover {
 .nav-collapse .active a {
     color: #fff;
     background: rgba(0, 0, 0, .4);
+}
+
+.nav-collapse .active > a {
     border-top: 0 solid rgba(0, 0, 0, .2);
 }
 
