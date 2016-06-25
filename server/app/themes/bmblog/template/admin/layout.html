@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}Blog-Admin{% endblock %}</title>
+    <script>
+        window.paceOptions = {
+            ajax: {
+                trackMethods: ['GET', 'POST', 'PUT', 'DELETE', 'REMOVE']
+            }
+        };
+    </script>
+    <script src="/assets/js/pace.min.js"></script>
     <link href="/assets/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/flat-ui.min.css" rel="stylesheet">
     <link href="/assets/highlight/styles/default.css" rel="stylesheet">
