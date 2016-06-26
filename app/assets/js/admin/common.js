@@ -75,6 +75,34 @@ var menu = function () {
             $last2.html(tmp3 + '<i class="admin-active-now"></i>');
         }
     });
+
+    //页面载入处理
+    var now_route = window.location.hash.slice(1);
+    if (now_route == 'index' || now_route == null || now_route == "") {
+        ajax_page('setting','index'); //单独处理无路由标示的情况
+    }else{
+        //处理标签
+        $('.active > ul > li > a:first').text("首页");
+        $('.nav-collapse > ul > li > ul > li > a').each(function () {
+            if ($(this).attr("href").slice(1) == now_route) {
+                $last2 = $(this);
+                $(this).html($(this).text() + '<i class="admin-active-now"></i>');
+                tmp3 = $(this).text();
+                //处理菜单
+                var $last3 = $('.active');
+                var $tmp = $(this).parent().parent().parent();
+                if($last3 != $tmp){
+                    $last3.removeClass('active');
+                    $last3.children("ul").hide();
+                    $last3.find('.icon-right i').attr('class', 'fa fa-angle-left');
+                    $tmp.addClass("active");
+                    $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
+                    $tmp.children("ul").show(200);
+                    $last = $tmp;
+                }
+            }
+        })
+    }
 };
 
 //访问服务器
@@ -141,22 +169,6 @@ var routers = function () {
 };
 
 $('document').ready(function () {
-    //页面载入处理
-    var now_route = window.location.hash.slice(1);
-    if (now_route == 'index' || now_route != null || now_route != "") {
-        ajax_page('setting','index');
-    }else{
-        //处理标签
-        $('.active > ul > li > a:first').text("首页");
-        $('.nav-collapse > ul > li > ul > li > a').each(function () {
-            if ($(this).attr("href").slice(1) == now_route) {
-                menu.$last2 = $(this);
-                menu.tmp3 = $(this).text();
-                $(this).html(menu.tmp3 + '<i class="admin-active-now"></i>');
-            }
-        })
-    }
-
     menu();
     routers();
 });
