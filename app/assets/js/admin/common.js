@@ -1,3 +1,5 @@
+'use strict';
+
 var nav = responsiveNav(".nav-collapse", { // Selector
     animate: true, // Boolean: Use CSS3 transitions, true or false
     transition: 284, // Integer: Speed of the transition, in milliseconds
@@ -21,9 +23,7 @@ var nav = responsiveNav(".nav-collapse", { // Selector
 var menu = function () {
     var tmp = 1;
     var $last = $('.active');
-    $(".active > ul").show();
     $('.nav-collapse > ul > li > a').click(function () {
-        $(this).addClass("admin-active-now");
         var $tmp = $(this).parent();
         if ($tmp.attr("class") == "active") {
             if (tmp == 1) {
@@ -62,60 +62,70 @@ var menu = function () {
             tmp2 = 1;
         }
     });
+
+    //页面导航标示
+    var tmp3 = '首页';
+    var $last2 = $('.active > ul > li > a:first');
+    $(".active > ul").show();
+    $('.nav-collapse > ul > li > ul > li > a').click(function () {
+        if ($(this).text() != tmp3) {
+            $last2.text(tmp3);
+            $last2 = $(this);
+            tmp3 = $last2.text();
+            $last2.html(tmp3 + '<i class="admin-active-now"></i>');
+        }
+    });
+};
+
+//访问服务器
+var ajax_page = function (path, route) {
+    $.ajax({
+        cache: false,
+        type: 'POST',
+        url: "/admin/api/" + path,
+        async: true,
+        data: {
+            route: route
+        },
+        dataType: "json",
+        success: function (result) {
+            if (result.html == 404) {
+                $('#ajax-css').remove();
+                $("#content-main").html('<h1>页面不存在! - 405</h1>');
+            } else {
+                $("#content-main").html(result.html);
+                $('#ajax-css').remove();
+                $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
+                eval(result.js);
+            }
+        },
+        error: function (err) {
+            $('#ajax-css').remove();
+            $("#content-main").html('<h1>' + err.responseText + '</h1>');
+            console.log(err);
+        }
+    });
 };
 
 //路由
 var routers = function () {
-    var active = function (route) {
-        $.ajax({
-            cache: false,
-            type: 'POST',
-            url: "/admin/page/" + route,
-            async: true,
-            data: {
-                img: "1"
-            },
-            dataType: "json",
-            success: function (result) {
-                if (result.html == 404) {
-                    $('#ajax-css').remove();
-                    $("#content-main").html('<h1>页面不存在!</h1>');
-                } else {
-                    $("#content-main").html(result.html);
-                    $('#ajax-css').remove();
-                    $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
-                    eval(result.js);
-                }
-            },
-            error: function (err) {
-                console.log(err);
-                alert("通信发送错误,请检查网络连接.");
-            }
-        });
-    };
-
-    var route = window.location.hash.slice(1);
-    if (route == null || route == "") {
-        route = 'index';
-        active(route);
-    }
-
     var allroutes = function () {
 
     };
 
-    var routes = {
-        '/:route': {
-            before: function (route) {
+    var not_found = function () {
+        $('#ajax-css').remove();
+        $("#content-main").html('<h1>禁止访问! - 403</h1>');
+    };
 
-            },
-            on: function (route) {
-                active(route);
+    var routes = {
+        '/:path/:route': {
+            on: function (path, route) {
+                ajax_page(path, route);
             }
         }
     };
-    //
-    //routes[route] = eval(active(route));
+
     //
     var router = Router(routes);
 
@@ -123,14 +133,30 @@ var routers = function () {
     // a global configuration setting.
     //
     router.configure({
-        on: allroutes
+        on: allroutes,
+        notfound: not_found
     });
 
     router.init();
 };
 
 $('document').ready(function () {
+    //页面载入处理
+    var now_route = window.location.hash.slice(1);
+    if (now_route == 'index' || now_route != null || now_route != "") {
+        ajax_page('setting','index');
+    }else{
+        //处理标签
+        $('.active > ul > li > a:first').text("首页");
+        $('.nav-collapse > ul > li > ul > li > a').each(function () {
+            if ($(this).attr("href").slice(1) == now_route) {
+                menu.$last2 = $(this);
+                menu.tmp3 = $(this).text();
+                $(this).html(menu.tmp3 + '<i class="admin-active-now"></i>');
+            }
+        })
+    }
+
     menu();
     routers();
-
 });

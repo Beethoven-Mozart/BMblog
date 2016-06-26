@@ -335,16 +335,14 @@ a:active, a:hover {
 }
 
 .admin-active-now {
-    right: 0;
     border: 8px solid transparent;
     content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
     pointer-events: none;
-    border-right-color: #f1f1f1;
-    top: 50%;
-    margin-top: -8px;
+    border-right-color: #ffffff;;
+    float: right;
+    position: relative;
+    z-index: 2;
+    margin-right: -4px;
 }
 
 .nav-collapse .li {

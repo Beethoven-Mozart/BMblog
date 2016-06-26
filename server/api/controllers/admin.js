@@ -1,4 +1,4 @@
-import {login_post as model_login_post, page_post as model_admin_page_post} from '../models/admin';
+import {login_post as model_login_post, api_post as model_admin_api_post} from '../models/admin';
 export default (ctx) => {
     ctx.render('admin/index', {double: 'rainbow'});
 };
@@ -19,8 +19,8 @@ export var login_post = (ctx) => {
     });
 };
 
-export var page = (ctx) => {
-    return model_admin_page_post(ctx).then((result) => {
+export var api = (ctx) => {
+    return model_admin_api_post(ctx).then((result) => {
         ctx.body = result;
     });
 };

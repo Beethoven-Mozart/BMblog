@@ -10,7 +10,7 @@ router
     .get('/admin', controllers.admin.default)
     .get('/admin/login', controllers.admin.login)
     .post('/admin/login', controllers.admin.login_post)
-    .post('/admin/page/:name', controllers.admin.page)
+    .post('/admin/api/:name', controllers.admin.api)
     .get('/:page', controllers.page.default)
     .get('/:page', controllers.page.page)
     .get('/:page/page/:num', controllers.page.list)
