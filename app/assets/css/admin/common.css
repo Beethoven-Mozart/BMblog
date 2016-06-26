@@ -172,7 +172,7 @@ a:active, a:hover {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
-    padding: 3em 4em;
+    padding: 2em 3em;
     position: fixed;
     overflow: hidden;
     overflow-y: scroll;
@@ -468,7 +468,7 @@ a:active, a:hover {
 
     .main {
         -webkit-overflow-scrolling: auto;
-        padding: 0 2em 2em;
+        padding: 0 1em 1em;
         border-radius: 0;
         box-shadow: none;
         position: relative;

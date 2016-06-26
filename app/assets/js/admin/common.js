@@ -1,5 +1,6 @@
 'use strict';
 
+//侧边栏
 var nav = responsiveNav(".nav-collapse", { // Selector
     animate: true, // Boolean: Use CSS3 transitions, true or false
     transition: 284, // Integer: Speed of the transition, in milliseconds
@@ -110,7 +111,7 @@ var ajax_page = function (path, route) {
     $.ajax({
         cache: false,
         type: 'POST',
-        url: "/admin/api/" + path,
+        url: "/admin/page/" + path,
         async: true,
         data: {
             route: route

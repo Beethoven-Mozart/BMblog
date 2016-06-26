@@ -5,12 +5,13 @@ const router = new Koa_router();
 
 router
     .get('/', controllers.home.default) // HOME 路由
+    .post('/api', controllers.api.default)
     .get('/page/:num', controllers.home.list)
     .get('/:id.html', controllers.post.default)
     .get('/admin', controllers.admin.default)
     .get('/admin/login', controllers.admin.login)
     .post('/admin/login', controllers.admin.login_post)
-    .post('/admin/api/:name', controllers.admin.api)
+    .post('/admin/page/:name', controllers.admin.page)
     .get('/:page', controllers.page.default)
     .get('/:page', controllers.page.page)
     .get('/:page/page/:num', controllers.page.list)
