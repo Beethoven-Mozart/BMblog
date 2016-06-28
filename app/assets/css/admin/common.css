@@ -176,10 +176,11 @@ a:active, a:hover {
     overflow: hidden;
     overflow-y: scroll;
     box-shadow: 0 0 15px rgba(0, 0, 0, .6);
-    top: 65px;
+    top: 60px;
+    left: 160px;
     right: 0;
     bottom: 0;
-    width: 76%;
+    width: auto;
     background: #fff
 }
 
@@ -197,9 +198,9 @@ a:active, a:hover {
 
 .nav-collapse {
     position: absolute;
-    width: 24%;
-    top: 14px;
-    left: 0
+    width: 160px;
+    top: 60px;
+    left: 0;
 }
 
 .nav-collapse ul {
@@ -263,7 +264,9 @@ a:active, a:hover {
     margin-top: 0;
     width: 100%;
     height: 50px;
+    position: fixed;
     overflow: hidden;
+    z-index: 5;
 }
 
 .admin-top a {
@@ -282,8 +285,16 @@ a:active, a:hover {
 
 .admin-top-menu-left {
     float: left;
-    width: 24%;
+    width: 160px;
     position: relative;
+    height: 50px;
+    top: 0;
+}
+
+.admin-top-menu-right {
+    width: auto;
+    position: relative;
+    margin-left: 160px;
     height: 50px;
     top: 0;
 }
@@ -294,6 +305,7 @@ a:active, a:hover {
     position: absolute;
     top: 0;
     left: 60px;
+    font-weight: 900;
 }
 
 .admin-top-bars {
@@ -301,17 +313,9 @@ a:active, a:hover {
     line-height: 50px;
     position: absolute;
     top: 0;
-    right: 10px;
+    right: 0;
     display: block;
-    padding: 0 5px;
-}
-
-.admin-top-menu-right {
-    float: right;
-    width: 76%;
-    position: relative;
-    height: 50px;
-    top: 0;
+    padding: 0;
 }
 
 .admin-top-logo {
@@ -328,28 +332,23 @@ a:active, a:hover {
 .admin-top-search {
     position: absolute;
     top: 0;
-    left: 10px;
     height: 50px;
-    padding: 0 10px;
+    padding: 10px 10px;
+    z-index: 9999999;
 }
 
-.admin-top-search > .admin-top-search-border {
-    position: relative;
-    height: 50px;
-}
-
-.admin-top-search > .admin-top-search-border > .search-input {
+.admin-top-search > .search-input {
     color: #d6d6d6;
-    margin-top: 10px;
-    width: 30px;
+    width: 180px;
     height: 30px;
     border: 1px solid #6d6d6d;
     border-radius: 15px !important;
     background-color: transparent;
-    text-indent: -150000px;
+    text-indent: 5px;
+    z-index: 999999;
 }
 
-.admin-top-search > .admin-top-search-border > .admin-top-search-click {
+.admin-top-search > .search-click {
     top: 0;
     right: 0;
     position: absolute;
@@ -357,14 +356,14 @@ a:active, a:hover {
     height: 50px;
 }
 
-.admin-top-search > .admin-top-search-border > .admin-top-search-click:hover {
+.admin-top-search > .search-click:hover {
     color: #d6d6d6;
 }
 
-.admin-top-search > .admin-top-search-border .search-right {
+.admin-top-search .search-right {
     position: absolute;
-    right: 8px;
-    top: 18px;;
+    right: 18px;
+    top: 18px;
     font-size: 14px;
 }
 
@@ -389,7 +388,7 @@ a:active, a:hover {
 }
 
 .admin-top-right-menu > ul > li > .inform {
-    padding: 17px;
+    padding: 21px 17px 11px;
     line-height: 60px;
     font-size: 16px;
     text-align: center;
@@ -397,7 +396,7 @@ a:active, a:hover {
 
 .badge-default {
     position: absolute;
-    top: 13px;
+    top: 17px;
     right: 25px;
     margin: -6px 0 0;
     font-weight: 600;
@@ -499,22 +498,6 @@ a:active, a:hover {
 
 }
 
-@media screen and (min-width: 76em) {
-    .nav-collapse {
-        width: 18em
-    }
-
-    .main {
-        width: auto;
-        left: 18em
-    }
-
-    .admin-top-menu-left {
-        width: 18em
-    }
-
-}
-
 @media screen and (max-width: 780px) {
     .container {
         padding: 0 5px;
@@ -529,7 +512,6 @@ a:active, a:hover {
     }
 
     .nav-collapse {
-        top: 0;
         width: 100%;
         position: relative
     }
@@ -566,7 +548,7 @@ a:active, a:hover {
     }
 
     .main {
-        top: 10px;
+        left: 0 !important;
         -webkit-overflow-scrolling: auto;
         padding: 10px;
         border-radius: 0;
@@ -580,17 +562,16 @@ a:active, a:hover {
         background-color: transparent
     }
 
-    .admin-top-menu-left {
-        width: 140px;
-    }
-
-    .admin-top-menu-right {
-        float: right;
-        overflow: visible;
-        width: auto;
-    }
-
     .admin-top-bars {
         display: none;
+    }
+
+    .sign-out {
+        display: none;
+    }
+
+    .admin-top-search > .search-input {
+        width: 30px;
+        text-indent: -150000px;
     }
 }

@@ -53,25 +53,13 @@ var menu = function () {
     $(".admin-top-bars").click(function () {
         if (tmp2 == 1) {
             $("#nav").hide();
-            $(".main").css("width", "100%");
+            $(".main").css('left', '0');
             tmp2 = 0;
         } else {
             $("#nav").show(200);
-            $(".main").css("width", "76%");
+            $(".main").css("left", "160px");
             tmp2 = 1;
         }
-        $(window).resize(function () {
-            if ($(document).width() <= 780) {
-                $("#nav").show();
-                $(".main").css("width", "100%");
-            } else {
-                if ($("#nav").is(":hidden")) {
-                    $(".main").css("width", "100%");
-                } else {
-                    $(".main").css("width", "76%");
-                }
-            }
-        });
     });
 
     //页面导航标示
@@ -95,9 +83,10 @@ var menu = function () {
     };
 
     //顶部搜索框
-    $(".admin-top-search-click").click(function () {
-        if ($(".admin-top-search input").css('text-indent') != '5px') {
-            $(".search-input").animate({width:"200px"},100);
+    $(".search-click").click(function () {
+        if ($(".admin-top-search input").css('width') != '180px') {
+            $(".admin-top-search input").css('background-color', '#000');
+            $(".search-input").animate({width: "180px"}, 100);
             $(".admin-top-search input").css('text-indent', '5px');
             $(".admin-top-search input").focus();
         } else {
@@ -107,9 +96,11 @@ var menu = function () {
 
     $(".admin-top-search input").blur(function () {
         setTimeout(function () {
-            $(".search-input").animate({width:"30px"},1000);
+            $(".search-input").animate({width: "30px"}, 1000, 'swing', function () {
+                $(".admin-top-search input").css('background-color', 'transparent');
+            });
             $(".admin-top-search input").css('text-indent', '-150000px');
-        },2000);
+        }, 2000);
     });
 
     $(".admin-top-search input").keypress(function (e) {
@@ -147,11 +138,21 @@ var menu = function () {
         })
     }
 
+    //判断提醒数字
     $(".badge-default").each(function () {
-        if($(this).text() == "9+"){
-            $(this).css('padding','3px 2px');
+        if ($(this).text() == "9+") {
+            $(this).css('padding', '3px 2px');
         }
-    })
+    });
+
+    //页面滚动事件
+    $(document).scroll(function () {
+        if($(this).scrollTop() == 0){
+            $('.admin-top-menu').css('background-color','rgba(0, 0, 0, 0.4)');
+        }else{
+            $('.admin-top-menu').css('background-color','#000');
+        }
+    });
 };
 
 //访问服务器
@@ -202,7 +203,7 @@ var routers = function () {
             }
         }
     };
-    
+
     var router = Router(routes);
 
     router.configure({
