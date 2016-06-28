@@ -181,7 +181,7 @@ a:active, a:hover {
     right: 0;
     bottom: 0;
     width: auto;
-    background: #fff
+    background: #fff;
 }
 
 .main::-webkit-scrollbar {
@@ -426,7 +426,7 @@ a:active, a:hover {
     text-align: center;
 }
 
-.admin-top-avatar:hover, .sign-out:hover, .admin-top-bars:hover, .notice:hover, .comment:hover, .planning:hover {
+.admin-top-avatar:hover, .sign-out:hover, .admin-top-bars:hover, .notice:hover, .comment:hover, .planning:hover, #toggle:hover {
     background-color: #444444;
 }
 
@@ -487,6 +487,26 @@ a:active, a:hover {
     display: none;
 }
 
+.page-setting {
+    margin: -10px -10px 0 0;
+    float: right;
+    font-size: 25px;
+    line-height: 30px;
+    padding: 10px;
+    color: #929292;
+}
+
+.page-setting:hover {
+    color: #c8c8c8;
+}
+
+.post-page-title {
+    color: #6d0308;
+    width: 115px;
+    position: relative;
+}
+
+
 @media screen and (-webkit-min-device-pixel-ratio: 1.3), screen and (min--moz-device-pixel-ratio: 1.3), screen and (-o-min-device-pixel-ratio: 2 / 1), screen and (min-device-pixel-ratio: 1.3), screen and (min-resolution: 192dpi), screen and (min-resolution: 2dppx) {
     body {
         background-image: url("../../img/admin/debut_dark_@2X.png");
@@ -529,24 +549,6 @@ a:active, a:hover {
         background: rgba(0, 0, 0, .3)
     }
 
-    #toggle {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        display: block;
-        width: 50px;
-        height: 50px;
-        line-height: 30px;
-        margin: -10px;
-        padding: 10px;
-        color: #000000;
-        font-size: 30px;
-        float: right;
-        overflow: hidden;
-    }
-
     .main {
         left: 0 !important;
         -webkit-overflow-scrolling: auto;
@@ -562,6 +564,10 @@ a:active, a:hover {
         background-color: transparent
     }
 
+    .admin-top-right-menu {
+        right: 0;
+    }
+
     .admin-top-bars {
         display: none;
     }
@@ -573,5 +579,18 @@ a:active, a:hover {
     .admin-top-search > .search-input {
         width: 30px;
         text-indent: -150000px;
+    }
+
+    #toggle {
+        padding: 0 20px 10px;
+        line-height: 50px;
+        font-size: 22px;
+        text-align: center;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        display: block;
     }
 }
