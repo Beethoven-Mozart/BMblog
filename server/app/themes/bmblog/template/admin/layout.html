@@ -16,6 +16,7 @@
     <link href="/assets/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/flat-ui.min.css" rel="stylesheet">
     <link href="/assets/highlight/styles/default.css" rel="stylesheet">
+    <link href="/assets/css/simple-line-icons.css" rel="stylesheet">
     <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
     <link href="/assets/css/common.css" rel="stylesheet">
     {% block css %}{% endblock %}
@@ -37,21 +38,47 @@
             <div class="admin-top-title">
                 控制面板
             </div>
-            <div class="admin-top-bars">
+            <a href="javascript:;" class="admin-top-bars">
                 <i class="fa fa-bars" aria-hidden="true"></i>
-            </div>
+            </a>
         </div>
         <div class="admin-top-menu-right">
-            <div class="input-group">
-                <input type="text" class="form-control input-sm" placeholder="Search..." name="query">
-                <span class="input-group-btn">
-                    <a href="javascript:;" class="btn submit">
-                        <i class="fa fa-search"></i>
-                    </a>
-                </span>
+            <div class="admin-top-search">
+                <div class="admin-top-search-border">
+                    <input type="text" class="search-input" placeholder="Search..." name="query">
+                    <a href="javascript:;" class="admin-top-search-click"><i
+                            class="icon-magnifier search-right"></i></a>
+                </div>
             </div>
-            <div class="admin-top-avatar">
-                <img class="img-circle" src="/assets/img/admin/avatar.jpg">
+            <div class="admin-top-right-menu">
+                <ul>
+                    <li>
+                        <a href="javascript:;" class="notice">
+                            <i class="icon-bell"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="comment">
+                            <i class="icon-bubble"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="planning">
+                            <i class="icon-calendar"></i>
+                            <span class="badge badge-default"> 7 </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="admin-top-avatar">
+                            <img class="img-circle" src="/assets/img/admin/avatar.jpg">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="sign-out">
+                            <i class="icon-logout"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -61,7 +88,7 @@
     <ul>
         <li class="active">
             <a href="javascript:;">
-                <div class="icon-left"><i class="fa fa-tachometer"></i></div>
+                <div class="icon-left"><i class="icon-speedometer"></i></div>
                 <span class="title">仪表盘</span>
                 <div class="icon-right"><i class="fa fa-angle-down"></i></div>
             </a>
@@ -72,7 +99,7 @@
         </li>
         <li>
             <a href="javascript:;">
-                <div class="icon-left"><i class="fa fa-edit"></i></div>
+                <div class="icon-left"><i class="icon-note"></i></div>
                 <span class="title">文章</span>
                 <div class="icon-right"><i class="fa fa-angle-left"></i></div>
             </a>
@@ -85,7 +112,7 @@
         </li>
         <li>
             <a href="javascript:;">
-                <div class="icon-left"><i class="fa fa-magic"></i></div>
+                <div class="icon-left"><i class="icon-magic-wand"></i></div>
                 <span class="title">外观</span>
                 <div class="icon-right"><i class="fa fa-angle-left"></i></div>
             </a>
@@ -96,7 +123,7 @@
         </li>
         <li>
             <a href="javascript:;">
-                <div class="icon-left"><i class="fa fa-plug"></i></div>
+                <div class="icon-left"><i class="icon-puzzle"></i></div>
                 <span class="title">插件</span>
                 <div class="icon-right"><i class="fa fa-angle-left"></i></div>
             </a>
@@ -107,7 +134,7 @@
         </li>
         <li>
             <a href="javascript:;">
-                <div class="icon-left"><i class="fa fa-wrench"></i></div>
+                <div class="icon-left"><i class="icon-wrench"></i></div>
                 <span class="title">工具</span>
                 <div class="icon-right"><i class="fa fa-angle-left"></i></div>
             </a>

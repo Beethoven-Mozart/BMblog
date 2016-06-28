@@ -48,7 +48,6 @@ p.intro {
 }
 
 a {
-    color: #f4f4f4;
     text-decoration: none
 }
 
@@ -199,7 +198,7 @@ a:active, a:hover {
 .nav-collapse {
     position: absolute;
     width: 24%;
-    top: 2em;
+    top: 14px;
     left: 0
 }
 
@@ -263,6 +262,12 @@ a:active, a:hover {
 .admin-top {
     margin-top: 0;
     width: 100%;
+    height: 50px;
+    overflow: hidden;
+}
+
+.admin-top a {
+    color: #6d6d6d;
 }
 
 .admin-top-menu {
@@ -281,6 +286,24 @@ a:active, a:hover {
     position: relative;
     height: 50px;
     top: 0;
+}
+
+.admin-top-title {
+    font-size: 18px;
+    line-height: 50px;
+    position: absolute;
+    top: 0;
+    left: 60px;
+}
+
+.admin-top-bars {
+    font-size: 24px;
+    line-height: 50px;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    display: block;
+    padding: 0 5px;
 }
 
 .admin-top-menu-right {
@@ -302,32 +325,111 @@ a:active, a:hover {
     height: 40px;
 }
 
-.admin-top-avatar {
+.admin-top-search {
     position: absolute;
-    padding: 5px;
-    right: 5px;
+    top: 0;
+    left: 10px;
+    height: 50px;
+    padding: 0 10px;
 }
 
-.admin-top-avatar img {
+.admin-top-search > .admin-top-search-border {
+    position: relative;
+    height: 50px;
+}
+
+.admin-top-search > .admin-top-search-border > .search-input {
+    color: #d6d6d6;
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #6d6d6d;
+    border-radius: 15px !important;
+    background-color: transparent;
+    text-indent: -150000px;
+}
+
+.admin-top-search > .admin-top-search-border > .admin-top-search-click {
+    top: 0;
+    right: 0;
+    position: absolute;
+    width: 30px;
+    height: 50px;
+}
+
+.admin-top-search > .admin-top-search-border > .admin-top-search-click:hover {
+    color: #d6d6d6;
+}
+
+.admin-top-search > .admin-top-search-border .search-right {
+    position: absolute;
+    right: 8px;
+    top: 18px;;
+    font-size: 14px;
+}
+
+.admin-top-right-menu {
+    position: absolute;
+    right: 0;
+}
+
+.admin-top-right-menu > ul {
+    width: 100%;
+    height: 50px;
+    list-style: none;
+}
+
+.admin-top-right-menu > ul > li {
+    float: left;
+    display:inline;
+}
+
+.admin-top-right-menu > ul > li > a {
+    position: relative;
+}
+
+.admin-top-right-menu > ul > li > .notice {
+    padding: 17px;
+    line-height: 50px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.admin-top-right-menu > ul > li > .comment {
+    padding: 17px;
+    line-height: 50px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.admin-top-right-menu > ul > li > .planning {
+    padding: 17px;
+    line-height: 50px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.admin-top-right-menu > ul > li > .admin-top-avatar {
+    line-height: 50px;
+    padding: 5px;
+    text-align: center;
+    height: 50px;
+}
+
+.admin-top-avatar > img {
     width: 40px;
     height: 40px;
 }
 
-.admin-top-title {
-    font-size: 18px;
+.admin-top-right-menu > ul > li > .sign-out {
+    padding: 17px;
     line-height: 50px;
-    position: absolute;
-    top: 0;
-    left: 60px;
+    font-size: 14px;
+    text-align: center;
 }
 
-.admin-top-bars {
-    font-size: 24px;
-    line-height: 50px;
-    position: absolute;
-    top: 0;
-    right: 10px;
-    display: block;
+.admin-top-avatar:hover, .sign-out:hover, .admin-top-bars:hover, .notice:hover, .comment:hover, .planning:hover {
+    background-color: #444444;
 }
 
 .admin-footer {
@@ -360,7 +462,7 @@ a:active, a:hover {
 .icon-left {
     float: left;
     font-size: 18px;
-    margin: -4px 0 0 0;
+    margin: -2px 0 0 0;
 }
 
 .icon-right {
@@ -380,7 +482,7 @@ a:active, a:hover {
 }
 
 .nav-collapse > ul > li > ul a:hover {
-    background-color: rgba(0, 0, 0, .3) !important;
+    background-color: rgba(201, 201, 201, 0.2) !important;
 }
 
 .nav-collapse > ul > li > ul {
@@ -394,14 +496,6 @@ a:active, a:hover {
         -moz-background-size: 200px 200px;
         -o-background-size: 200px 200px;
         background-size: 200px 200px
-    }
-
-    #toggle {
-        background-image: url("../../img/admin/hamburger-retina.gif");
-        -webkit-background-size: 100px 100px;
-        -moz-background-size: 100px 100px;
-        -o-background-size: 100px 100px;
-        background-size: 100px 100px
     }
 
 }
@@ -422,7 +516,11 @@ a:active, a:hover {
 
 }
 
-@media screen and (max-width: 40em) {
+@media screen and (max-width: 780px) {
+    .container {
+        padding: 0 5px;
+    }
+
     .js .nav-collapse {
         clip: rect(0 0 0 0);
         max-height: 0;
@@ -457,18 +555,21 @@ a:active, a:hover {
         -ms-user-select: none;
         user-select: none;
         display: block;
-        width: 70px;
-        height: 55px;
+        width: 50px;
+        height: 50px;
+        line-height: 30px;
+        margin: -10px;
+        padding: 10px;
+        color: #000000;
+        font-size: 30px;
         float: right;
-        margin: 0 -2em 1em 0;
-        text-indent: -9999px;
         overflow: hidden;
-        background: #444 url("../../img/admin/hamburger.gif") no-repeat 50% 33%
     }
 
     .main {
+        top: 10px;
         -webkit-overflow-scrolling: auto;
-        padding: 0 1em 1em;
+        padding: 10px;
         border-radius: 0;
         box-shadow: none;
         position: relative;
@@ -478,6 +579,16 @@ a:active, a:hover {
 
     .main::-webkit-scrollbar {
         background-color: transparent
+    }
+
+    .admin-top-menu-left {
+        width: 140px;
+    }
+
+    .admin-top-menu-right {
+        float: right;
+        overflow: visible;
+        width: auto;
     }
 
     .admin-top-bars {

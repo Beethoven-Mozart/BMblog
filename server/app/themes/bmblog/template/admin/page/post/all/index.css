@@ -1,5 +1,5 @@
 .post-page-title {
-    color: #7b060f;
+    color: #6d0308;
     width: 115px;
     position: relative;
 }
@@ -14,7 +14,7 @@
 }
 
 .post-new:hover {
-    color: #000000;
+    background-color: #e8e8e8;
 }
 
 .post-content {

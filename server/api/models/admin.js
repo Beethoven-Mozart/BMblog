@@ -58,7 +58,7 @@ export var login_post = (ctx)=> {
 
 export var page_post = (ctx)=> {
     var path_url = path.join(__dirname, '../../app/themes/bmblog/template/admin/page/' + ctx.params.name + '/');
-    var paths = path_url + ctx.request.body.route + '/index';
+    var paths = path_url + ctx.request.body.route + '/index';//临时
     var get_html = new Promise(function (resolve, reject) {
         fs.exists(paths + '.html', function (exists) {
             if (exists) {

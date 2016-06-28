@@ -4,9 +4,7 @@
 var nav = responsiveNav(".nav-collapse", { // Selector
     animate: true, // Boolean: Use CSS3 transitions, true or false
     transition: 284, // Integer: Speed of the transition, in milliseconds
-    label: "Menu", // String: Label for the navigation toggle
-    insert: "before", // String: Insert the toggle before or after the navigation
-    customToggle: "", // Selector: Specify the ID of a custom toggle
+    customToggle: "#toggle", // Selector: Specify the ID of a custom toggle
     closeOnNavClick: false, // Boolean: Close the navigation when one of the links are clicked
     openPos: "relative", // String: Position of the opened nav, relative or static
     navClass: "nav-collapse", // String: Default CSS class. If changed, you need to edit the CSS too!
@@ -62,6 +60,18 @@ var menu = function () {
             $(".main").css("width", "76%");
             tmp2 = 1;
         }
+        $(window).resize(function () {
+            if ($(document).width() <= 780) {
+                $("#nav").show();
+                $(".main").css("width", "100%");
+            } else {
+                if ($("#nav").is(":hidden")) {
+                    $(".main").css("width", "100%");
+                } else {
+                    $(".main").css("width", "76%");
+                }
+            }
+        });
     });
 
     //页面导航标示
@@ -75,13 +85,45 @@ var menu = function () {
             tmp3 = $last2.text();
             $last2.html(tmp3 + '<i class="admin-active-now"></i>');
         }
+        if ($(document).width() <= 780) {
+            nav.close();
+        }
+    });
+
+    var search = function (string) {
+        console.log("搜索" + string);
+    };
+
+    //顶部搜索框
+    $(".admin-top-search-click").click(function () {
+        if ($(".admin-top-search input").css('text-indent') != '5px') {
+            $(".search-input").animate({width:"200px"},100);
+            $(".admin-top-search input").css('text-indent', '5px');
+            $(".admin-top-search input").focus();
+        } else {
+            search($(".admin-top-search input").val());
+        }
+    });
+
+    $(".admin-top-search input").blur(function () {
+        setTimeout(function () {
+            $(".search-input").animate({width:"30px"},1000);
+            $(".admin-top-search input").css('text-indent', '-150000px');
+        },2000);
+    });
+
+    $(".admin-top-search input").keypress(function (e) {
+        // 回车键事件
+        if (e.which == 13) {
+            search($(this).val());
+        }
     });
 
     //页面载入处理
     var now_route = window.location.hash.slice(1);
     if (now_route == 'index' || now_route == null || now_route == "") {
-        ajax_page('setting','index'); //单独处理无路由标示的情况
-    }else{
+        ajax_page('setting', 'index'); //单独处理无路由标示的情况
+    } else {
         //处理标签
         $('.active > ul > li > a:first').text("首页");
         $('.nav-collapse > ul > li > ul > li > a').each(function () {
@@ -92,7 +134,7 @@ var menu = function () {
                 //处理菜单
                 var $last3 = $('.active');
                 var $tmp = $(this).parent().parent().parent();
-                if($last3 != $tmp){
+                if ($last3 != $tmp) {
                     $last3.removeClass('active');
                     $last3.children("ul").hide();
                     $last3.find('.icon-right i').attr('class', 'fa fa-angle-left');
@@ -154,13 +196,9 @@ var routers = function () {
             }
         }
     };
-
-    //
+    
     var router = Router(routes);
 
-    //
-    // a global configuration setting.
-    //
     router.configure({
         on: allroutes,
         notfound: not_found
