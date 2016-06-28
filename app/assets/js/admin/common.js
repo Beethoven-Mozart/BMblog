@@ -146,6 +146,12 @@ var menu = function () {
             }
         })
     }
+
+    $(".badge-default").each(function () {
+        if($(this).text() == "9+"){
+            $(this).css('padding','3px 2px');
+        }
+    })
 };
 
 //访问服务器

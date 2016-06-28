@@ -370,7 +370,7 @@ a:active, a:hover {
 
 .admin-top-right-menu {
     position: absolute;
-    right: 0;
+    right: 10px;
 }
 
 .admin-top-right-menu > ul {
@@ -381,44 +381,43 @@ a:active, a:hover {
 
 .admin-top-right-menu > ul > li {
     float: left;
-    display:inline;
+    display: inline;
 }
 
 .admin-top-right-menu > ul > li > a {
     position: relative;
 }
 
-.admin-top-right-menu > ul > li > .notice {
+.admin-top-right-menu > ul > li > .inform {
     padding: 17px;
-    line-height: 50px;
+    line-height: 60px;
     font-size: 16px;
     text-align: center;
 }
 
-.admin-top-right-menu > ul > li > .comment {
-    padding: 17px;
-    line-height: 50px;
-    font-size: 16px;
-    text-align: center;
-}
-
-.admin-top-right-menu > ul > li > .planning {
-    padding: 17px;
-    line-height: 50px;
-    font-size: 16px;
-    text-align: center;
+.badge-default {
+    position: absolute;
+    top: 13px;
+    right: 25px;
+    margin: -6px 0 0;
+    font-weight: 600;
+    padding: 3px 6px;
+    line-height: 1;
+    font-size: 10px !important;;
+    border-radius: 10px !important;
 }
 
 .admin-top-right-menu > ul > li > .admin-top-avatar {
     line-height: 50px;
-    padding: 5px;
+    padding: 17px 5px;
+    font-size: 16px;
     text-align: center;
     height: 50px;
 }
 
 .admin-top-avatar > img {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
 }
 
 .admin-top-right-menu > ul > li > .sign-out {
