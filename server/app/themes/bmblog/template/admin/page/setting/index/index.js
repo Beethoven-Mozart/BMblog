@@ -1,3 +1,8 @@
+var otherJS="/assets/js/echarts.min.js";//js文件路径
+if($('#other_js').length == 0){
+    $('.container').after('<script src="'+otherJS+'" id="other_js"></script>');
+}
+
 // 基于准备好的dom，初始化echarts实例
 var myChart = echarts.init(document.getElementById('visitor'));
 // 指定图表的配置项和数据
