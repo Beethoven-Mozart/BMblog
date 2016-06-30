@@ -487,6 +487,12 @@ a:active, a:hover {
     display: none;
 }
 
+.post-page-title {
+    color: #6d0308;
+    width: 115px;
+    position: relative;
+}
+
 .page-setting {
     margin: -10px -10px 0 0;
     float: right;
@@ -499,13 +505,6 @@ a:active, a:hover {
 .page-setting:hover {
     color: #c8c8c8;
 }
-
-.post-page-title {
-    color: #6d0308;
-    width: 115px;
-    position: relative;
-}
-
 
 @media screen and (-webkit-min-device-pixel-ratio: 1.3), screen and (min--moz-device-pixel-ratio: 1.3), screen and (-o-min-device-pixel-ratio: 2 / 1), screen and (min-device-pixel-ratio: 1.3), screen and (min-resolution: 192dpi), screen and (min-resolution: 2dppx) {
     body {

@@ -169,9 +169,9 @@ var ajax_page = function (path, route) {
         success: function (result) {
             if (result.html == 404) {
                 $('#ajax-css').remove();
-                $("#content-main").html('<h1>页面不存在! - 405</h1>');
+                $("#mian").html('<h1>页面不存在! - 405</h1>');
             } else {
-                $("#content-main").html(result.html);
+                $("#main").html(result.html);
                 $('#ajax-css').remove();
                 $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
                 eval(result.js);

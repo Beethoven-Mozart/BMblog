@@ -1,3 +1,28 @@
-h1 {
-    color: #7b060f;
+.charts {
+    padding: 10px;
+    background-color: #f8f8f8;
+    width: 100%;
+}
+
+#visitor {
+    margin-top: 0;
+    padding-top: 10px;
+    border: 1px dashed #7e7e7e;
+    width: 100%;
+    height: 300px;
+}
+
+.system_info {
+    padding: 10px;
+    background-color: #f8f8f8;
+    width: 100%;
+}
+
+.system_info_mbblog {
+    margin-top: 0;
+    padding-top: 10px;
+    border: 1px dashed #7e7e7e;
+    max-width: 500px;
+    width: 100%;
+    height: 400px;
 }
