@@ -14,13 +14,13 @@
             {{ post.post_content }}
         </div>
         {% endfor %}
-        {% if (posts_all!=1) %}
-        <div class="pagination" id="all_{{ posts_all.length }}_{{ posts_now }}_{{ posts_type }}">
+        {% if (posts_page_all!=1) %}
+        <div class="pagination" id="all_{{ posts_page_all.length }}_{{ posts_now }}_{{ posts_type }}">
             <ul>
                 <li class="previous">
                     <a href="#" class="fui-arrow-left"></a>
                 </li>
-                {% for page in posts_all %}
+                {% for page in posts_page_all %}
                 {% if (page<=5) %}
                 {% if (page==1) %}
                 <li><a href="{{ posts_type }}/">1</a></li>
@@ -30,13 +30,13 @@
                 {% endif %}
                 {% endfor %}
 
-                {% if (posts_all>5) %}
+                {% if (posts_page_all>5) %}
                 <li class="pagination-dropdown dropup">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fui-triangle-up"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        {% for page in posts_all %}
+                        {% for page in posts_page_all %}
                         {% if (page>5) %}
                         <li><a href="{{ posts_type }}/page/{{ page }}">{{ page }}</a></li>
                         {% endif %}

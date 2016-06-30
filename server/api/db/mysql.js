@@ -32,8 +32,11 @@ export function getConnection() {
 export function querys_Parallelism(sqls) {
     let keys = Object.keys(sqls);
     let list = Object.values(sqls);
+    var promises = list.map(function (sql) {
+        return pool.query(sql);
+    });
 
-    return Promise.all(list).then(data => {
+    return Promise.all(promises).then(data => {
         let result = {};
         for(let index in data) {
             result[keys[index]] = data[index];

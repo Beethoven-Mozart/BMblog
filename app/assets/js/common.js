@@ -12,7 +12,7 @@ $('document').ready(function () {
 
     if ($(".pagination").attr("id")) {
         var get_posts_nums = $(".pagination").attr("id").replace("all_", "").split("_");
-        var posts_all = get_posts_nums[0];
+        var posts_page_all = get_posts_nums[0];
         var now_pages = get_posts_nums[1];
         var posts_type = "";
         if (get_posts_nums[2] != null) {
@@ -29,7 +29,7 @@ $('document').ready(function () {
                 $(".previous .fui-arrow-left").attr("href", posts_type + "/page/" + parseInt(now_pages - 1));
             }
 
-            if (now_pages == posts_all) {
+            if (now_pages == posts_page_all) {
                 $(".next .fui-arrow-right").attr("href", "#");
             } else {
                 $(".next .fui-arrow-right").attr("href", posts_type + "/page/" + parseInt(parseInt(now_pages) + 1));

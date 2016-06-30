@@ -12,7 +12,7 @@ $.ajax({
             $("#content-main").html('<h1>数据错误</h1>');
         } else {
             console.log(result);
-            $("#all_post").text(result.posts_all);
+            $("#all_post").text(result.posts_page_all);
             $("#public_post").text(result.posts_public_all);
             var body = '';
             for (var a in result.posts) {

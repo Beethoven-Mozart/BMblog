@@ -15,15 +15,15 @@ export default (ctx) =>{
             }
 
             var temp = parseInt(parseInt(result.post_all[0].posts_all) / 10 + 1);
-            var posts_all = [temp];
+            var posts_page_all = [temp];
             for (var z = 0; z < temp; z++) {
-                posts_all[z] = z + 1;
+                posts_page_all[z] = z + 1;
             }
 
             var posts = {
                 options: option_format(result.options),
                 posts: result.post,
-                posts_all: posts_all,
+                posts_page_all: posts_page_all,
                 posts_now: "1",
                 posts_type: "/tag/" + ctx.params.name,
                 post_tag: result.tag,
@@ -46,15 +46,15 @@ export var list = (ctx) =>{
             }
 
             var temp = parseInt(parseInt(result.post_all[0].posts_all) / 10 + 1);
-            var posts_all = [temp];
+            var posts_page_all = [temp];
             for (var z = 0; z < temp; z++) {
-                posts_all[z] = z + 1;
+                posts_page_all[z] = z + 1;
             }
 
             var posts = {
                 options: option_format(result.options),
                 posts: result.post,
-                posts_all: posts_all,
+                posts_page_all: posts_page_all,
                 posts_now: ctx.params.num,
                 posts_type: "/tag/" + ctx.params.name,
                 post_tag: result.tag,
