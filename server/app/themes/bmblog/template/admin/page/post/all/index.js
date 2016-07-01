@@ -29,7 +29,6 @@ $.ajax({
         if (result.err == 500) {
             $("#content-main").html('<h1>数据错误</h1>');
         } else {
-            console.log(result);
             $("#all_post").text(result.posts_all);
             $("#public_post").text(result.posts_public_all);
             var body = '';

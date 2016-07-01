@@ -1,41 +1,149 @@
 .charts {
     padding: 10px;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     width: 100%;
 }
 
-#visitor {
+#visitor, #visit-add {
     margin-top: 0;
     padding-top: 10px;
-    border: 1px dashed #7e7e7e;
-    width: 100%;
-    height: 300px;
-}
-
-#visit-add {
-    margin-top: 0;
-    padding-top: 10px;
-    border: 1px dashed #7e7e7e;
     width: 100%;
     height: 300px;
 }
 
 .system_info {
     padding: 10px;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     width: 100%;
-    height: 300px;
+    height: 290px;
 }
 
 .system_info_mbblog {
     margin-top: 0;
     padding-top: 10px;
-    border: 1px dashed #7e7e7e;
-    max-width: 500px;
     width: 100%;
-    height: 400px;
+    height: auto;
+}
+
+.system_info_mbblog .table > tbody > tr > td {
+    font-size: 15px;
+}
+
+.system_info_mbblog .table > tbody > tr > td:hover {
+    font-size: 16px;
+    color: #afafaf;
+    cursor: pointer;
+}
+
+.system_info_mbblog .table > tbody > tr > td {
+    border-top: 0 solid #dddddd;
 }
 
 .list-row {
     margin-top: 20px;
+}
+
+.info_title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #000;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eef1f5;
+}
+
+.info_list {
+    width: 100%;
+    height: 240px;
+    overflow: auto;
+    position: relative;
+}
+
+.post-comment {
+    padding: 10px;
+    margin: 0 0 10px;
+}
+
+.post-comment .post-comment-img {
+    width: 40px;
+    float: left;
+}
+
+.post-comment .post-comment-img > img {
+    border-radius: 50% !important;
+}
+
+.post-comment .post-comment-body {
+    padding-left: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.post-comment .post-comment-body .post-comment-info .post-comment-author {
+    display: inline-block;
+    float: left;
+    margin: 0 0 10px;
+    color: #060606;
+    font-weight: 600;
+}
+
+.post-comment .post-comment-body .post-comment-info .post-comment-date {
+    display: inline-block;
+    float: right;
+    margin: 0;
+    color: #BABABA;
+}
+
+.post-comment .post-comment-body .post-comment-text {
+    color: #999;
+}
+
+.post-comment .post-comment-body .post-comment-details {
+    margin: 10px 0 0;
+}
+
+.post-comment .post-comment-body .post-comment-info:after {
+    clear: both;
+}
+
+.post-comment .post-comment-body .post-comment-info:after, .post-comment .post-comment-body .post-comment-info:before {
+    content: " ";
+    display: table;
+}
+
+.post-comment .post-comment-body .post-comment-details .post-comment-status.post-comment-status-pending {
+    color: #B8C0F5;
+}
+
+.post-comment .post-comment-body .post-comment-details .post-comment-status {
+    text-transform: uppercase;
+    float: left;
+}
+
+.post-comment .post-comment-body .post-comment-details .post-comment-actions {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+.post-comment .post-comment-body .post-comment-details .post-comment-actions > li {
+    float: left;
+    padding: 0 5px;
+    margin: 0;
+}
+
+.post-comment .post-comment-body .post-comment-details .post-comment-actions > li > a {
+    text-transform: uppercase;
+    text-shadow: none;
+    color: #999;
+}
+
+.post-comment .post-comment-body .post-comment-details .post-comment-actions > li > a:hover {
+    color: #666;
+    text-decoration: none;
+}
+
+.post-comment:hover {
+    background: #f9f9f9;
 }
