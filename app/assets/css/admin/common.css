@@ -506,6 +506,18 @@ a:active, a:hover {
     color: #c8c8c8;
 }
 
+.footer {
+    color: #c6c6c6;
+}
+
+.footer-left {
+    float: left;
+}
+
+.footer-right {
+    float: right;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio: 1.3), screen and (min--moz-device-pixel-ratio: 1.3), screen and (-o-min-device-pixel-ratio: 2 / 1), screen and (min-device-pixel-ratio: 1.3), screen and (min-resolution: 192dpi), screen and (min-resolution: 2dppx) {
     body {
         background-image: url("../../img/admin/debut_dark_@2X.png");

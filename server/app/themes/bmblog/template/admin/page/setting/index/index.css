@@ -24,6 +24,7 @@
     padding: 10px;
     background-color: #f8f8f8;
     width: 100%;
+    height: 300px;
 }
 
 .system_info_mbblog {
@@ -33,4 +34,8 @@
     max-width: 500px;
     width: 100%;
     height: 400px;
+}
+
+.list-row {
+    margin-top: 20px;
 }

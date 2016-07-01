@@ -5,7 +5,7 @@ const router = new Koa_router();
 
 router
     .get('/', controllers.home.default) // HOME 路由
-    .post('/api', controllers.api.default)
+    .post('/api/:api_type/:name', controllers.api.default)
     .get('/page/:num', controllers.home.list)
     .get('/:id.html', controllers.post.default)
     .get('/admin', controllers.admin.default)

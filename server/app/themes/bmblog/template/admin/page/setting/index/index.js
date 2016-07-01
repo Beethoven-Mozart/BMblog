@@ -145,3 +145,7 @@ var option_add = {
 
 // 使用刚指定的配置项和数据显示图表。
 visit_add.setOption(option_add);
+
+var date2 = new Date();
+$('#e_time').text(date2.getTime() - date1.getTime());
+$('#r_time').text(new Date().Format("yyyy-MM-dd HH:mm:ss"));
