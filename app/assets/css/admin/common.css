@@ -47,7 +47,7 @@ p.intro {
     font-weight: 700
 }
 
-a {
+a, a:link, a:visited, a:hover, a:active {
     text-decoration: none
 }
 
