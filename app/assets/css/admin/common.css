@@ -510,11 +510,11 @@ a:active, a:hover {
     color: #c6c6c6;
 }
 
-.footer-left {
+.float-left {
     float: left;
 }
 
-.footer-right {
+.float-right {
     float: right;
 }
 
