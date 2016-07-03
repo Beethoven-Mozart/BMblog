@@ -30,8 +30,6 @@ export default (ctx) => {
                     posts_all:result.posts_all[0].posts_all,
                     posts_page_all:'aaa',
                     posts_now: "1",
-                    post_tag: result.post_tag,
-                    post_category: result.post_category
                 };
             }
         });

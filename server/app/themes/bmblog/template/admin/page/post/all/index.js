@@ -33,11 +33,19 @@ $.ajax({
             $("#public_post").text(result.posts_public_all);
             var body = '';
             for (var a in result.posts) {
+                result.posts[a].post_category = result.posts[a].post_category.split(',');
+                result.posts[a].post_tag = result.posts[a].post_tag.split(',');
+                for (var b in result.posts[a].post_category) {
+                    result.posts[a].post_category[b] = '<a href="/' + result.posts[a].post_category[b] + '" target="_blank">' + result.posts[a].post_category[b] + '</a>';
+                }
+                for (var c in result.posts[a].post_tag) {
+                    result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
+                }
                 body += '<tr>' +
                     '<td><input type="checkbox"></td>' +
                     '<td>' + result.posts[a].post_title + '</td>' +
                     '<td>' + result.posts[a].display_name + '</td>' +
-                    '<td>' + result.posts[a].display_name + '</td>' +
+                    '<td>' + result.posts[a].post_category + '</td>' +
                     '<td>' + result.posts[a].post_tag + '</td>' +
                     '<td>' + result.posts[a].display_name + '</td>' +
                     '<td>' + result.posts[a].post_date + '</td>' +
