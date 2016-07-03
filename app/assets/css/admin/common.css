@@ -406,6 +406,10 @@ a:active, a:hover {
     border-radius: 10px !important;
 }
 
+.user_top_name {
+    font-style: normal;
+}
+
 .admin-top-right-menu > ul > li > .admin-top-avatar {
     line-height: 50px;
     padding: 17px 5px;

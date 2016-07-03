@@ -5,10 +5,8 @@
     font-size: 10px;
     padding: 2px;
     float: right;
-}
-
-.post-new:hover {
-    background-color: #e8e8e8;
+    color: #bcbcbc;
+    line-height: 10px;
 }
 
 .post-content {
@@ -18,12 +16,68 @@
     height: auto;
 }
 
+.search-post .float-left {
+    line-height: 24px;
+}
+
+.search-post .float-right {
+    height: 24px;
+}
+
+.undo {
+    position: absolute;
+    right: 20px;
+    top: 6px;
+    color: #bcbcbc;
+}
+
+.check_post {
+    margin-top: 10px;
+}
+
+.check_post select {
+    background-color: #f1f1f1;
+    height: 24px;
+}
+
+.check_post .btn {
+    background-color: #f1f1f1;
+    height: 24px;
+    line-height: 12px;
+    font-size: 12px;
+    padding: 3px 12px;
+}
+
+.check_post input[type='text'] {
+    background-color: #f1f1f1;
+    height: 24px;
+    min-width: 20px;
+    line-height: 12px;
+    font-size: 12px;
+    border: none;
+    text-align: center;
+}
+
+.check_post span {
+    height: 24px;
+    background: #f1f1f1;
+    color: #a0a5aa;
+    display: inline-block;
+    min-width: 17px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 800;
+}
+
 .table-post {
     border: 1px solid #eaeaea;
 }
 
 .table > tbody > tr > td {
     border-top: 1px solid transparent;
+    height: 80px;
 }
 
 .table > tbody > tr:first-child > td, .table > tfoot > tr > td {

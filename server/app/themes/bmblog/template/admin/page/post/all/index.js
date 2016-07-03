@@ -46,7 +46,7 @@ $.ajax({
             $("tbody").html(body);
             var date2 = new Date();
             $('#e_time').text(date2.getTime() - date1.getTime());
-            $('#r_time').text(new Date().Format("yyyy-MM-dd HH:mm:ss"));
+            $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
         }
     },
     error: function (err) {

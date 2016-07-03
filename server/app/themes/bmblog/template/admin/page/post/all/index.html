@@ -12,9 +12,69 @@
 </div>
 <div class="container-fuild">
     <div class="row clearfix">
-        <div class="col-md-12 column">
-                <div class="float-left">全部 ( <i id="all_post"></i> ) | 已发布 ( <i id="public_post"></i> )</div>
-                <div class="float-right"><input type="text" class="span3 footer-right" placeholder="筛选文章"></div>
+        <div class="col-md-12 column search-post">
+            <div class="float-left">全部 ( <i id="all_post"></i> ) | 已发布 ( <i id="public_post"></i> )</div>
+            <div class="float-right"><input type="text" class="span3 float-right" placeholder="筛选文章"><span
+                    class="undo fa fa-undo"></span></div>
+        </div>
+    </div>
+    <div class="row clearfix check_post">
+        <div class="col-md-12 column search-post">
+            <div class="float-left">
+                <select name="action">
+                    <option value="-1">批量操作</option>
+                    <option value="edit" class="hide-if-no-js">编辑</option>
+                    <option value="trash">移至回收站</option>
+                </select>
+                <input type="submit" class="btn btn-default doaction" value="应用">
+                <select name="m" class="filter-by-date">
+                    <option selected="selected" value="0">全部日期</option>
+                    <option value="201605">2016年五月</option>
+                    <option value="201604">2016年四月</option>
+                    <option value="201602">2016年二月</option>
+                    <option value="201601">2016年一月</option>
+                    <option value="201512">2015年十二月</option>
+                    <option value="201511">2015年十一月</option>
+                    <option value="201510">2015年十月</option>
+                </select>
+                <select name="cat" class="postform cat">
+                    <option value="0">所有分类目录</option>
+                    <option class="level-0" value="3">互联网</option>
+                    <option class="level-0" value="23">教程</option>
+                    <option class="level-0" value="1">未分类</option>
+                    <option class="level-0" value="13">源代码</option>
+                    <option class="level-0" value="8">视频教程</option>
+                    <option class="level-1" value="9">&nbsp;&nbsp;&nbsp;WEB基础班</option>
+                </select>
+                <input type="submit" name="filter_action" class="btn btn-default post-query-submit" value="筛选">
+            </div>
+            <div class="float-right">
+                <div class="tablenav-pages">
+                    <a class="next-page" href="javascript:;">
+                        <span class="tablenav-pages-navspan" aria-hidden="true">
+                            <i class="fa fa-angle-double-left"></i>
+                        </span>
+                    </a>
+                    <a class="next-page" href="javascript:;">
+                        <span aria-hidden="true">
+                            <i class="fa fa-angle-left"></i>
+                        </span>
+                    </a>
+                    第<input class="current-page" id="current-page-selector" type="text" name="paged" value="1" size="1"
+                            aria-describedby="table-paging">页，共2页
+                    <a class="next-page" href="javascript:;">
+                        <span aria-hidden="true">
+                            <i class="fa fa-angle-right"></i>
+                        </span>
+                    </a>
+                    <a class="next-page" href="javascript:;">
+                        <span class="tablenav-pages-navspan" aria-hidden="true">
+                            <i class="fa fa-angle-double-right"></i>
+                        </span>
+                    </a>
+                </div>
+                <br class="clear">
+            </div>
         </div>
     </div>
     <div class="row clearfix">
@@ -51,10 +111,13 @@
             </div>
         </div>
     </div>
+    <div class="row clearfix check_post_bottom">
+
+    </div>
     <div class="row clearfix list-row">
         <div class="col-md-12 column">
             <div class="footer">
-                <div class="float-left">更新时间: <i id="r_time"></i> </div>
+                <div class="float-left">更新时间: <i id="r_time"></i></div>
                 <div class="float-right">E-time: <i id="e_time"></i> ms</div>
             </div>
         </div>
