@@ -33,13 +33,21 @@ $.ajax({
             $("#public_post").text(result.posts_public_all);
             var body = '';
             for (var a in result.posts) {
-                result.posts[a].post_category = result.posts[a].post_category.split(',');
-                result.posts[a].post_tag = result.posts[a].post_tag.split(',');
-                for (var b in result.posts[a].post_category) {
-                    result.posts[a].post_category[b] = '<a href="/' + result.posts[a].post_category[b] + '" target="_blank">' + result.posts[a].post_category[b] + '</a>';
+                if(result.posts[a].post_category == null){
+                    result.posts[a].post_category = '-';
+                }else{
+                    result.posts[a].post_category = result.posts[a].post_category.split(',');
+                    for (var b in result.posts[a].post_category) {
+                        result.posts[a].post_category[b] = '<a href="/' + result.posts[a].post_category[b] + '" target="_blank">' + result.posts[a].post_category[b] + '</a>';
+                    }
                 }
-                for (var c in result.posts[a].post_tag) {
-                    result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
+                if(result.posts[a].post_tag == null){
+                    result.posts[a].post_tag = '-';
+                }else {
+                    result.posts[a].post_tag = result.posts[a].post_tag.split(',');
+                    for (var c in result.posts[a].post_tag) {
+                        result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
+                    }
                 }
                 body += '<tr>' +
                     '<td><input type="checkbox"></td>' +
