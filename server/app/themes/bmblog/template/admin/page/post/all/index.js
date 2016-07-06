@@ -29,8 +29,9 @@ $.ajax({
         if (result.err == 500) {
             $("#content-main").html('<h1>数据错误</h1>');
         } else {
-            $("#all_post").text(result.posts_all);
-            $("#public_post").text(result.posts_public_all);
+            $(".all_post").text(result.posts_all);
+            $(".public_post").text(result.posts_public_all);
+            $(".all_page").text(result.posts_page_all);
             var body = '';
             for (var a in result.posts) {
                 if(result.posts[a].post_category == null){
@@ -55,7 +56,7 @@ $.ajax({
                     '<td>' + result.posts[a].display_name + '</td>' +
                     '<td>' + result.posts[a].post_category + '</td>' +
                     '<td>' + result.posts[a].post_tag + '</td>' +
-                    '<td>' + result.posts[a].display_name + '</td>' +
+                    '<td>' + result.posts[a].comment_count + '</td>' +
                     '<td>' + result.posts[a].post_date + '</td>' +
                     '</tr>';
             }

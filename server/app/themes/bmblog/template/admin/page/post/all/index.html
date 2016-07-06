@@ -13,7 +13,7 @@
 <div class="container-fuild">
     <div class="row clearfix">
         <div class="col-md-12 column search-post">
-            <div class="float-left">全部 ( <i id="all_post"></i> ) | 已发布 ( <i id="public_post"></i> )</div>
+            <div class="float-left">全部 ( <i class="all_post"></i> ) | 已发布 ( <i class="public_post"></i> )</div>
             <div class="float-right"><input type="text" class="span3 float-right" placeholder="筛选文章"><span
                     class="undo fa fa-undo"></span></div>
         </div>
@@ -59,7 +59,7 @@
                         </span>
                     </a>
                     第<input class="current-page" id="current-page-selector" type="text" name="paged" value="1" size="1"
-                            aria-describedby="table-paging">页，共2页
+                            aria-describedby="table-paging">页，共<i class="all_page"></i>页
                     <a class="next-page" href="javascript:;">
                         <span aria-hidden="true">
                             <i class="fa fa-angle-right"></i>
@@ -87,7 +87,7 @@
                             <td>作者</td>
                             <td>分类</td>
                             <td>标签</td>
-                            <td>评论</td>
+                            <td style="width: 40px">评论</td>
                             <td style="min-width: 100px">日期</td>
                         </tr>
                         </thead>

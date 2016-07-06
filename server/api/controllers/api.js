@@ -6,7 +6,7 @@ import moment from 'moment';
 moment.locale(system_config.System_country);//设置当地时间格式
 
 export default (ctx) => {
-    if(ctx.params.api_type == 'blog'){
+    if (ctx.params.api_type == 'blog') {
         return api().then((result) => {
             if (result.length == 0 || result == '500') {
                 ctx.body = {
@@ -17,19 +17,15 @@ export default (ctx) => {
                     result.posts[a].post_date = moment(result.posts[a].post_date).format('ll'); //格式化时间
                 }
 
-                var temp = parseInt(parseInt(result.posts_all[0].posts_all) / 10 + 1);
-                var posts_all = [temp];
-                for (var z = 0; z < temp; z++) {
-                    posts_all[z] = z + 1;
-                }
+                var posts_page_all = parseInt(parseInt(result.posts_all[0].posts_all) / 10 + 1);
 
                 ctx.body = {
                     options: option_format(result.options),
                     posts: result.posts,
                     posts_public_all: result.posts_public_all[0].posts_public_all,
-                    posts_all:result.posts_all[0].posts_all,
-                    posts_page_all:'aaa',
-                    posts_now: "1",
+                    posts_all: result.posts_all[0].posts_all,
+                    posts_page_all: posts_page_all,
+                    posts_now: "1"
                 };
             }
         });
