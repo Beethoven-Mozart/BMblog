@@ -1,5 +1,7 @@
 'use strict';
 
+$(document).ajaxStart(function() { Pace.restart(); });
+
 //侧边栏
 var nav = responsiveNav(".nav-collapse", { // Selector
     animate: true, // Boolean: Use CSS3 transitions, true or false
