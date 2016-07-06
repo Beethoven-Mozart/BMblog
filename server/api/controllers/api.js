@@ -8,7 +8,7 @@ moment.locale(system_config.System_country);//设置当地时间格式
 export default (ctx) => {
     if(ctx.params.api_type == 'blog'){
         return api().then((result) => {
-            if (result.length == 0) {
+            if (result.length == 0 || result == '500') {
                 ctx.body = {
                     err: '500'
                 };
