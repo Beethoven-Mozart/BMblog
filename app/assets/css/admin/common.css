@@ -1,11 +1,11 @@
+html, body {
+    min-height: 100%
+}
+
 body, div, h1, h2, p, ol, ul, li {
     margin: 0;
     padding: 0;
     border: 0
-}
-
-html, body {
-    min-height: 100%
 }
 
 body {
@@ -15,7 +15,8 @@ body {
     -ms-text-size-adjust: 100%;
     background: #444 url("../../img/admin/debut_dark.png") repeat;
     color: #666;
-    font: 400 100%/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
+    font: 500 100%/1 "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-size: 12px !important;
 }
 
 h1 {
@@ -211,7 +212,8 @@ a:active, a:hover {
 
 .nav-collapse li {
     width: 100%;
-    display: block
+    display: block;
+    line-height: 1.5;
 }
 
 .nav-collapse a {

@@ -32,19 +32,21 @@ $.ajax({
             $(".all_post").text(result.posts_all);
             $(".public_post").text(result.posts_public_all);
             $(".all_page").text(result.posts_page_all);
+            $(".current-page").val(result.posts_now).css('width', result.posts_now.length * 6.75 + 10);
+            var title_max_width = parseInt($('.main').css('width')) * 0.45 + 'px';
             var body = '';
             for (var a in result.posts) {
-                if(result.posts[a].post_category == null){
+                if (result.posts[a].post_category == null) {
                     result.posts[a].post_category = '-';
-                }else{
+                } else {
                     result.posts[a].post_category = result.posts[a].post_category.split(',');
                     for (var b in result.posts[a].post_category) {
                         result.posts[a].post_category[b] = '<a href="/' + result.posts[a].post_category[b] + '" target="_blank">' + result.posts[a].post_category[b] + '</a>';
                     }
                 }
-                if(result.posts[a].post_tag == null){
+                if (result.posts[a].post_tag == null) {
                     result.posts[a].post_tag = '-';
-                }else {
+                } else {
                     result.posts[a].post_tag = result.posts[a].post_tag.split(',');
                     for (var c in result.posts[a].post_tag) {
                         result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
@@ -52,12 +54,12 @@ $.ajax({
                 }
                 body += '<tr>' +
                     '<td><input type="checkbox"></td>' +
-                    '<td>' + result.posts[a].post_title + '</td>' +
+                    '<td class="post-td"><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div></a></br><div class="post-control">编辑 | 快速编辑 | 移至回收站 | 查看</div></td>' +
                     '<td>' + result.posts[a].display_name + '</td>' +
                     '<td>' + result.posts[a].post_category + '</td>' +
                     '<td>' + result.posts[a].post_tag + '</td>' +
-                    '<td>' + result.posts[a].comment_count + '</td>' +
-                    '<td>' + result.posts[a].post_date + '</td>' +
+                    '<td style="text-align: center">' + result.posts[a].comment_count + '</td>' +
+                    '<td>已发布</br>' + result.posts[a].post_date + '</td>' +
                     '</tr>';
             }
             $("tbody").html(body);
@@ -71,3 +73,8 @@ $.ajax({
         console.log(err);
     }
 });
+
+$(".current-page").keydown(function () {
+    $(this).css('width', ($(this).val().length * 6.75 + 10));
+});
+

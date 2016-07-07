@@ -1,11 +1,12 @@
 html {
-    font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
-!important;
+    font-family: "Microsoft YaHei", 微软雅黑, sans-serif !important;
+    font-size:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;
+    font-weight: 300;
 }
 
 body {
-    font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
-!important;
+    font-family: "Microsoft YaHei", 微软雅黑, sans-serif !important;
+    font-weight: 300;
 }
 
 ul, menu, dir {

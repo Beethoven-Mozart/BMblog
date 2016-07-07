@@ -1,3 +1,4 @@
+
 .post-new {
     position: absolute;
     right: 0;
@@ -48,10 +49,10 @@
     padding: 3px 12px;
 }
 
-.check_post input[type='text'] {
+.check_post .current-page {
     background-color: #f1f1f1;
     height: 24px;
-    min-width: 20px;
+    width: 20px;
     line-height: 12px;
     font-size: 12px;
     border: none;
@@ -69,6 +70,7 @@
     font-size: 14px;
     text-align: center;
     font-weight: 800;
+    line-height: 1.5 !important;
 }
 
 .table-post {
@@ -88,4 +90,24 @@
     background-color: #ffffff;
     font-weight: bolder;
     color: #212121;
+}
+
+.post_title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.post-control {
+    display: none;
+}
+
+.post-td:hover > .post-control {
+    display: block;
+}
+
+@media screen and (max-width: 780px) {
+    .post-control {
+        display: block;
+    }
 }

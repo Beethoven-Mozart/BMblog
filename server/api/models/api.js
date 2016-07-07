@@ -2,7 +2,8 @@ import {pool, query} from "../db/mysql.js";
 import {system_config} from "../../config.js";
 
 export default function () {
-    let check_PROCEDURE = "select count(`name`) AS result from mysql.proc where db = '" + system_config.mysql_database + "' and `type` = 'PROCEDURE' AND `name` = 'get_posts'";
+    let check_PROCEDURE = "select count(`name`) AS result from mysql.proc " +
+        "where db = '" + system_config.mysql_database + "' and `type` = 'PROCEDURE' AND `name` = 'get_posts'";
 
     function get_posts() {
         return Promise.all([
