@@ -106,6 +106,19 @@
     display: block;
 }
 
+.page-content {
+    text-align: center;
+    width: 100%;
+}
+
+.page-waiting {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 50%;
+    top: 10px;
+}
+
 @media screen and (max-width: 780px) {
     .post-control {
         display: block;

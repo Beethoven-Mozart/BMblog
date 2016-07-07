@@ -7,7 +7,7 @@ moment.locale(system_config.System_country);//设置当地时间格式
 
 export default (ctx) => {
     if (ctx.params.api_type == 'blog') {
-        return api().then((result) => {
+        return api(ctx).then((result) => {
             if (result.length == 0 || result == '500') {
                 ctx.body = {
                     err: '500'
@@ -25,7 +25,7 @@ export default (ctx) => {
                     posts_public_all: result.posts_public_all[0].posts_public_all,
                     posts_all: result.posts_all[0].posts_all,
                     posts_page_all: posts_page_all,
-                    posts_now: "1"
+                    posts_now: ctx.request.body.post_page
                 };
             }
         });

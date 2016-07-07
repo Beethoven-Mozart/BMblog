@@ -1,14 +1,15 @@
 import {pool, query} from "../db/mysql.js";
 import {system_config} from "../../config.js";
 
-export default function () {
+export default function (ctx) {
     let check_PROCEDURE = "select count(`name`) AS result from mysql.proc " +
         "where db = '" + system_config.mysql_database + "' and `type` = 'PROCEDURE' AND `name` = 'get_posts'";
-
+    var limit = parseInt((parseInt(ctx.request.body.post_page) - 1) * 10) + "," + 10;
+    console.log(limit);
     function get_posts() {
         return Promise.all([
             pool.query("SELECT `option_name`,`option_value` FROM `bm_options` WHERE `option_id` < 7"),
-            pool.query("CALL get_posts(10,10)"),
+            pool.query("CALL get_posts(" + limit + ")"),
             pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_public_all` FROM `bm_posts`,`bm_users` WHERE `post_type` = 'post' AND `post_status` = 'publish' AND `post_author` = `bm_users`.`ID`"),
             pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_all` FROM `bm_posts`,`bm_users` WHERE `post_type` = 'post' AND `post_author` = `bm_users`.`ID`")
         ]).then(data => {

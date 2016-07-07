@@ -22,7 +22,16 @@ var finish_load = function () {
     $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
 };
 
-var now_page,all_pages;//全局变量,当前页面/总页面
+var page_waiting = function (str) {
+    var $page_waiting = $('.page-waiting');
+    var width = '-' + parseInt($page_waiting.css('width')) / 2 + 'px';
+    $page_waiting.text(str).css('margin-left', width).show();
+    setTimeout(function () {
+        $('.page-waiting').fadeOut(500);
+    }, 1000);
+};
+
+var now_page, all_pages;//全局变量,当前页面/总页面
 
 var get_posts = function (post_page) {
     $.ajax({
@@ -39,11 +48,11 @@ var get_posts = function (post_page) {
             if (result.err == 500) {
                 $("#content-main").html('<h1>数据错误</h1>');
             } else {
-                all_pages = result.posts_all;
+                all_pages = result.posts_page_all;
                 now_page = result.posts_now;
-                $(".all_post").text(all_pages);
+                $(".all_post").text(result.posts_all);
                 $(".public_post").text(result.posts_public_all);
-                $(".all_page").text(result.posts_page_all);
+                $(".all_page").text(all_pages);
                 $(".current-page").val(now_page).css('width', now_page.length * 6.75 + 10);
                 var title_max_width = parseInt($('.main').css('width')) * 0.45 + 'px';
                 var body = '';
@@ -92,25 +101,33 @@ $(".current-page").keydown(function () {
 });
 
 $('.first-page').click(function () {
-    if(now_page == '1'){
-
-    }else{
+    if (now_page == '1') {
+        page_waiting('已经是第一页');
+    } else {
         get_posts(1);
     }
 });
 
 $('.last-page').click(function () {
-    get_posts(1);
+    if(now_page == 1){
+        page_waiting('已经是第一页');
+    }else{
+        get_posts(now_page - 1);
+    }
 });
 
 $('.next-page').click(function () {
-    get_posts(1);
+    if(now_page == all_pages){
+        page_waiting('已经是最后一页');
+    }else{
+        get_posts(parseInt(now_page) + 1);
+    }
 });
 
 $('.final-page').click(function () {
-    if(all_pages == now_page){
-
-    }else{
+    if (all_pages == now_page) {
+        page_waiting('已经是最后一页');
+    } else {
         get_posts(all_pages);
     }
 });

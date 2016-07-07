@@ -28,23 +28,23 @@ var menu = function () {
         var $tmp = $(this).parent();
         if ($tmp.attr("class") == "active") {
             if (tmp == 1) {
-                $tmp.children("ul").hide(200, function () {
+                $tmp.children("ul").slideUp(200, function () {
                     $tmp.find('.icon-right i').attr('class', 'fa fa-angle-left');
                 });
                 tmp = 2;
             } else {
                 $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
-                $tmp.children("ul").show(200);
+                $tmp.children("ul").slideDown(100);
                 tmp = 1;
             }
         } else {
             $last.removeClass('active');
             $tmp.addClass("active");
 
-            $last.children("ul").hide();
+            $last.children("ul").slideUp();
             $last.find('.icon-right i').attr('class', 'fa fa-angle-left');
             $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
-            $tmp.children("ul").show(200);
+            $tmp.children("ul").slideDown(100);
             $last = $tmp;
             tmp = 1;
         }
@@ -67,7 +67,7 @@ var menu = function () {
     //页面导航标示
     var tmp3 = '首页';
     var $last2 = $('.active > ul > li > a:first');
-    $(".active > ul").show();
+    $(".active > ul").hide();
     $('.nav-collapse > ul > li > ul > li > a').click(function () {
         if ($(this).text() != tmp3) {
             $last2.text(tmp3);
@@ -129,11 +129,11 @@ var menu = function () {
                 var $tmp = $(this).parent().parent().parent();
                 if ($last3 != $tmp) {
                     $last3.removeClass('active');
-                    $last3.children("ul").hide();
+                    $last3.children("ul").slideUp();
                     $last3.find('.icon-right i').attr('class', 'fa fa-angle-left');
                     $tmp.addClass("active");
                     $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
-                    $tmp.children("ul").show(200);
+                    $tmp.children("ul").slideDown(200);
                     $last = $tmp;
                 }
             }
