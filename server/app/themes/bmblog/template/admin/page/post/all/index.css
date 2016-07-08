@@ -1,3 +1,6 @@
+input {
+    font: 400 100%/1 "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
 
 .post-new {
     position: absolute;

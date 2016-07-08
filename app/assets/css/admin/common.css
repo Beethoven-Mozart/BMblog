@@ -81,7 +81,7 @@ a:active, a:hover {
 .pace .pace-progress-inner {
     display: block;
     position: absolute;
-    right: 0px;
+    right: 0;
     width: 100px;
     height: 100%;
     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
@@ -98,7 +98,7 @@ a:active, a:hover {
     position: fixed;
     z-index: 2000;
     top: 75px;
-    right: 15px;
+    right: 50px;
     width: 14px;
     height: 14px;
     border: solid 2px transparent;

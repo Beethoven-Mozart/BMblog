@@ -26,12 +26,12 @@
     <div class="row clearfix check_post">
         <div class="col-md-12 column search-post">
             <div class="float-left">
-                <select name="action">
+                <select name="action" title="action">
                     <option value="-1">批量操作</option>
                     <option value="edit" class="hide-if-no-js">编辑</option>
                     <option value="trash">移至回收站</option>
                 </select>
-                <select name="m" class="filter-by-date">
+                <select name="m" class="filter-by-date" title="filter-by-date">
                     <option selected="selected" value="0">全部日期</option>
                     <option value="201605">2016年五月</option>
                     <option value="201604">2016年四月</option>
@@ -41,7 +41,7 @@
                     <option value="201511">2015年十一月</option>
                     <option value="201510">2015年十月</option>
                 </select>
-                <select name="cat" class="postform cat">
+                <select name="cat" class="post_category cat" title="post_category">
                     <option value="0">所有分类目录</option>
                     <option class="level-0" value="3">互联网</option>
                     <option class="level-0" value="23">教程</option>
@@ -87,12 +87,12 @@
                         <thead>
                         <tr>
                             <td width="12px"><input type="checkbox"></td>
-                            <td>标题</td>
+                            <td><i style="color: #337ab7;">标题</i> <i class="fa fa-caret-down"></i></td>
                             <td>作者</td>
                             <td style="min-width: 100px">分类</td>
                             <td style="min-width: 100px">标签</td>
-                            <td style="min-width: 43px;text-align: center">评论</td>
-                            <td style="min-width: 100px">日期</td>
+                            <td style="min-width: 52px"><i style="color: #337ab7;">评论</i> <i class="fa fa-caret-down"></i></td>
+                            <td style="min-width: 100px"><i style="color: #337ab7;">日期</i> <i class="fa fa-caret-down"></i></td>
                         </tr>
                         </thead>
                         <tbody>

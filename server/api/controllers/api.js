@@ -25,6 +25,7 @@ export default (ctx) => {
                     posts_public_all: result.posts_public_all[0].posts_public_all,
                     posts_all: result.posts_all[0].posts_all,
                     posts_page_all: posts_page_all,
+                    post_category: result.post_category,
                     posts_now: ctx.request.body.post_page
                 };
             }

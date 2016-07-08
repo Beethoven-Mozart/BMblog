@@ -53,6 +53,13 @@ var get_posts = function (post_page) {
                 $(".all_post").text(result.posts_all);
                 $(".public_post").text(result.posts_public_all);
                 $(".all_page").text(all_pages);
+
+                var html_category = '';
+                for (var n in result.post_category) {
+                    html_category += '<option class="level-0" value="' + result.post_category[n].category_name + '">' + result.post_category[n].category_name + '</option>';
+                }
+                $('.post_category').append(html_category);
+
                 $(".current-page").val(now_page).css('width', now_page.length * 6.75 + 10);
                 var title_max_width = parseInt($('.main').css('width')) * 0.45 + 'px';
                 var body = '';
@@ -73,13 +80,18 @@ var get_posts = function (post_page) {
                             result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
                         }
                     }
+                    if (result.posts[a].comment_count < 10) {
+                        result.posts[a].comment_count = '&nbsp;&nbsp;&nbsp;' + result.posts[a].comment_count;
+                    } else if (result.posts[a].comment_count < 100) {
+                        result.posts[a].comment_count = '&nbsp;&nbsp;' + result.posts[a].comment_count;
+                    }
                     body += '<tr>' +
                         '<td><input type="checkbox"></td>' +
                         '<td class="post-td"><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div></a></br><div class="post-control">编辑 | 快速编辑 | 移至回收站 | 查看</div></td>' +
                         '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
                         '<td>' + result.posts[a].post_category + '</td>' +
                         '<td>' + result.posts[a].post_tag + '</td>' +
-                        '<td style="text-align: center">' + result.posts[a].comment_count + '</td>' +
+                        '<td>' + result.posts[a].comment_count + '</td>' +
                         '<td>已发布</br>' + result.posts[a].post_date + '</td>' +
                         '</tr>';
                 }
@@ -109,17 +121,17 @@ $('.first-page').click(function () {
 });
 
 $('.last-page').click(function () {
-    if(now_page == 1){
+    if (now_page == 1) {
         page_waiting('已经是第一页');
-    }else{
+    } else {
         get_posts(now_page - 1);
     }
 });
 
 $('.next-page').click(function () {
-    if(now_page == all_pages){
+    if (now_page == all_pages) {
         page_waiting('已经是最后一页');
-    }else{
+    } else {
         get_posts(parseInt(now_page) + 1);
     }
 });
