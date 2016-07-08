@@ -157,11 +157,8 @@ var menu = function () {
     });
 };
 
-var date1;
-
 //访问服务器
 var ajax_page = function (path, route) {
-    date1 = new Date();
     $.ajax({
         cache: false,
         type: 'POST',

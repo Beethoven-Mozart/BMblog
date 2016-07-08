@@ -1,8 +1,18 @@
+var date1;//全局变量,开始时间
+
 var otherJS = "/assets/js/echarts.min.js";//js文件路径
 if ($('#other_js').length == 0) {
     $('.container').after('<script src="' + otherJS + '" id="other_js"></script>');
 }
 
+//页面载入完成计算
+var finish_load = function () {
+    var date2 = new Date();
+    $('#e_time').text(date2.getTime() - date1.getTime());
+    $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+};
+
+date1 = new Date();
 // 基于准备好的dom，初始化echarts实例
 var myChart = echarts.init(document.getElementById('visitor'));
 // 指定图表的配置项和数据
@@ -146,6 +156,4 @@ var option_add = {
 // 使用刚指定的配置项和数据显示图表。
 visit_add.setOption(option_add);
 
-var date2 = new Date();
-$('#e_time').text(date2.getTime() - date1.getTime());
-$('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+finish_load();

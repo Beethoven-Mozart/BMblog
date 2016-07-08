@@ -2,17 +2,17 @@ import {pool, query} from "../db/mysql.js";
 import {system_config} from "../../config.js";
 
 export default function (ctx) {
+    //存储过程
     let check_PROCEDURE = "select count(`name`) AS result from mysql.proc " +
         "where db = '" + system_config.mysql_database + "' and `type` = 'PROCEDURE' AND `name` = 'get_posts'";
     var limit = parseInt((parseInt(ctx.request.body.post_page) - 1) * 10) + "," + 10;
-    console.log(limit);
     var get_posts = function () {
         return Promise.all([
             pool.query("SELECT `option_name`,`option_value` FROM `bm_options` WHERE `option_id` < 7"),
             pool.query("CALL get_posts(" + limit + ")"),
             pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_public_all` FROM `bm_posts`,`bm_users` WHERE `post_type` = 'post' AND `post_status` = 'publish' AND `post_author` = `bm_users`.`ID`"),
             pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_all` FROM `bm_posts`,`bm_users` WHERE `post_type` = 'post' AND `post_author` = `bm_users`.`ID`"),
-            pool.query("SELECT `name` AS `category_name` FROM `bm_terms` WHERE `term_id` in (SELECT `term_id` FROM `bm_term_taxonomy` WHERE `taxonomy` = 'category' AND `count` != 0)")
+            pool.query("SELECT T1.*,`parent` FROM (SELECT `term_id`,`name` AS `category_name` FROM `bm_terms` WHERE `term_id` in  (SELECT `term_id` FROM `bm_term_taxonomy` WHERE `taxonomy` = 'category' AND `count` != 0)) AS T1, (SELECT `term_id`,`parent` FROM `bm_term_taxonomy` WHERE `taxonomy` = 'category' AND `count` != 0) AS T2 WHERE T1.`term_id` = T2.`term_id`; ")
         ]).then(data => {
             return {
                 options: data[0],

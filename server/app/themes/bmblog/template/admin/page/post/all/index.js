@@ -1,3 +1,13 @@
+var now_page, all_pages,date1;//全局变量,当前页面/总页面/开始时间
+
+//页面载入完成计算
+var finish_load = function () {
+    var date2 = new Date();
+    $('#e_time').text(date2.getTime() - date1.getTime());
+    $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+};
+
+//时间格式化
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1,                 //月份
@@ -16,12 +26,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 };
 
-var finish_load = function () {
-    var date2 = new Date();
-    $('#e_time').text(date2.getTime() - date1.getTime());
-    $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-};
-
+//页面警告
 var page_waiting = function (str) {
     var $page_waiting = $('.page-waiting');
     var width = '-' + parseInt($page_waiting.css('width')) / 2 + 'px';
@@ -31,9 +36,68 @@ var page_waiting = function (str) {
     }, 1000);
 };
 
-var now_page, all_pages;//全局变量,当前页面/总页面
+//去重
+var hovercUnique = function (arr) {
+    var result = [], hash = {};
+    for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+        if (!hash[elem]) {
+            result.push(elem);
+            hash[elem] = true;
+        }
+    }
+    return result;
+};
+
+//计算发布文章月份
+var date_group = function (str) {
+    for (var n in str) {
+        str[n] = str[n].split('月')[0];
+    }
+    return hovercUnique(str);
+};
+
+//注册事件
+var register_event = function () {
+    //切换页面事件
+    $(".current-page").keydown(function () {
+        $(this).css('width', ($(this).val().length * 6.75 + 10));
+    });
+
+    $('.first-page').click(function () {
+        if (now_page == '1') {
+            page_waiting('已经是第一页');
+        } else {
+            get_posts(1);
+        }
+    });
+
+    $('.last-page').click(function () {
+        if (now_page == 1) {
+            page_waiting('已经是第一页');
+        } else {
+            get_posts(now_page - 1);
+        }
+    });
+
+    $('.next-page').click(function () {
+        if (now_page == all_pages) {
+            page_waiting('已经是最后一页');
+        } else {
+            get_posts(parseInt(now_page) + 1);
+        }
+    });
+
+    $('.final-page').click(function () {
+        if (all_pages == now_page) {
+            page_waiting('已经是最后一页');
+        } else {
+            get_posts(all_pages);
+        }
+    });
+};
 
 var get_posts = function (post_page) {
+    date1 = new Date();
     $.ajax({
         cache: false,
         type: 'POST',
@@ -50,16 +114,32 @@ var get_posts = function (post_page) {
             } else {
                 all_pages = result.posts_page_all;
                 now_page = result.posts_now;
+                //处理统计
                 $(".all_post").text(result.posts_all);
                 $(".public_post").text(result.posts_public_all);
                 $(".all_page").text(all_pages);
 
+                //处理日期归组
+                var dates = [];
+                for (var q in result.posts) {
+                    dates[q] = result.posts[q].post_date;
+                }
+                var date_g = date_group(dates);
+                for (var z in date_g) {
+                    $('.filter-by-date').append('<option value="' + date_g[z].replace('年','') + '">' + date_g[z] + '月</option>');
+                }
+
+                //处理分类
                 var html_category = '';
                 for (var n in result.post_category) {
-                    html_category += '<option class="level-0" value="' + result.post_category[n].category_name + '">' + result.post_category[n].category_name + '</option>';
+                    if (result.post_category[n]['parent'] != '0') {
+                        result.post_category[n].category_name = '&nbsp;&nbsp;&nbsp;' + result.post_category[n].category_name;
+                    }
+                    html_category += '<option class="level-0" value="' + result.post_category[n].term_id + '">' + result.post_category[n].category_name + '</option>';
                 }
                 $('.post_category').append(html_category);
 
+                //处理文章列表
                 $(".current-page").val(now_page).css('width', now_page.length * 6.75 + 10);
                 var title_max_width = parseInt($('.main').css('width')) * 0.45 + 'px';
                 var body = '';
@@ -106,42 +186,6 @@ var get_posts = function (post_page) {
     });
 };
 
+//初始化函数
 get_posts(1);
-
-$(".current-page").keydown(function () {
-    $(this).css('width', ($(this).val().length * 6.75 + 10));
-});
-
-$('.first-page').click(function () {
-    if (now_page == '1') {
-        page_waiting('已经是第一页');
-    } else {
-        get_posts(1);
-    }
-});
-
-$('.last-page').click(function () {
-    if (now_page == 1) {
-        page_waiting('已经是第一页');
-    } else {
-        get_posts(now_page - 1);
-    }
-});
-
-$('.next-page').click(function () {
-    if (now_page == all_pages) {
-        page_waiting('已经是最后一页');
-    } else {
-        get_posts(parseInt(now_page) + 1);
-    }
-});
-
-$('.final-page').click(function () {
-    if (all_pages == now_page) {
-        page_waiting('已经是最后一页');
-    } else {
-        get_posts(all_pages);
-    }
-});
-
-
+register_event();
