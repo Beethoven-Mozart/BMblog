@@ -122,6 +122,14 @@ input {
     top: 10px;
 }
 
+.order_by {
+    color: #337ab7;
+}
+
+.by_title, .by_comment, .by_date {
+    color: #000000;
+}
+
 @media screen and (max-width: 780px) {
     .post-control {
         display: block;

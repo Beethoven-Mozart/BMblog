@@ -1,9 +1,9 @@
-var now_page, all_pages,date1;//全局变量,当前页面/总页面/开始时间
+var NOW_PAGE, ALL_PAGES, DATE1, ORDER_BY, ORDER_TYPE;//相对的全局变量,当前页面/总页面/开始时间
 
 //页面载入完成计算
 var finish_load = function () {
     var date2 = new Date();
-    $('#e_time').text(date2.getTime() - date1.getTime());
+    $('#e_time').text(date2.getTime() - DATE1.getTime());
     $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
 };
 
@@ -50,7 +50,7 @@ var hovercUnique = function (arr) {
 
 //计算发布文章月份
 var date_group = function (str) {
-    for (var n in str) {
+    for (var n = 0; n < str.length; n++) {
         str[n] = str[n].split('月')[0];
     }
     return hovercUnique(str);
@@ -64,7 +64,7 @@ var register_event = function () {
     });
 
     $('.first-page').click(function () {
-        if (now_page == '1') {
+        if (NOW_PAGE == '1') {
             page_waiting('已经是第一页');
         } else {
             get_posts(1);
@@ -72,32 +72,50 @@ var register_event = function () {
     });
 
     $('.last-page').click(function () {
-        if (now_page == 1) {
+        if (NOW_PAGE == 1) {
             page_waiting('已经是第一页');
         } else {
-            get_posts(now_page - 1);
+            get_posts(NOW_PAGE - 1);
         }
     });
 
     $('.next-page').click(function () {
-        if (now_page == all_pages) {
+        if (NOW_PAGE == ALL_PAGES) {
             page_waiting('已经是最后一页');
         } else {
-            get_posts(parseInt(now_page) + 1);
+            get_posts(parseInt(NOW_PAGE) + 1);
         }
     });
 
     $('.final-page').click(function () {
-        if (all_pages == now_page) {
+        if (ALL_PAGES == NOW_PAGE) {
             page_waiting('已经是最后一页');
         } else {
-            get_posts(all_pages);
+            get_posts(ALL_PAGES);
         }
     });
+
+    //文章排序
+    var last;
+    $('.order_by').click(function () {
+        console.log($(this).find('i').attr('class').splice(' '));
+
+        // if(n == 0){
+        //     ORDER_TYPE = 'ASC';
+        //     n = 1;
+        // }else{
+        //     ORDER_TYPE = 'DESC';
+        //     n = 0
+        // }
+        // ORDER_BY = 'date';
+        // get_posts(NOW_PAGE);
+    });
+
 };
 
+//获取文章列表详情AJAX
 var get_posts = function (post_page) {
-    date1 = new Date();
+    DATE1 = new Date();
     $.ajax({
         cache: false,
         type: 'POST',
@@ -105,33 +123,35 @@ var get_posts = function (post_page) {
         async: true,
         data: {
             api_get: 'post',
-            post_page: post_page
+            post_page: post_page,
+            order_by: ORDER_BY,
+            order_type: ORDER_TYPE
         },
         dataType: "json",
         success: function (result) {
             if (result.err == 500) {
                 $("#content-main").html('<h1>数据错误</h1>');
             } else {
-                all_pages = result.posts_page_all;
-                now_page = result.posts_now;
+                ALL_PAGES = result.posts_page_all;
+                NOW_PAGE = result.posts_now;
                 //处理统计
                 $(".all_post").text(result.posts_all);
                 $(".public_post").text(result.posts_public_all);
-                $(".all_page").text(all_pages);
+                $(".all_page").text(ALL_PAGES);
 
                 //处理日期归组
                 var dates = [];
-                for (var q in result.posts) {
+                for (var q = 0; q < result.posts.length; q++) {
                     dates[q] = result.posts[q].post_date;
                 }
                 var date_g = date_group(dates);
-                for (var z in date_g) {
-                    $('.filter-by-date').append('<option value="' + date_g[z].replace('年','') + '">' + date_g[z] + '月</option>');
+                for (var z = 0; z < date_g.length; z++) {
+                    $('.filter-by-date').append('<option value="' + date_g[z].replace('年', '') + '">' + date_g[z] + '月</option>');
                 }
 
                 //处理分类
                 var html_category = '';
-                for (var n in result.post_category) {
+                for (var n = 0; n < result.post_category.length; n++) {
                     if (result.post_category[n]['parent'] != '0') {
                         result.post_category[n].category_name = '&nbsp;&nbsp;&nbsp;' + result.post_category[n].category_name;
                     }
@@ -140,26 +160,29 @@ var get_posts = function (post_page) {
                 $('.post_category').append(html_category);
 
                 //处理文章列表
-                $(".current-page").val(now_page).css('width', now_page.length * 6.75 + 10);
+                $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);
                 var title_max_width = parseInt($('.main').css('width')) * 0.45 + 'px';
                 var body = '';
-                for (var a in result.posts) {
+                for (var a = 0; a < result.posts.length; a++) {
+                    //分类
                     if (result.posts[a].post_category == null) {
                         result.posts[a].post_category = '-';
                     } else {
                         result.posts[a].post_category = result.posts[a].post_category.split(',');
-                        for (var b in result.posts[a].post_category) {
+                        for (var b = 0; b < result.posts[a].post_category.length; b++) {
                             result.posts[a].post_category[b] = '<a href="/' + result.posts[a].post_category[b] + '" target="_blank">' + result.posts[a].post_category[b] + '</a>';
                         }
                     }
+                    //标签
                     if (result.posts[a].post_tag == null) {
                         result.posts[a].post_tag = '-';
                     } else {
                         result.posts[a].post_tag = result.posts[a].post_tag.split(',');
-                        for (var c in result.posts[a].post_tag) {
+                        for (var c = 0; c < result.posts[a].post_tag.length; c++) {
                             result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
                         }
                     }
+                    //评论
                     if (result.posts[a].comment_count < 10) {
                         result.posts[a].comment_count = '&nbsp;&nbsp;&nbsp;' + result.posts[a].comment_count;
                     } else if (result.posts[a].comment_count < 100) {
@@ -186,6 +209,8 @@ var get_posts = function (post_page) {
     });
 };
 
-//初始化函数
+//初始化变量、函数
+ORDER_BY = 'date';
+ORDER_TYPE = 'DESC';
 get_posts(1);
 register_event();
