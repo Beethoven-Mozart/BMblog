@@ -42,6 +42,7 @@ input {
 .check_post select {
     background-color: #f1f1f1;
     height: 24px;
+    cursor: pointer;
 }
 
 .check_post .btn {
@@ -124,10 +125,27 @@ input {
 
 .order_by {
     color: #337ab7;
+    cursor: pointer;
+}
+
+.order_by > i {
+    display: none;
+}
+
+.order_by:hover > i {
+    display: inline;
 }
 
 .by_title, .by_comment, .by_date {
     color: #000000;
+}
+
+.filter-by-category,.filter-by-date {
+    color: #337ab7;
+    cursor: pointer;
+    background-color: transparent;
+    border: transparent;
+    height: 100%;
 }
 
 @media screen and (max-width: 780px) {

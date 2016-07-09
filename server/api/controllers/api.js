@@ -17,14 +17,12 @@ export default (ctx) => {
                     for (var a = 0; a < result.posts.length; a++) {
                         result.posts[a].post_date = moment(result.posts[a].post_date).format('ll'); //格式化时间
                     }
-
-                    var posts_page_all = parseInt(parseInt(result.posts_all[0].posts_all) / 10 + 1);
-
+                    var posts_page_all = Math.ceil(result.posts_page_all[0].all / 10);
                     ctx.body = {
                         options: option_format(result.options),
                         posts: result.posts,
-                        posts_public_all: result.posts_public_all[0].posts_public_all,
-                        posts_all: result.posts_all[0].posts_all,
+                        posts_public: result.posts_public[0].posts_public,
+                        posts_draft: result.posts_draft[0].posts_draft,
                         posts_page_all: posts_page_all,
                         post_category: result.post_category,
                         posts_now: ctx.request.body.post_page
@@ -32,6 +30,8 @@ export default (ctx) => {
                 }
             });
         }
+    }else{
+        
     }
 };
 

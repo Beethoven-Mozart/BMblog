@@ -37,7 +37,7 @@ export var page = (ctx) => {
                 result.post[a].post_date = moment(result.post[a].post_date).format('ll'); //格式化时间
             }
 
-            var temp = parseInt(parseInt(result.post_all[0].posts_all) / 10 + 1);
+            var temp = Math.ceil(parseInt(result.post_all[0].posts_all) / 10);
             var posts_page_all = [temp];
             for (var z = 0; z < temp; z++) {
                 posts_page_all[z] = z + 1;
@@ -79,7 +79,7 @@ export var list = (ctx) => {
             }
             options = JSON.parse(options + "}");
 
-            var temp = parseInt(parseInt(result.post_all[0].posts_all) / 10 + 1);
+            var temp = Math.ceil(parseInt(result.post_all[0].posts_all) / 10);
             var posts_page_all = [temp];
             for (var z = 0; z < temp; z++) {
                 posts_page_all[z] = z + 1;

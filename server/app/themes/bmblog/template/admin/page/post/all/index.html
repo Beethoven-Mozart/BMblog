@@ -19,7 +19,7 @@
     <div class="row clearfix">
         <div class="col-md-12 column search-post">
             <div class="float-left">全部 ( <i class="all_post"></i> ) | 已发布 ( <i class="public_post"></i> ) | 草稿 ( <i
-                    class="public_post"></i> )
+                    class="draft_post"></i> )
             </div>
             <div class="float-right"><input type="text" class="span3 float-right" placeholder="筛选文章"><span
                     class="undo fa fa-undo"></span></div>
@@ -33,11 +33,9 @@
                     <option value="edit" class="hide-if-no-js">编辑</option>
                     <option value="trash">移至回收站</option>
                 </select>
-                <select name="m" class="filter-by-date" title="filter-by-date">
-                    <option selected="selected" value="0">全部日期</option>
+                <select name="m" class="filter-all-by-date" title="filter-by-date">
                 </select>
-                <select name="cat" class="post_category cat" title="post_category">
-                    <option value="0">所有分类目录</option>
+                <select name="cat" class="filter-all-by-category" title="post_category">
                 </select>
             </div>
             <div class="float-right">
@@ -76,11 +74,11 @@
                         <thead>
                         <tr>
                             <td width="12px"><input type="checkbox"></td>
-                            <td class="order_by">标题 <i class="fa fa-caret-down by_title"></i></td>
+                            <td class="order_by">标题 <i class="fa fa-caret-up by_title"></i></td>
                             <td>作者</td>
-                            <td style="min-width: 100px">分类</td>
-                            <td style="min-width: 100px">标签</td>
-                            <td class="order_by" style="min-width: 52px">评论 <i class="fa fa-caret-down by_comment"></i></td>
+                            <td style="min-width: 100px;padding: 0 8px"><select name="cat" class="filter-by-category" title="post_category"></select></td>
+                            <td style="min-width: 100px;padding: 0 8px"><select name="cat" class="filter-by-date" title="post_category"></select></td>
+                            <td class="order_by" style="min-width: 52px">评论 <i class="fa fa-caret-up by_comment"></i></td>
                             <td class="order_by" style="min-width: 100px">日期 <i class="fa fa-caret-down by_date"></i></td>
                         </tr>
                         </thead>

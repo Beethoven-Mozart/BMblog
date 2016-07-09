@@ -15,7 +15,7 @@ export default (ctx) => {
                 result.posts[a].post_date = moment(result.posts[a].post_date).format('ll'); //格式化时间
             }
 
-            var temp = parseInt(parseInt(result.posts_all[0].posts_all) / 10 + 1);
+            var temp = Math.ceil(parseInt(result.posts_all[0].posts_all) / 10);
             var posts_all = [temp];
             for (var z = 0; z < temp; z++) {
                 posts_all[z] = z + 1;
@@ -46,7 +46,7 @@ export var list = (ctx) => {
                 result.posts[a].post_date = moment(result.posts[a].post_date).format('ll'); //格式化时间
             }
 
-            var temp = parseInt(parseInt(result.posts_all[0].posts_all) / 10 + 1);
+            var temp = Math.ceil(parseInt(result.posts_all[0].posts_all) / 10);
             var posts_page_all = [temp];
             for (var z = 0; z < temp; z++) {
                 posts_page_all[z] = z + 1;

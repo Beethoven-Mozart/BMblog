@@ -61,6 +61,15 @@ var register_event = function () {
     //切换页面事件
     $(".current-page").keydown(function () {
         $(this).css('width', ($(this).val().length * 6.75 + 10));
+        //回车
+        if (event.keyCode == 13) {
+            var input_page = $(this).val();
+            if (input_page > 0 && input_page <= ALL_PAGES) {
+                get_posts(input_page);
+            } else {
+                page_waiting('最大只能输入 ' + ALL_PAGES);
+            }
+        }
     });
 
     $('.first-page').click(function () {
@@ -96,21 +105,25 @@ var register_event = function () {
     });
 
     //文章排序
-    var last;
+    var last_o;
     $('.order_by').click(function () {
-        console.log($(this).find('i').attr('class').splice(' '));
-
-        // if(n == 0){
-        //     ORDER_TYPE = 'ASC';
-        //     n = 1;
-        // }else{
-        //     ORDER_TYPE = 'DESC';
-        //     n = 0
-        // }
-        // ORDER_BY = 'date';
-        // get_posts(NOW_PAGE);
+        var $click_child = $(this).find('i');
+        var click_class = $click_child.attr('class').split(' ');
+        if (click_class[1] == 'fa-caret-down') {
+            ORDER_TYPE = 'ASC';
+            $click_child.attr('class', 'fa fa-caret-up ' + click_class[2]);
+        } else {
+            ORDER_TYPE = 'DESC';
+            $click_child.attr('class', 'fa fa-caret-down ' + click_class[2]);
+        }
+        ORDER_BY = click_class[2];
+        get_posts(NOW_PAGE);
+        if (last_o != click_class[2]) {
+            $('.' + last_o).attr('style', '');
+        }
+        $click_child.css('display', 'inline');
+        last_o = click_class[2];
     });
-
 };
 
 //获取文章列表详情AJAX
@@ -129,14 +142,20 @@ var get_posts = function (post_page) {
         },
         dataType: "json",
         success: function (result) {
+            DATE1 = new Date();
             if (result.err == 500) {
-                $("#content-main").html('<h1>数据错误</h1>');
+                $("#main").html('<h1>数据错误</h1>');
             } else {
                 ALL_PAGES = result.posts_page_all;
                 NOW_PAGE = result.posts_now;
                 //处理统计
-                $(".all_post").text(result.posts_all);
-                $(".public_post").text(result.posts_public_all);
+                $(".all_post").text(result.posts_public + result.posts_draft);
+                $(".public_post").text(result.posts_public);
+                if (result.posts_draft == 0) { //如果草稿为0,则隐藏。
+                    $(".draft_post").hide();
+                } else {
+                    $(".draft_post").text(result.posts_draft);
+                }
                 $(".all_page").text(ALL_PAGES);
 
                 //处理日期归组
@@ -145,19 +164,26 @@ var get_posts = function (post_page) {
                     dates[q] = result.posts[q].post_date;
                 }
                 var date_g = date_group(dates);
+                var html_date = '';
                 for (var z = 0; z < date_g.length; z++) {
-                    $('.filter-by-date').append('<option value="' + date_g[z].replace('年', '') + '">' + date_g[z] + '月</option>');
+                    html_date += '<option value="' + date_g[z].replace('年', '') + '">' + date_g[z] + '月</option>';
                 }
+                $('.filter-by-date').html('<option selected="selected" value="0">全部日期</option>' + html_date);//不能用append。
 
                 //处理分类
                 var html_category = '';
                 for (var n = 0; n < result.post_category.length; n++) {
+
                     if (result.post_category[n]['parent'] != '0') {
                         result.post_category[n].category_name = '&nbsp;&nbsp;&nbsp;' + result.post_category[n].category_name;
                     }
                     html_category += '<option class="level-0" value="' + result.post_category[n].term_id + '">' + result.post_category[n].category_name + '</option>';
                 }
-                $('.post_category').append(html_category);
+                $('.filter-by-category').html('<option value="0">分类目录</option>' + html_category);
+
+                //处理标签
+
+
 
                 //处理文章列表
                 $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);
@@ -188,14 +214,24 @@ var get_posts = function (post_page) {
                     } else if (result.posts[a].comment_count < 100) {
                         result.posts[a].comment_count = '&nbsp;&nbsp;' + result.posts[a].comment_count;
                     }
+
+                    //文章状态
+                    if (result.posts[a].post_status == 'publish') {
+                        result.posts[a].post_status = '已发布';
+                        result.posts[a].post_status_show = '';
+                    } else if (result.posts[a].post_status == 'draft') {
+                        result.posts[a].post_status = '草稿';
+                        result.posts[a].post_status_show = '<i style="color:#383838">&nbsp;&nbsp;&nbsp;&nbsp;-草稿</i>';
+                    }
+
                     body += '<tr>' +
                         '<td><input type="checkbox"></td>' +
-                        '<td class="post-td"><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div></a></br><div class="post-control">编辑 | 快速编辑 | 移至回收站 | 查看</div></td>' +
+                        '<td class="post-td"><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control">编辑 | 快速编辑 | 移至回收站 | 查看</div></td>' +
                         '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
                         '<td>' + result.posts[a].post_category + '</td>' +
                         '<td>' + result.posts[a].post_tag + '</td>' +
                         '<td>' + result.posts[a].comment_count + '</td>' +
-                        '<td>已发布</br>' + result.posts[a].post_date + '</td>' +
+                        '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
                         '</tr>';
                 }
                 $("tbody").html(body);
@@ -203,7 +239,7 @@ var get_posts = function (post_page) {
             }
         },
         error: function (err) {
-            $("#content-main").html('<h1>' + err.responseText + '(' + err.status + ')' + '</h1>');
+            $("#main").html('<h1>' + err.responseText + '(' + err.status + ')' + '</h1>');
             console.log(err);
         }
     });
