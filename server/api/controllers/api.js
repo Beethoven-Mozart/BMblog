@@ -1,13 +1,13 @@
 import {system_config} from '../../config.js';
 import {setString, option_format} from '../../app/tool/common_tool.js';
-import {default as api} from '../models/api.js';
+import {default as api,module_get_api as get_type} from '../models/api.js';
 import moment from 'moment';
 
 moment.locale(system_config.System_country);//设置当地时间格式
 
 export default (ctx) => {
     if (ctx.params.api_type == 'blog') {
-        if(ctx.request.body.api_get == 'post'){
+        if (ctx.request.body.api_get == 'post') {
             return api(ctx).then((result) => {
                 if (result.length == 0 || result == '500') {
                     ctx.body = {
@@ -30,9 +30,17 @@ export default (ctx) => {
                 }
             });
         }
-    }else{
-        
+    } else {
+        //console.log(ctx);
     }
 };
 
-
+export var get_api = (ctx) => {
+    return get_type(ctx).then(function (value) {
+        console.log('ccc');
+        ctx.body = value;
+        console.log(value);
+    }, function (error) {
+        console.log(error);
+    });
+};
