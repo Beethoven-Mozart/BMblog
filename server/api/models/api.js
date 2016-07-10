@@ -65,23 +65,23 @@ export default function (ctx) {
 
     var get_posts = function () {
         return Promise.all([
-            //查询设置
+            //0查询设置
             pool.query("SELECT `option_name`,`option_value` " +
-                "FROM `bm_options` " +
-                "WHERE `option_id` < 7"),
-            //查询文章列表
+                            "FROM `bm_options` " +
+                            "WHERE `option_id` < 7"),
+            //1查询文章列表
             pool.query(str_posts),
-            //查询已发布文章总数
-            pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_public` FROM `bm_posts`,`bm_users` " +
+            //2查询已发布文章总数
+            pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_publish` FROM `bm_posts`,`bm_users` " +
                             "WHERE `post_type` = 'post' " +
                             "AND `post_status` = 'publish' " +
                             "AND `post_author` = `bm_users`.`ID`"),
-            //查询草稿文章总数
+            //3查询草稿文章总数
             pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_draft` FROM `bm_posts`,`bm_users` " +
                             "WHERE `post_type` = 'post' " +
                             "AND `post_status` = 'draft' " +
                             "AND `post_author` = `bm_users`.`ID`"),
-            //查询文章分类
+            //4查询当前文章分类
             pool.query("SELECT T1.*,`parent` FROM " +
                             "(SELECT `term_id`,`name` AS `category_name` FROM `bm_terms` " +
                                 "WHERE `term_id` in  " +
@@ -94,33 +94,48 @@ export default function (ctx) {
                                 "AND `count` != 0" +
                             ") AS T2 " +
                        "WHERE T1.`term_id` = T2.`term_id`; "),
-            //查询文章标签
+            //5查询当前文章标签
             pool.query("SELECT `term_id`,`name` AS `tag_name` FROM `bm_terms` " +
                             "WHERE `term_id` in  " +
                                 "(SELECT `term_id` FROM `bm_term_taxonomy` " +
                                 "WHERE `taxonomy` = 'post_tag' " +
                                 "AND `count` != 0);"),
-            //查询文章总数、日期
-            pool.query("SELECT count(`ID`) AS `all`,`post_date` FROM `bm_view_post`")
+            //6查询当前文章总数
+            pool.query("SELECT count(`ID`) AS `all` FROM `bm_view_post`"),
+            //7查询所有文章日期分类
+            pool.query("SELECT DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月') as `posts_date_gourp`, count(*) AS `cnt` " +
+                "FROM `bm_posts` ,`bm_users` " +
+                "WHERE `post_type` = 'post' " +
+                "AND `post_status` != 'auto_draft' " +
+                "AND `post_author` = `bm_users`.`ID` " +
+                "GROUP BY DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月')"),
+            //8查询所有文章分类和标签
+            pool.query("SELECT `bm_terms`.`term_id`,`name`,`taxonomy`,`parent` " +
+                            "FROM `bm_terms`,`bm_term_taxonomy` " +
+                            "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+                            "AND (`bm_term_taxonomy`.`taxonomy` = 'post_tag' OR `bm_term_taxonomy`.`taxonomy` = 'category');")
         ]).then(data => {
             return {
                 options: data[0],
                 posts: data[1],
-                posts_public: data[2],
+                posts_publish: data[2],
                 posts_draft: data[3],
                 posts_category: data[4],
                 posts_tag: data[5],
-                posts_other_info: data[6]
+                posts_all: data[6],
+                posts_date_group: data[7],
+                posts_terms: data[8]
             };
         }, console.log);
     };
 
     let create_VIEW = "CREATE OR REPLACE VIEW `bm_view_post` AS " +
-        "(SELECT `bm_posts`.`ID`, `post_title`, `post_date`, `display_name`, `comment_count`, `post_status` " +
-        "FROM `bm_posts`,`bm_users` " +
-        "WHERE `post_type` = 'post' " +
-        "AND `post_status` " + post_status + " " +
-        "AND `post_author` = `bm_users`.`ID`);"; //创建文章视图
+                            "(SELECT `bm_posts`.`ID`, `post_title`, `post_date`, `display_name`, `comment_count`, `post_status` " +
+                                "FROM `bm_posts`,`bm_users` " +
+                                "WHERE `post_type` = 'post' " +
+                                "AND `post_status` " + post_status + " " +
+                                "AND `post_author` = `bm_users`.`ID`" +
+                            ");"; //创建文章视图
     return query(create_VIEW).then(data => {
         if (data.serverStatus == 2) {
             return get_posts();
@@ -132,11 +147,11 @@ export default function (ctx) {
 
 export var module_get_api = (ctx) => {
     var public_key = '-----BEGIN PUBLIC KEY-----\n' +
-        'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHn/hfvTLRXViBXTmBhNYEIJeG\n' +
-        'GGDkmrYBxCRelriLEYEcrwWrzp0au9nEISpjMlXeEW4+T82bCM22+JUXZpIga5qd\n' +
-        'BrPkjU08Ktf5n7Nsd7n9ZeI0YoAKCub3ulVExcxGeS3RVxFai9ozERlavpoTOdUz\n' +
-        'EH6YWHP4reFfpMpLzwIDAQAB\n' +
-        '-----END PUBLIC KEY-----';
+                     'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHn/hfvTLRXViBXTmBhNYEIJeG\n' +
+                     'GGDkmrYBxCRelriLEYEcrwWrzp0au9nEISpjMlXeEW4+T82bCM22+JUXZpIga5qd\n' +
+                     'BrPkjU08Ktf5n7Nsd7n9ZeI0YoAKCub3ulVExcxGeS3RVxFai9ozERlavpoTOdUz\n' +
+                     'EH6YWHP4reFfpMpLzwIDAQAB\n' +
+                     '-----END PUBLIC KEY-----';
     var query_body = {
         username: '373226722',
         token: '42977f2a53ede879d5cd90881b5a5fca',

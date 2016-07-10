@@ -49,27 +49,27 @@ var hovercUnique = function (arr) {
 };
 
 //计算发布文章月份
-var date_group = function (str) {
-    for (var n = 0; n < str.length; n++) {
-        str[n] = str[n].split('月')[0];
-    }
-    return hovercUnique(str);
-};
+// var date_group = function (str) {
+//     for (var n = 0; n < str.length; n++) {
+//         str[n] = str[n].split('月')[0];
+//     }
+//     return hovercUnique(str);
+// };
 
 //注册事件
 var register_event = function () {
     //文章状态切换
-    $('.post-all').click(function(){
+    $('.post-all').click(function () {
         POST_STATUS = 'all';
         get_posts(NOW_PAGE);
     });
 
-    $('.post-publish').click(function(){
+    $('.post-publish').click(function () {
         POST_STATUS = 'publish';
         get_posts(NOW_PAGE);
     });
 
-    $('.post-draft').click(function(){
+    $('.post-draft').click(function () {
         POST_STATUS = 'draft';
         get_posts(NOW_PAGE);
     });
@@ -166,8 +166,8 @@ var get_posts = function (post_page) {
                 ALL_PAGES = result.posts_page_all;
                 NOW_PAGE = result.posts_now;
                 //处理统计
-                $(".all_post").text(result.posts_public + result.posts_draft);
-                $(".public_post").text(result.posts_public);
+                $(".all_post").text(result.posts_publish + result.posts_draft);
+                $(".public_post").text(result.posts_publish);
                 if (result.posts_draft == 0) { //如果草稿为0,则隐藏。
                     $(".draft_post").hide();
                 } else {
@@ -176,18 +176,29 @@ var get_posts = function (post_page) {
                 $(".all_page").text(ALL_PAGES);
 
                 //处理日期归组
-                var dates = [];
-                for (var q = 0; q < result.posts.length; q++) {
-                    dates[q] = result.posts[q].post_date;
-                }
-                var date_g = date_group(dates);
+                var date_g = result.posts_date_group;
                 var html_date = '';
                 for (var z = 0; z < date_g.length; z++) {
-                    html_date += '<option value="' + date_g[z].replace('年', '') + '">' + date_g[z] + '月</option>';
+                    html_date += '<option value="' + date_g[z].posts_date_gourp.replace('年', '') + '">' + date_g[z].posts_date_gourp + ' (' + date_g[z].cnt + ')</option>';
                 }
                 $('.filter-by-date').html('<option selected="selected" value="0">全部日期</option>' + html_date);//不能用append。
 
-                //处理分类
+                //处理所有文章分类和标签
+                $('.filter-all-by-category').html('<option selected="selected" value="0">全部分类目录</option>');
+                $('.filter-all-by-tag').html('<option selected="selected" value="0">全部文章标签</option>');
+
+                for (var s = 0; s < result.posts_terms.length; s++) {
+                    if (result.posts_terms[s]['parent'] != '0') {
+                        result.posts_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.posts_terms[s].name;
+                    }
+                    if(result.posts_terms[s].taxonomy == 'category'){
+                        $('.filter-all-by-category').append('<option value="' + result.posts_terms[s].term_id + '">' + result.posts_terms[s].name + '</option>');
+                    }else{
+                        $('.filter-all-by-tag').append('<option value="' + result.posts_terms[s].term_id + '">' + result.posts_terms[s].name + '</option>');
+                    }
+                }
+
+                //处理当前分类
                 var html_category = '';
                 for (var n = 0; n < result.posts_category.length; n++) {
                     if (result.posts_category[n]['parent'] != '0') {
@@ -197,7 +208,7 @@ var get_posts = function (post_page) {
                 }
                 $('.filter-by-category').html('<option value="0">分类目录</option>' + html_category);
 
-                //处理标签
+                //处理当前标签
                 var html_tag = '';
                 for (var n = 0; n < result.posts_tag.length; n++) {
                     html_tag += '<option value="' + result.posts_tag[n].term_id + '">' + result.posts_tag[n].tag_name + '</option>';
