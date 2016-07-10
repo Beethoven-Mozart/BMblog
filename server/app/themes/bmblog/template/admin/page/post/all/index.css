@@ -140,7 +140,7 @@ input {
     color: #000000;
 }
 
-.filter-by-category,.filter-by-date {
+.filter-by-category,.filter-by-tag {
     color: #337ab7;
     cursor: pointer;
     background-color: transparent;

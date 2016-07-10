@@ -1,4 +1,4 @@
-var NOW_PAGE, ALL_PAGES, DATE1, ORDER_BY, ORDER_TYPE;//相对的全局变量,当前页面/总页面/开始时间
+var NOW_PAGE, ALL_PAGES, DATE1, ORDER_BY, ORDER_TYPE, POST_STATUS;//相对的全局变量,当前页面/总页面/开始时间/排序依据/排序类型/文章总状态
 
 //页面载入完成计算
 var finish_load = function () {
@@ -58,6 +58,22 @@ var date_group = function (str) {
 
 //注册事件
 var register_event = function () {
+    //文章状态切换
+    $('.post-all').click(function(){
+        POST_STATUS = 'all';
+        get_posts(NOW_PAGE);
+    });
+
+    $('.post-publish').click(function(){
+        POST_STATUS = 'publish';
+        get_posts(NOW_PAGE);
+    });
+
+    $('.post-draft').click(function(){
+        POST_STATUS = 'draft';
+        get_posts(NOW_PAGE);
+    });
+
     //切换页面事件
     $(".current-page").keydown(function () {
         $(this).css('width', ($(this).val().length * 6.75 + 10));
@@ -137,12 +153,13 @@ var get_posts = function (post_page) {
         data: {
             api_get: 'post',
             post_page: post_page,
+            post_status: POST_STATUS,
             order_by: ORDER_BY,
             order_type: ORDER_TYPE
         },
         dataType: "json",
         success: function (result) {
-            DATE1 = new Date();
+            //DATE1 = new Date();
             if (result.err == 500) {
                 $("#main").html('<h1>数据错误</h1>');
             } else {
@@ -172,18 +189,20 @@ var get_posts = function (post_page) {
 
                 //处理分类
                 var html_category = '';
-                for (var n = 0; n < result.post_category.length; n++) {
-
-                    if (result.post_category[n]['parent'] != '0') {
-                        result.post_category[n].category_name = '&nbsp;&nbsp;&nbsp;' + result.post_category[n].category_name;
+                for (var n = 0; n < result.posts_category.length; n++) {
+                    if (result.posts_category[n]['parent'] != '0') {
+                        result.posts_category[n].category_name = '&nbsp;&nbsp;&nbsp;' + result.posts_category[n].category_name;
                     }
-                    html_category += '<option class="level-0" value="' + result.post_category[n].term_id + '">' + result.post_category[n].category_name + '</option>';
+                    html_category += '<option value="' + result.posts_category[n].term_id + '">' + result.posts_category[n].category_name + '</option>';
                 }
                 $('.filter-by-category').html('<option value="0">分类目录</option>' + html_category);
 
                 //处理标签
-
-
+                var html_tag = '';
+                for (var n = 0; n < result.posts_tag.length; n++) {
+                    html_tag += '<option value="' + result.posts_tag[n].term_id + '">' + result.posts_tag[n].tag_name + '</option>';
+                }
+                $('.filter-by-tag').html('<option value="0">标签</option>' + html_tag);
 
                 //处理文章列表
                 $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);
@@ -191,14 +210,15 @@ var get_posts = function (post_page) {
                 var body = '';
                 for (var a = 0; a < result.posts.length; a++) {
                     //分类
-                    if (result.posts[a].post_category == null) {
-                        result.posts[a].post_category = '-';
+                    if (result.posts[a].posts_category == null) {
+                        result.posts[a].posts_category = '-';
                     } else {
-                        result.posts[a].post_category = result.posts[a].post_category.split(',');
-                        for (var b = 0; b < result.posts[a].post_category.length; b++) {
-                            result.posts[a].post_category[b] = '<a href="/' + result.posts[a].post_category[b] + '" target="_blank">' + result.posts[a].post_category[b] + '</a>';
+                        result.posts[a].posts_category = result.posts[a].posts_category.split(',');
+                        for (var b = 0; b < result.posts[a].posts_category.length; b++) {
+                            result.posts[a].posts_category[b] = '<a href="/' + result.posts[a].posts_category[b] + '" target="_blank">' + result.posts[a].posts_category[b] + '</a>';
                         }
                     }
+
                     //标签
                     if (result.posts[a].post_tag == null) {
                         result.posts[a].post_tag = '-';
@@ -208,6 +228,7 @@ var get_posts = function (post_page) {
                             result.posts[a].post_tag[c] = '<a href="/tag/' + result.posts[a].post_tag[c] + '" target="_blank">' + result.posts[a].post_tag[c] + '</a>';
                         }
                     }
+
                     //评论
                     if (result.posts[a].comment_count < 10) {
                         result.posts[a].comment_count = '&nbsp;&nbsp;&nbsp;' + result.posts[a].comment_count;
@@ -228,7 +249,7 @@ var get_posts = function (post_page) {
                         '<td><input type="checkbox"></td>' +
                         '<td class="post-td"><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control">编辑 | 快速编辑 | 移至回收站 | 查看</div></td>' +
                         '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
-                        '<td>' + result.posts[a].post_category + '</td>' +
+                        '<td>' + result.posts[a].posts_category + '</td>' +
                         '<td>' + result.posts[a].post_tag + '</td>' +
                         '<td>' + result.posts[a].comment_count + '</td>' +
                         '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
@@ -246,6 +267,7 @@ var get_posts = function (post_page) {
 };
 
 //初始化变量、函数
+POST_STATUS = 'all';
 ORDER_BY = 'date';
 ORDER_TYPE = 'DESC';
 get_posts(1);
