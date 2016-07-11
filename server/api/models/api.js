@@ -102,7 +102,7 @@ export default function (ctx) {
                                 "AND `count` != 0);"),
             //6查询当前文章总数
             pool.query("SELECT count(`ID`) AS `all` FROM `bm_view_post`"),
-            //7查询所有文章日期分类
+            //7查询所有文章日期组
             pool.query("SELECT DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月') as `posts_date_gourp`, count(*) AS `cnt` " +
                 "FROM `bm_posts` ,`bm_users` " +
                 "WHERE `post_type` = 'post' " +
@@ -129,12 +129,18 @@ export default function (ctx) {
         }, console.log);
     };
 
+    var filter = '';
+    if(ctx.request.body.term != 'all' && ctx.request.body.term != ''){
+        filter = "AND `bm_posts`.`ID` IN (SELECT `object_id` FROM `bm_term_relationships` WHERE `term_taxonomy_id` = (SELECT `term_taxonomy_id` FROM `bm_term_taxonomy` WHERE `term_id` = '" + ctx.request.body.term + "'))";
+    }
+
     let create_VIEW = "CREATE OR REPLACE VIEW `bm_view_post` AS " +
                             "(SELECT `bm_posts`.`ID`, `post_title`, `post_date`, `display_name`, `comment_count`, `post_status` " +
                                 "FROM `bm_posts`,`bm_users` " +
                                 "WHERE `post_type` = 'post' " +
                                 "AND `post_status` " + post_status + " " +
-                                "AND `post_author` = `bm_users`.`ID`" +
+                                "AND `post_author` = `bm_users`.`ID` " +
+                                filter +
                             ");"; //创建文章视图
     return query(create_VIEW).then(data => {
         if (data.serverStatus == 2) {
