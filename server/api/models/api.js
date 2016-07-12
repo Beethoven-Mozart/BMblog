@@ -81,25 +81,14 @@ export default function (ctx) {
                             "WHERE `post_type` = 'post' " +
                             "AND `post_status` = 'draft' " +
                             "AND `post_author` = `bm_users`.`ID`"),
-            //4查询当前文章分类
-            pool.query("SELECT T1.*,`parent` FROM " +
-                            "(SELECT `term_id`,`name` AS `category_name` FROM `bm_terms` " +
-                                "WHERE `term_id` in  " +
-                                    "(SELECT `term_id` FROM `bm_term_taxonomy` " +
-                                    "WHERE `taxonomy` = 'category' " +
-                                    "AND `count` != 0)" +
-                            ") AS T1, " +
-                            "(SELECT `term_id`,`parent` FROM `bm_term_taxonomy` " +
-                                "WHERE `taxonomy` = 'category' " +
-                                "AND `count` != 0" +
-                            ") AS T2 " +
-                       "WHERE T1.`term_id` = T2.`term_id`; "),
-            //5查询当前文章标签
-            pool.query("SELECT `term_id`,`name` AS `tag_name` FROM `bm_terms` " +
-                            "WHERE `term_id` in  " +
-                                "(SELECT `term_id` FROM `bm_term_taxonomy` " +
-                                "WHERE `taxonomy` = 'post_tag' " +
-                                "AND `count` != 0);"),
+            //4查询当前文章分类和标签
+            pool.query("SELECT `bm_terms`.`term_id`,`name` " +
+                            "FROM `bm_terms`,`bm_term_taxonomy`,`bm_view_post`,`bm_term_relationships` " +
+                            "WHERE (`taxonomy` = 'post_tag' OR `taxonomy` = 'category') " +
+                            "AND `bm_term_taxonomy`.`term_id` = `bm_terms`.`term_id` " +
+                            "AND `bm_term_taxonomy`.`term_taxonomy_id` = `bm_term_relationships`.`term_taxonomy_id` " +
+                            "AND `bm_term_relationships`.`object_id` = `bm_view_post`.`ID` " +
+                            "GROUP BY `name`"),
             //6查询当前文章总数
             pool.query("SELECT count(`ID`) AS `all` FROM `bm_view_post`"),
             //7查询所有文章日期组
@@ -120,11 +109,10 @@ export default function (ctx) {
                 posts: data[1],
                 posts_publish: data[2],
                 posts_draft: data[3],
-                posts_category: data[4],
-                posts_tag: data[5],
-                posts_all: data[6],
-                posts_date_group: data[7],
-                posts_terms: data[8]
+                posts_terms: data[4],
+                posts_all: data[5],
+                posts_date_group: data[6],
+                posts_all_terms: data[7]
             };
         }, console.log);
     };
