@@ -1,7 +1,7 @@
 <div class="container-fuild">
     <div class="row clearfix">
         <div class="col-md-8 column">
-            <h1 class="post-page-title">文章<a href="#/post/edit" class="btn btn-default post-new">写文章</a></h1>
+            <h1 class="post-page-title">分类目录</h1>
         </div>
         <div class="page-content">
             <div class="page-waiting alert alert-warning">
@@ -18,26 +18,23 @@
 <div class="container-fuild">
     <div class="row clearfix">
         <div class="col-md-12 column search-post">
-            <div class="float-left"><a href="javascript:;" class="post-all"> 全部 </a>( <i class="all_post"></i> ) |<a
-                    href="javascript:;" class="post-publish"> 已发布 </a>( <i class="public_post"></i> ) <div class="post-draft-div">|<a
-                    href="javascript:;" class="post-draft"> 草稿 </a>( <i
-                    class="draft_post"></i> )</div>
+            <div class="float-left"><a href="javascript:;" class="post-all"> 全部 </a>( <i class="all_post"></i> )
             </div>
             <div class="float-right"><input type="text" class="span3 float-right" placeholder="筛选文章"><span
                     class="undo fa fa-undo"></span></div>
         </div>
     </div>
     <div class="row clearfix check_post">
-        <div class="col-md-12 column search-post">
+        <div class="col-md-3 column add-title">
+            <h5>添加新分类目录</h5>
+        </div>
+        <div class="col-md-9 column search-post">
             <div class="float-left">
                 <select title="action">
                     <option value="-1">批量操作</option>
                     <option value="edit" class="hide-if-no-js">编辑</option>
                     <option value="trash">移至回收站</option>
                 </select>
-                <select class="filter-by-date" title="filter-by-date"></select>
-                <select class="filter-all-by-category" title="post_category"></select>
-                <select class="filter-all-by-tag" title="post_category"></select>
             </div>
             <div class="float-right">
                 <div class="nav-pages">
@@ -69,22 +66,21 @@
         </div>
     </div>
     <div class="row clearfix">
-        <div class="col-md-12 column">
+        <div class="col-md-3 column">
+
+
+        </div>
+        <div class="col-md-9 column">
             <div class="post-content">
                 <div class="table-responsive">
                     <table class="table table-striped table-post">
                         <thead>
                         <tr>
                             <td width="12px"><input type="checkbox"></td>
-                            <td class="order_by">标题 <i class="fa fa-caret-up by_title"></i></td>
-                            <td>作者</td>
-                            <td style="min-width: 100px;padding: 0 8px"><select class="filter-by-category"
-                                                                                title="post_category"></select></td>
-                            <td style="min-width: 100px;padding: 0 8px"><select class="filter-by-tag"
-                                                                                title="post_category"></select></td>
-                            <td class="order_by" style="min-width: 52px">评论 <i class="fa fa-caret-up by_comment"></i>
+                            <td class="order_by">名称 <i class="fa fa-caret-up by_title"></i></td>
+                            <td class="order_by" style="min-width: 52px">别名 <i class="fa fa-caret-up by_comment"></i>
                             </td>
-                            <td class="order_by" style="min-width: 100px">日期 <i class="fa fa-caret-down by_date"></i>
+                            <td class="order_by" style="min-width: 100px">总数 <i class="fa fa-caret-down by_date"></i>
                             </td>
                         </tr>
                         </thead>
@@ -93,21 +89,15 @@
                         <tfoot>
                         <tr>
                             <td width="12px"><input type="checkbox"></td>
-                            <td>标题</td>
-                            <td>作者</td>
-                            <td>分类</td>
-                            <td>标签</td>
-                            <td>评论</td>
-                            <td>日期</td>
+                            <td>名称</td>
+                            <td>别名</td>
+                            <td>总数</td>
                         </tr>
                         </tfoot>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row clearfix check_post_bottom">
-
     </div>
     <div class="row clearfix list-row">
         <div class="col-md-12 column">

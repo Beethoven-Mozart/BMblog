@@ -1,3 +1,7 @@
+.post-page-title {
+    width: 200px;
+}
+
 .post-new {
     position: absolute;
     right: 0;
@@ -7,6 +11,15 @@
     float: right;
     color: #bcbcbc;
     line-height: 10px;
+}
+
+.add-title > h5{
+    margin: 0;
+    color: #000000;
+}
+
+.add-title {
+
 }
 
 .post-content {
@@ -71,10 +84,6 @@
     text-align: center;
     font-weight: 800;
     line-height: 1.5 !important;
-}
-
-.post-draft-div {
-    display: inline;
 }
 
 .table-post {

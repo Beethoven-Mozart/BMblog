@@ -1,4 +1,4 @@
-import {pool, query} from "../db/mysql.js";
+import {querys, query} from "../db/mysql.js";
 import {system_config} from "../../config.js";
 import request from 'request';
 import zlib from 'zlib';
@@ -7,10 +7,10 @@ import ursa from 'ursa';
 //获取文章列表详情,该页面请勿使用自动排版
 export default function (ctx) {
     //判断文章总状态
-    var post_status = "!= 'auto_draft'";
+    var post_status = "!= 'auto-draft'";
     switch (ctx.request.body.post_status) {
         case 'all':
-            post_status = "!= 'auto_draft'";
+            post_status = "!= 'auto-draft'";
             break;
         case 'publish':
             post_status = "= 'publish'";
@@ -64,57 +64,50 @@ export default function (ctx) {
                     "ORDER BY `" + posts_order_by + "` " + posts_order_type + " ;";
 
     var get_posts = function () {
-        return Promise.all([
-            //0查询设置
-            pool.query("SELECT `option_name`,`option_value` " +
-                            "FROM `bm_options` " +
-                            "WHERE `option_id` < 7"),
-            //1查询文章列表
-            pool.query(str_posts),
-            //2查询已发布文章总数
-            pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_publish` FROM `bm_posts`,`bm_users` " +
-                            "WHERE `post_type` = 'post' " +
-                            "AND `post_status` = 'publish' " +
-                            "AND `post_author` = `bm_users`.`ID`"),
-            //3查询草稿文章总数
-            pool.query("SELECT count(`bm_posts`.`ID`) AS `posts_draft` FROM `bm_posts`,`bm_users` " +
-                            "WHERE `post_type` = 'post' " +
-                            "AND `post_status` = 'draft' " +
-                            "AND `post_author` = `bm_users`.`ID`"),
-            //4查询当前文章分类和标签
-            pool.query("SELECT `bm_terms`.`term_id`,`name` " +
-                            "FROM `bm_terms`,`bm_term_taxonomy`,`bm_view_post`,`bm_term_relationships` " +
-                            "WHERE (`taxonomy` = 'post_tag' OR `taxonomy` = 'category') " +
-                            "AND `bm_term_taxonomy`.`term_id` = `bm_terms`.`term_id` " +
-                            "AND `bm_term_taxonomy`.`term_taxonomy_id` = `bm_term_relationships`.`term_taxonomy_id` " +
-                            "AND `bm_term_relationships`.`object_id` = `bm_view_post`.`ID` " +
-                            "GROUP BY `name`"),
-            //6查询当前文章总数
-            pool.query("SELECT count(`ID`) AS `all` FROM `bm_view_post`"),
-            //7查询所有文章日期组
-            pool.query("SELECT DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月') as `posts_date_gourp`, count(*) AS `cnt` " +
-                "FROM `bm_posts` ,`bm_users` " +
-                "WHERE `post_type` = 'post' " +
-                "AND `post_status` != 'auto_draft' " +
-                "AND `post_author` = `bm_users`.`ID` " +
-                "GROUP BY DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月')"),
-            //8查询所有文章分类和标签
-            pool.query("SELECT `bm_terms`.`term_id`,`name`,`taxonomy`,`parent` " +
-                            "FROM `bm_terms`,`bm_term_taxonomy` " +
-                            "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
-                            "AND (`bm_term_taxonomy`.`taxonomy` = 'post_tag' OR `bm_term_taxonomy`.`taxonomy` = 'category');")
-        ]).then(data => {
-            return {
-                options: data[0],
-                posts: data[1],
-                posts_publish: data[2],
-                posts_draft: data[3],
-                posts_terms: data[4],
-                posts_all: data[5],
-                posts_date_group: data[6],
-                posts_all_terms: data[7]
-            };
-        }, console.log);
+        var sql = {
+            //查询设置
+            options: "SELECT `option_name`,`option_value` " +
+                        "FROM `bm_options` " +
+                        "WHERE `option_id` < 7",
+            //查询文章列表
+            posts: str_posts,
+            //查询已发布文章总数
+            posts_publish: "SELECT count(`bm_posts`.`ID`) AS `posts_publish` FROM `bm_posts`,`bm_users` " +
+                                "WHERE `post_type` = 'post' " +
+                                "AND `post_status` = 'publish' " +
+                                "AND `post_author` = `bm_users`.`ID`",
+            //查询草稿文章总数
+            posts_draft: "SELECT count(`bm_posts`.`ID`) AS `posts_draft` FROM `bm_posts`,`bm_users` " +
+                                "WHERE `post_type` = 'post' " +
+                                "AND `post_status` = 'draft' " +
+                                "AND `post_author` = `bm_users`.`ID`",
+            //查询当前文章分类和标签
+            posts_terms: "SELECT `bm_terms`.`term_id`,`name`,`taxonomy`,`parent` FROM `bm_terms`,`bm_term_taxonomy` WHERE `bm_term_taxonomy`.`term_id` = `bm_terms`.`term_id` AND `name` IN " +
+                                "(SELECT `name` FROM `bm_terms`,`bm_term_taxonomy`,`bm_view_post`,`bm_term_relationships` " +
+                                    "WHERE (`taxonomy` = 'post_tag' OR `taxonomy` = 'category') " +
+                                    "AND `bm_term_taxonomy`.`term_id` = `bm_terms`.`term_id` " +
+                                    "AND `bm_term_taxonomy`.`term_taxonomy_id` = `bm_term_relationships`.`term_taxonomy_id` " +
+                                    "AND `bm_term_relationships`.`object_id` = `bm_view_post`.`ID` " +
+                                    "GROUP BY `name`)",
+            //查询当前文章总数
+            posts_all: "SELECT count(`ID`) AS `all` FROM `bm_view_post`",
+            //查询所有文章日期组
+            posts_date_group: "SELECT DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月') as `posts_date_gourp`, count(*) AS `cnt` " +
+                                    "FROM `bm_posts` ,`bm_users` " +
+                                    "WHERE `post_type` = 'post' " +
+                                    "AND `post_status` != 'auto_draft' " +
+                                    "AND `post_author` = `bm_users`.`ID` " +
+                                    "GROUP BY DATE_FORMAT(`bm_posts`.`post_date`, '%Y年%m月')",
+            //查询所有文章分类和标签
+            posts_all_terms: "SELECT `bm_terms`.`term_id`,`name`,`taxonomy`,`parent` " +
+            "FROM `bm_terms`,`bm_term_taxonomy` " +
+            "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+            "AND (`bm_term_taxonomy`.`taxonomy` = 'post_tag' OR `bm_term_taxonomy`.`taxonomy` = 'category');"
+        };
+
+        return querys(sql).then((result) => {
+            return result;
+        });
     };
 
     var filter = '';
@@ -122,7 +115,7 @@ export default function (ctx) {
         filter = "AND `bm_posts`.`ID` IN (SELECT `object_id` FROM `bm_term_relationships` WHERE `term_taxonomy_id` = (SELECT `term_taxonomy_id` FROM `bm_term_taxonomy` WHERE `term_id` = '" + ctx.request.body.term + "'))";
     }
 
-    let create_VIEW = "CREATE OR REPLACE VIEW `bm_view_post` AS " +
+    var create_VIEW = "CREATE OR REPLACE VIEW `bm_view_post` AS " +
                             "(SELECT `bm_posts`.`ID`, `post_title`, `post_date`, `display_name`, `comment_count`, `post_status` " +
                                 "FROM `bm_posts`,`bm_users` " +
                                 "WHERE `post_type` = 'post' " +

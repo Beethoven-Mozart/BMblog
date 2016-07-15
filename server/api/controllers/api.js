@@ -24,10 +24,10 @@ export default (ctx) => {
                         posts_publish: result.posts_publish[0].posts_publish,
                         posts_draft: result.posts_draft[0].posts_draft,
                         posts_page_all: posts_page_all,
-                        posts_tag: result.posts_tag,
-                        posts_category: result.posts_category,
-                        posts_date_group: result.posts_date_group,
+                        posts_now_all: result.posts_all[0].all,
                         posts_terms: result.posts_terms,
+                        posts_date_group: result.posts_date_group,
+                        posts_all_terms: result.posts_all_terms,
                         posts_now: ctx.request.body.post_page
                     };
                 }

@@ -35,3 +35,15 @@ export var sql_format = (str)=> {
         str.replace(/bm_/g, system_config.mysql_prefix);
     }
 };
+
+//数组去重
+var hovercUnique = function (arr) {
+    var result = [], hash = {};
+    for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+        if (!hash[elem]) {
+            result.push(elem);
+            hash[elem] = true;
+        }
+    }
+    return result;
+};
