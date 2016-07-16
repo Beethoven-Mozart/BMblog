@@ -211,3 +211,47 @@ export var module_get_api = (ctx) => {
         });
     });
 };
+
+//查询分类内容
+export var get_category = (ctx) => {
+    let limit = (parseInt(ctx.request.body.post_page) - 1) * 10 + ",10";//文章分页
+    var posts_order_by = 'post_date';
+    switch (ctx.request.body.order_by) {
+        case 'by_date':
+            posts_order_by = 'post_date';
+            break;
+        case 'by_title':
+            posts_order_by = 'post_title';
+            break;
+        case 'by_comment':
+            posts_order_by = 'comment_count';
+            break;
+    }
+    var posts_order_type = 'DESC';
+    if (ctx.request.body.order_type == 'ASC') {
+        posts_order_type = 'ASC';
+    }
+    var sql = {
+        //分类目录总数
+        con_terms: "SELECT count(`bm_terms`.`term_id`) AS `all`" +
+        "FROM `bm_terms`,`bm_term_taxonomy` " +
+        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+        "AND `bm_term_taxonomy`.`taxonomy` = 'category';",
+
+        //查询当前分类目录
+        terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
+        "FROM `bm_terms`,`bm_term_taxonomy` " +
+        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+        "AND `bm_term_taxonomy`.`taxonomy` = 'category' ORDER BY `" + posts_order_by + "` " + posts_order_type + "  LIMIT " + limit,
+
+        //查询所有分类目录
+        all_terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
+        "FROM `bm_terms`,`bm_term_taxonomy` " +
+        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+        "AND `bm_term_taxonomy`.`taxonomy` = 'category' "
+    };
+
+    return querys(sql).then((result) => {
+        return result;
+    });
+};

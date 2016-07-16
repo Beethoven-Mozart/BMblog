@@ -2,24 +2,22 @@
     width: 200px;
 }
 
-.post-new {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 10px;
-    padding: 2px;
-    float: right;
-    color: #bcbcbc;
-    line-height: 10px;
-}
-
-.add-title > h5{
+.add-title > h5 {
     margin: 0;
     color: #000000;
 }
 
-.add-title {
+.input-group {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
 
+.input-group label {
+    color: #000000;
+}
+
+.input-group p {
+    margin-top: 10px;
 }
 
 .post-content {
@@ -147,14 +145,6 @@
 
 .by_title, .by_comment, .by_date {
     color: #000000;
-}
-
-.filter-by-category,.filter-by-tag {
-    color: #337ab7;
-    cursor: pointer;
-    background-color: transparent;
-    border: transparent;
-    height: 100%;
 }
 
 @media screen and (max-width: 780px) {

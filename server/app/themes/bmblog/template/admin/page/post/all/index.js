@@ -131,7 +131,6 @@ var get_posts = function (post_page) {
         },
         dataType: "json",
         success: function (result) {
-            //DATE1 = new Date();
             if (result.err == 500) {
                 $("#main").html('<h1>数据错误</h1>');
             } else {
