@@ -7,7 +7,8 @@ import Koa_body_parser from 'koa-bodyparser';
 import Koa_Nunjucks from 'koa-nunjucks-2';
 import {system_config} from './config.js';
 import path from 'path';
-import serve from 'koa-static';
+import serve from 'koa-static2';
+import session from "koa-session2";
 import main_routes from './api/routes/main-routes';
 import plugin_loader from './app/tool/plugin_loader.js';
 
@@ -25,7 +26,8 @@ app //初始化中间件
     .use(Koa_convert(Koa_json()))   //json格式中间件
     .use(Koa_convert(Koa_logger()))
     .use(Koa_convert(Koa_favicon(path.join(__dirname, '../app/assets/img/favicon.ico'))))  //设置favicon.ico路径
-    .use(Koa_convert(serve(path.join(__dirname, '../app')))) //设置静态资源路径
+    .use(serve(path.join(__dirname, '../app'))) //设置静态资源路径
+    .use(session())
     .use(Koa_Nunjucks({  //Nunjucks模板引擎配置
         ext: 'html',
         path: path.join(__dirname, 'app/themes/'+system_config.System_theme+'/template'), //引入主题模板
