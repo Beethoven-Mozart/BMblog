@@ -36,7 +36,7 @@ export default (ctx) => {
                 });
             }
                 break;
-            case 'category':
+            case 'terms':
             {
                 return get_category(ctx).then((result) => {
                     if (result.length == 0 || result == '500') {

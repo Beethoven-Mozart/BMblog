@@ -20,7 +20,6 @@ const body_parser = new Koa_body_parser();
 
 const env = system_config.System_type || 'development';//判断开发模式
 
-
 app //初始化中间件
     .use(Koa_convert(body_parser))  //请求体解析中间件
     .use(Koa_convert(Koa_json()))   //json格式中间件
@@ -30,7 +29,7 @@ app //初始化中间件
     .use(session())
     .use(Koa_Nunjucks({  //Nunjucks模板引擎配置
         ext: 'html',
-        path: path.join(__dirname, 'app/themes/'+system_config.System_theme+'/template'), //引入主题模板
+        path: path.join(__dirname, 'app/themes/' + system_config.System_theme + '/template'), //引入主题模板
         nunjucksConfig: {
             autoescape: false
         }

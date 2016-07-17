@@ -213,15 +213,15 @@ export var module_get_api = (ctx) => {
 };
 
 //查询分类内容
-export var get_category = (ctx) => {
-    let limit = (parseInt(ctx.request.body.post_page) - 1) * 10 + ",10";//文章分页
-    var posts_order_by = 'post_date';
+export var module_get_terms = (ctx) => {
+    let limit = (parseInt(ctx.request.body.page) - 1) * 10 + ",10";//分页
+    var posts_order_by = "`name`";
     switch (ctx.request.body.order_by) {
         case 'by_date':
-            posts_order_by = 'post_date';
+            posts_order_by = '`bm_terms`.`term_id`';
             break;
-        case 'by_title':
-            posts_order_by = 'post_title';
+        case 'by_name':
+            posts_order_by = '`name`';
             break;
         case 'by_comment':
             posts_order_by = 'comment_count';
@@ -242,7 +242,7 @@ export var get_category = (ctx) => {
         terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
         "FROM `bm_terms`,`bm_term_taxonomy` " +
         "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
-        "AND `bm_term_taxonomy`.`taxonomy` = 'category' ORDER BY `" + posts_order_by + "` " + posts_order_type + "  LIMIT " + limit,
+        "AND `bm_term_taxonomy`.`taxonomy` = 'category' ORDER BY " + posts_order_by + " " + posts_order_type + "  LIMIT " + limit,
 
         //查询所有分类目录
         all_terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +

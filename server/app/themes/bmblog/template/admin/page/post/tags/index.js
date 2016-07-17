@@ -99,7 +99,6 @@ var get_category = function (page) {
         async: true,
         data: {
             api_get: 'terms',
-            target: 'category',
             page: page,
             term: TERM,
             order_by: ORDER_BY,
