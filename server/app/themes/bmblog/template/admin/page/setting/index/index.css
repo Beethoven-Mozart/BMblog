@@ -11,10 +11,7 @@
     height: 300px;
 }
 
-.system_info {
-    padding: 10px;
-    background-color: #ffffff;
-    width: 100%;
+.tag {
     height: 290px;
 }
 
@@ -25,30 +22,22 @@
     height: auto;
 }
 
-.system_info_mbblog .table > tbody > tr > td {
+.system_info .table > tbody > tr > td {
     font-size: 15px;
 }
 
-.system_info_mbblog .table > tbody > tr > td:hover {
+.system_info .table > tbody > tr > td:hover {
     font-size: 16px;
     color: #afafaf;
     cursor: pointer;
 }
 
-.system_info_mbblog .table > tbody > tr > td {
+.system_info .table > tbody > tr > td {
     border-top: 0 solid #dddddd;
 }
 
 .list-row {
     margin-top: 20px;
-}
-
-.info_title {
-    font-size: 17px;
-    font-weight: 600;
-    color: #000;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eef1f5;
 }
 
 .info_list {

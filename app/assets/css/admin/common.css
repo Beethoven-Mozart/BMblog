@@ -37,7 +37,6 @@ h2 {
 }
 
 p {
-    float: left;
     width: 100%;
     margin-bottom: 1em
 }
@@ -523,6 +522,73 @@ a:active, a:hover {
 
 .float-right {
     float: right;
+}
+
+.tag {
+    position: relative;
+    width: 100%;
+    padding: 4px 10px 0 10px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+}
+
+.tag > .tag-title {
+    height: 35px;
+    line-height: 30px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #000;
+    border-bottom: 1px solid #eef1f5;
+}
+
+.tag > .tag-content {
+    position: relative;
+    min-height: 30px;
+    padding: 10px 0;
+}
+
+.tag > .tag-bottom {
+    border-top: 1px solid #eef1f5;
+    padding: 10px 0;
+    height: 54px;
+}
+
+.tag-caret {
+    padding: 0 10px;
+}
+
+.bottom-tags {
+    border-bottom: 0;
+    height: 100%;
+}
+
+.bottom-tag {
+    height: 100%;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0 10px;
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+.bottom-tags .active {
+    border-bottom: 3px solid #aaadb1;
+}
+
+.tag-caret {
+    width: 30px;
+    height: 30px;
+    color: #72777c;
+    cursor: pointer;
+    border-radius: 15px;
+    border: 1px #ffffff solid;
+}
+
+.tag-caret:hover {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
 i {

@@ -1,0 +1,56 @@
+.post-page-title {
+    width: 190px;
+}
+
+.page-waiting {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 50%;
+    top: 10px;
+}
+
+.left-cont {
+    margin-right: -300px;
+    float: left;
+    width: 100%;
+}
+
+.left-content {
+    margin-right: 300px;
+}
+
+.right-content {
+    float: right;
+    width: 290px;
+}
+
+.tag-bottom > .float-left {
+    width: 30%;
+}
+
+.tag-bottom > .float-right {
+    width: 70%;
+}
+
+.tag-bottom > .float-right > input {
+    display: inline-block;
+    float: right;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 780px) {
+    .left-content {
+        margin-right: 0;
+    }
+
+    .left-cont {
+        margin-right: 0;
+    }
+
+    .right-content {
+        width: 100%;
+        margin-top: 10px;
+        float: left;
+    }
+}
