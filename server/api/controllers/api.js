@@ -1,6 +1,6 @@
 import {system_config} from '../../config.js';
 import {setString, option_format} from '../../app/tool/common_tool.js';
-import {default as api, module_get_api as get_type, module_get_category as get_category} from '../models/api.js';
+import {default as api, module_get_api as get_type, module_get_terms as get_terms} from '../models/api.js';
 import moment from 'moment';
 
 moment.locale(system_config.System_country);//设置当地时间格式
@@ -38,7 +38,7 @@ export default (ctx) => {
                 break;
             case 'terms':
             {
-                return get_category(ctx).then((result) => {
+                return get_terms(ctx).then((result) => {
                     if (result.length == 0 || result == '500') {
                         ctx.body = {
                             err: '500'
