@@ -39,6 +39,10 @@
     margin-left: 10px;
 }
 
+.edit_area {
+    margin-top: 10px;
+}
+
 @media screen and (max-width: 780px) {
     .left-content {
         margin-right: 0;

@@ -1,5 +1,13 @@
 var NOW_PAGE, ALL_PAGES, DATE1, ORDER_BY, ORDER_TYPE, POST_STATUS, TERM, FREQUENCY;//相对的全局变量,当前页面/总页面/开始时间/排序依据/排序类型/文章总状态/筛选分类或标签/请求次数
 
+//载入js、CSS文件
+var simplemde_JS = "/assets/js/admin/simplemde.min.js";//js文件路径
+var simplemde_CSS = "/assets/css/admin/simplemde.min.css";//CSS文件路径
+if ($('#other_js').length == 0) {
+    $('head').append('<link rel="stylesheet" href="' + simplemde_CSS + '">');
+    $('.container').after('<script src="' + simplemde_JS + '" id="other_js"></script>');
+}
+
 //页面载入完成计算
 var finish_load = function () {
     var date2 = new Date();
@@ -22,23 +30,26 @@ var register_event = function () {
     //tag隐藏
     var tmp4 = 1;
     $('.tag-caret').click(function () {
+        var $tag = $(this).parent().parent();
         if (tmp4 == 1) {
-            var $tag = $(this).parent().parent();
-            $tag.find('.tag-content').slideUp(200,function () {
-                $tag.find('.tag-title').css('border-bottom','0px');
+
+            $tag.find('.tag-content').slideUp(200, function () {
+                $tag.find('.tag-title').css('border-bottom', '0px');
             });
             $(this).find('i').attr('class', 'fa fa-caret-up');
             tmp4 = 0;
         } else {
-            var $tag = $(this).parent().parent();
-            $tag.find('.tag-content').slideDown(200,function () {
-                $tag.find('.tag-title').css('border-bottom','1px solid #eef1f5');
+            $tag.find('.tag-content').slideDown(200, function () {
+                $tag.find('.tag-title').css('border-bottom', '1px solid #eef1f5');
             });
             $(this).find('i').attr('class', 'fa fa-caret-down');
             tmp4 = 1;
         }
     });
 };
+
+//载入编辑器
+var simplemde = new SimpleMDE({ element: document.getElementById("edit") });
 
 //获取文章列表详情AJAX
 var get_posts = function (post_page) {
@@ -65,7 +76,7 @@ var get_posts = function (post_page) {
                 NOW_PAGE = result.posts_now;
 
                 //仅查询一次
-                if(FREQUENCY == 1){
+                if (FREQUENCY == 1) {
                     //处理统计
                     $(".all_post").text(result.posts_publish + result.posts_draft);
                     $(".public_post").text(result.posts_publish);
@@ -91,9 +102,9 @@ var get_posts = function (post_page) {
                         if (result.posts_all_terms[s]['parent'] != '0') {
                             result.posts_all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.posts_all_terms[s].name;
                         }
-                        if(result.posts_all_terms[s].taxonomy == 'category'){
+                        if (result.posts_all_terms[s].taxonomy == 'category') {
                             $('.filter-all-by-category').append('<option value="' + result.posts_all_terms[s].term_id + '">' + result.posts_all_terms[s].name + '</option>');
-                        }else{
+                        } else {
                             $('.filter-all-by-tag').append('<option value="' + result.posts_all_terms[s].term_id + '">' + result.posts_all_terms[s].name + '</option>');
                         }
                     }
@@ -106,9 +117,9 @@ var get_posts = function (post_page) {
                     if (result.posts_terms[s]['parent'] != '0') {
                         result.posts_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.posts_terms[s].name;
                     }
-                    if(result.posts_terms[s].taxonomy == 'category'){
+                    if (result.posts_terms[s].taxonomy == 'category') {
                         $('.filter-by-category').append('<option value="' + result.posts_terms[s].term_id + '">' + result.posts_terms[s].name + '</option>');
-                    }else{
+                    } else {
                         $('.filter-by-tag').append('<option value="' + result.posts_terms[s].term_id + '">' + result.posts_terms[s].name + '</option>');
                     }
                 }
