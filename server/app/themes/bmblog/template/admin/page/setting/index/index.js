@@ -1,8 +1,10 @@
 var DATE1;//相对的全局变量,开始时间
 
 var otherJS = "/assets/js/echarts.min.js";//js文件路径
-if ($('#other_js').length == 0) {
+if ($('#other_js').attr("src") != otherJS) {
     $('.container').after('<script src="' + otherJS + '" id="other_js"></script>');
+}else{
+    console.log("等于");
 }
 
 //页面载入完成计算

@@ -3,9 +3,9 @@ var NOW_PAGE, ALL_PAGES, DATE1, ORDER_BY, ORDER_TYPE, POST_STATUS, TERM, FREQUEN
 //载入js、CSS文件
 var simplemde_JS = "/assets/js/admin/simplemde.min.js";//js文件路径
 var simplemde_CSS = "/assets/css/admin/simplemde.min.css";//CSS文件路径
-if ($('#other_js').length == 0) {
+if ($('#other_js').attr("src") != simplemde_JS) {
     $('head').append('<link rel="stylesheet" href="' + simplemde_CSS + '">');
-    $('.container').after('<script src="' + simplemde_JS + '" id="other_js"></script>');
+    $('.container').before('<script src="' + simplemde_JS + '" id="other_js"></script>');
 }
 
 //页面载入完成计算
