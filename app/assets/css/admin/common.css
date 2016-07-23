@@ -173,14 +173,13 @@ a:active, a:hover {
     -webkit-overflow-scrolling: touch;
     padding: 10px 12px;
     position: fixed;
-    overflow: hidden;
     overflow-y: scroll;
-    box-shadow: 0 0 15px rgba(0, 0, 0, .6);
     top: 60px;
     left: 160px;
     right: 0;
     bottom: 0;
     width: auto;
+    z-index: 5;
     background: #F1F1F1;
 }
 

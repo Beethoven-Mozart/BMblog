@@ -39,6 +39,10 @@
     margin-left: 10px;
 }
 
+.tag-content > p:last-child {
+    margin-bottom: 0;
+}
+
 .edit_area {
     margin-top: 10px;
 }
