@@ -212,7 +212,7 @@ export var module_get_api = (ctx) => {
     });
 };
 
-//查询分类内容
+//查询分类
 export var module_get_terms = (ctx) => {
     let limit = (parseInt(ctx.request.body.page) - 1) * 10 + ",10";//分页
     let target = ctx.request.body.target;
@@ -233,6 +233,37 @@ export var module_get_terms = (ctx) => {
         posts_order_type = 'ASC';
     }
     var sql = {
+        //分类目录总数
+        con_terms: "SELECT count(`bm_terms`.`term_id`) AS `all`" +
+        "FROM `bm_terms`,`bm_term_taxonomy` " +
+        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+        "AND `bm_term_taxonomy`.`taxonomy` = '" + target + "';",
+
+        //查询当前分类目录
+        terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
+        "FROM `bm_terms`,`bm_term_taxonomy` " +
+        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+        "AND `bm_term_taxonomy`.`taxonomy` = '" + target + "' ORDER BY " + posts_order_by + " " + posts_order_type + "  LIMIT " + limit,
+
+        //查询所有分类目录
+        all_terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
+        "FROM `bm_terms`,`bm_term_taxonomy` " +
+        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
+        "AND `bm_term_taxonomy`.`taxonomy` = '" + target + "' "
+    };
+
+    return querys(sql).then((result) => {
+        return result;
+    });
+};
+
+//查询文章内容
+export var module_get_post = (ctx) => {
+    let limit = (parseInt(ctx.request.body.page) - 1) * 10 + ",10";//分页
+    let target = ctx.request.body.target;
+
+    var sql = {
+        //获取文章内容
         //分类目录总数
         con_terms: "SELECT count(`bm_terms`.`term_id`) AS `all`" +
         "FROM `bm_terms`,`bm_term_taxonomy` " +
