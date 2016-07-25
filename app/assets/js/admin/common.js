@@ -22,10 +22,50 @@ var nav = responsiveNav(".nav-collapse", { // Selector
     } // Function: Close callback
 });
 
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+// 例子：
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+Date.prototype.Format = function (fmt) { //author: meizz
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份
+        "d+": this.getDate(),                    //日
+        "h+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};
+
+//获取URL中参数
+var $_GET = function(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+    var url = window.location.hash.split("?",2);
+    if(url.length >= 1){
+        if(name == 1){
+            return url[0].slice(1);
+        }else if (url.length >= 2){
+            return url[1].match(reg)[2];
+        }
+    }
+    return null;
+};
+
+var now_route = $_GET(1);
+
 //菜单
+var $last = $('.active');
 var menu = function () {
     var tmp = 1;
-    var $last = $('.active');
     $('.nav-collapse > ul > li > a').click(function () {
         var $tmp = $(this).parent();
         if ($tmp.attr("class") == "active") {
@@ -115,7 +155,6 @@ var menu = function () {
     });
 
     //页面载入处理
-    var now_route = window.location.hash.slice(1);
     if (now_route == 'index' || now_route == null || now_route == "") {
         ajax_page('setting', 'index'); //单独处理无路由标示的情况
     } else {
@@ -159,6 +198,27 @@ var menu = function () {
     });
 };
 
+//路由变更处理
+var loading_page_func = function (new_route) {
+    //处理标签
+    $('.nav-collapse > ul > li > ul > li > a').each(function () {
+        if ($(this).attr("href").slice(1) == new_route) {
+            //处理菜单
+            var $last3 = $('.active');
+            var $tmp = $(this).parent().parent().parent();
+            if ($last3 != $tmp) {
+                $last3.removeClass('active');
+                $last3.children("ul").hide();
+                $last3.find('.icon-right i').attr('class', 'fa fa-angle-left');
+                $tmp.addClass("active");
+                $tmp.find('.icon-right i').attr('class', 'fa fa-angle-down');
+                $tmp.children("ul").show();
+                $last = $tmp;
+            }
+        }
+    })
+};
+
 //访问服务器
 var ajax_page = function (path, route) {
     $.ajax({
@@ -191,10 +251,6 @@ var ajax_page = function (path, route) {
 
 //路由
 var routers = function () {
-    var allroutes = function () {
-
-    };
-
     var not_found = function () {
         $('#ajax-css').remove();
         $("#content-main").html('<h1>禁止访问! - 403</h1>');
@@ -203,6 +259,11 @@ var routers = function () {
     var routes = {
         '/:path/:route': {
             on: function (path, route) {
+                var new_route = $_GET(1);
+                console.log(new_route,$('.admin-active-now').parent().attr('href').slice(1));
+                if($('.admin-active-now').parent().attr('href').slice(1) != new_route){
+                    loading_page_func(new_route);
+                }
                 ajax_page(path, route);
             }
         }
@@ -211,35 +272,10 @@ var routers = function () {
     var router = Router(routes);
 
     router.configure({
-        on: allroutes,
         notfound: not_found
     });
 
     router.init();
-};
-
-// 对Date的扩展，将 Date 转化为指定格式的String
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
-// 例子：
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
-Date.prototype.Format = function (fmt) { //author: meizz
-    var o = {
-        "M+": this.getMonth() + 1,                 //月份
-        "d+": this.getDate(),                    //日
-        "h+": this.getHours(),                   //小时
-        "m+": this.getMinutes(),                 //分
-        "s+": this.getSeconds(),                 //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds()             //毫秒
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
 };
 
 $('document').ready(function () {

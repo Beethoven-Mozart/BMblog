@@ -122,7 +122,7 @@ var get_posts = function (post_page) {
         url: "/api/blog/posts",
         async: true,
         data: {
-            api_get: 'post',
+            api_get: 'posts',
             post_page: post_page,
             post_status: POST_STATUS,
             term: TERM,
@@ -229,7 +229,7 @@ var get_posts = function (post_page) {
 
                     body += '<tr>' +
                         '<td><input type="checkbox"></td>' +
-                        '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '" target="_blank"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '" target="_blank">编辑</a> | 快速编辑 | 移至回收站 | 查看</div></td>' +
+                        '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">编辑</a> | 快速编辑 | 移至回收站 | 查看</div></td>' +
                         '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
                         '<td>' + result.posts[a].post_category + '</td>' +
                         '<td>' + result.posts[a].post_tag + '</td>' +

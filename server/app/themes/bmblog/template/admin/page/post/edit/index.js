@@ -3,16 +3,16 @@ if ($('#other_css').attr("src") != simplemde_CSS) {
     $('head').append('<link rel="stylesheet" href="' + simplemde_CSS + '" id="other_css">');
 }
 $.getScript("/assets/js/admin/simplemde.min.js", function () {
-    var DATE1, ORDER_BY, ORDER_TYPE, POST_STATUS, TERM, FREQUENCY;//相对的全局变量,当前页面/总页面/开始时间/排序依据/排序类型/文章总状态/筛选分类或标签/请求次数
+    var DATE1, FREQUENCY, NOW_POST_ID;//相对的全局变量,开始时间/请求次数
 
-//页面载入完成计算
+    //页面载入完成计算
     var finish_load = function () {
         var date2 = new Date();
         $('#e_time').text(date2.getTime() - DATE1.getTime());
         $('#r_time').text(new Date().Format("yyyy-MM-dd hh:mm:ss"));
     };
 
-//页面警告
+    //页面警告
     var page_waiting = function (str) {
         var $page_waiting = $('.page-waiting');
         var width = '-' + parseInt($page_waiting.css('width')) / 2 + 'px';
@@ -22,7 +22,7 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         }, 1000);
     };
 
-//注册事件
+    //注册事件
     var register_event = function () {
         //tag隐藏
         var tmp4 = 1;
@@ -53,11 +53,6 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
                 async: true,
                 data: {
                     api_get: 'post',
-                    post_page: post_page,
-                    post_status: POST_STATUS,
-                    term: TERM,
-                    order_by: ORDER_BY,
-                    order_type: ORDER_TYPE,
                     post_content: simplemde.value()
                 },
                 dataType: "json",
@@ -69,11 +64,11 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         })
     };
 
-//载入编辑器
+    //载入编辑器
     var simplemde = new SimpleMDE({element: document.getElementById("edit")});
 
-//获取文章列表详情AJAX
-    var get_posts = function (post_page) {
+    //获取文章列表详情AJAX
+    var get_post = function (post_id) {
         DATE1 = new Date();
         $.ajax({
             cache: false,
@@ -82,19 +77,18 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
             async: true,
             data: {
                 api_get: 'post',
-                post_page: post_page,
-                post_status: POST_STATUS,
-                term: TERM,
-                order_by: ORDER_BY,
-                order_type: ORDER_TYPE
+                post_id: post_id,
             },
             dataType: "json",
             success: function (result) {
                 if (result.err == 500) {
                     $("#main").html('<h1>数据错误</h1>');
                 } else {
+                    if(FREQUENCY == 1){
 
-                    $("tbody").html(body);
+                    }
+                    $('.post-title').val(result.post.post_title);
+                    simplemde.value(result.post.post_content);
                     FREQUENCY++;
                     finish_load();
                 }
@@ -106,9 +100,14 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         });
     };
 
-//初始化变量、函数
-    TERM = 'all';
-    FREQUENCY = 1;
-    get_posts(1);
+    //初始化变量、函数
+    NOW_POST_ID = $_GET('post');
+    if(NOW_POST_ID != null){
+        $('.post-page-title').text('编辑文章');
+        FREQUENCY = 1;
+        get_post(NOW_POST_ID);
+    }else{
+
+    }
     register_event();
 });
