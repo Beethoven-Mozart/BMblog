@@ -3,6 +3,7 @@ if ($('#other_css').attr("src") != simplemde_CSS) {
     $('head').append('<link rel="stylesheet" href="' + simplemde_CSS + '" id="other_css">');
 }
 $.getScript("/assets/js/admin/simplemde.min.js", function () {
+    DATE1 = new Date();
     var DATE1, FREQUENCY, NOW_POST_ID;//相对的全局变量,开始时间/请求次数
 
     //页面载入完成计算
@@ -69,7 +70,6 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
 
     //获取文章列表详情AJAX
     var get_post = function (post_id) {
-        DATE1 = new Date();
         $.ajax({
             cache: false,
             type: 'POST',
@@ -107,7 +107,16 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         FREQUENCY = 1;
         get_post(NOW_POST_ID);
     }else{
-
+        finish_load();
     }
     register_event();
+
+    // var new_route = $_GET(1);
+    // console.log($('.admin-active-now').parent().attr('href').slice(1) != new_route);
+    // if($('.admin-active-now').parent().attr('href').slice(1) != new_route){
+    //     console.log(new_route);
+    //     loading_page_func(new_route);
+    // }
+
+    loading_page_func($_GET(1));
 });

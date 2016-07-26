@@ -259,11 +259,6 @@ var routers = function () {
     var routes = {
         '/:path/:route': {
             on: function (path, route) {
-                var new_route = $_GET(1);
-                console.log(new_route,$('.admin-active-now').parent().attr('href').slice(1));
-                if($('.admin-active-now').parent().attr('href').slice(1) != new_route){
-                    loading_page_func(new_route);
-                }
                 ajax_page(path, route);
             }
         }
