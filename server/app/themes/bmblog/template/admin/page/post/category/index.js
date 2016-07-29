@@ -129,7 +129,7 @@ var get_category = function (page) {
                     $("#parent").append(terms_select);
                 }
 
-                //处理文章列表
+                //处理列表
                 $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);
                 var title_max_width = parseInt($('.main').css('width')) * 0.45 + 'px';
                 var body = '';

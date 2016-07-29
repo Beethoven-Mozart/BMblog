@@ -72,6 +72,11 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
             $('.tabs-panel').hide();
             $('.' + now_category_tab).show();
         });
+
+        //添加新的分类目录事件
+        $('.add-category').click(function () {
+            $('.category-add').slideDown(300);
+        });
     };
 
     //载入编辑器
@@ -109,8 +114,72 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         });
     };
 
+    //获取所有terms
+    var get_terms_all = function () {
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: "/api/blog/posts",
+            async: true,
+            data: {
+                api_get: 'terms',
+                target: 'category',
+                page: '1',
+                order_by: 'by_count'
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result.err == 500) {
+                    $("#main").html('<h1>数据错误</h1>');
+                } else {
+                    console.time('a');
+                    var category_all = '<ul>';
+                    var category_children = [];
+                    var new_category_parent = null;
+                    for (var n = 0; n < result.all_terms.length; n++) {
+                        if (result.all_terms[n].parent == 0) {
+                            category_all += '<li><label class="select-it"><input value="' + result.all_terms[n].term_id + '" type="checkbox"> ' + result.all_terms[n].name + '</label></li>';
+                            new_category_parent += '<option value="' + result.all_terms[n].term_id + '">' + result.all_terms[n].name + '</option>';
+                        } else {
+                            category_children.push(result.all_terms[n]);
+                            new_category_parent += '<option value="' + result.all_terms[n].term_id + '">&nbsp;&nbsp;&nbsp;' + result.all_terms[n].name + '</option>';
+                        }
+                    }
+                    $('.category-all').html(category_all + '</ul>');
+                    $('.new_category_parent').append(new_category_parent);
+
+                    for (var i = 0; i < category_children.length; i++) {
+                        console.log(category_children[i].parent);
+                        $('.category-all input').each(function () {
+                            if ($(this).val() == category_children[i].parent) {
+                                var $this_parent = $(this).parent().parent();
+                                if ($this_parent.find('ul').length) {
+                                    $this_parent.find('ul').append('<li><label class="select-it"><input value="' + category_children[i].term_id + '" type="checkbox"> ' + category_children[i].name + '</label></li>');
+                                } else {
+                                    $this_parent.append('<ul class="children"><li><label class="select-it"><input value="' + category_children[i].term_id + '" type="checkbox"> ' + category_children[i].name + '</label></li></ul>');
+                                }
+                            }
+                        })
+                    }
+
+                    var category_pop = '<ul>';
+                    for (var n = 0; n < result.terms.length; n++) {
+                        category_pop += '<li><label class="select-it"><input value="' + result.terms[n].term_id + '" type="checkbox"> ' + result.terms[n].name + '</label></li>';
+                    }
+                    $('.category-pop').html(category_pop + '</ul>');
+                    console.timeEnd('a');
+                }
+            },
+            error: function (err) {
+                $("#main").html('<h1>' + err.responseText + '(' + err.status + ')' + '</h1>');
+                console.log(err);
+            }
+        });
+    };
+
     //初始化变量、函数
     NOW_POST_ID = $_GET('post');
+    get_terms_all();
     if (NOW_POST_ID != null) {
         $('.post-page-title').text('编辑文章');
         FREQUENCY = 1;
@@ -119,13 +188,5 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         finish_load();
     }
     register_event();
-
-    // var new_route = $_GET(1);
-    // console.log($('.admin-active-now').parent().attr('href').slice(1) != new_route);
-    // if($('.admin-active-now').parent().attr('href').slice(1) != new_route){
-    //     console.log(new_route);
-    //     loading_page_func(new_route);
-    // }
-
     loading_page_func($_GET(1));
 });

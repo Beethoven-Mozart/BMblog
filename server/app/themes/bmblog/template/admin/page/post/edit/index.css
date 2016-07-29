@@ -94,6 +94,29 @@
     margin-left: 15px;
 }
 
+.add-category, .tag-adder {
+    display: inline-block;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.input-group label {
+    display: none;
+}
+
+.input-group .form-control {
+    margin-bottom: 10px;
+}
+
+.category-add {
+    display: none;
+}
+
+.commit select {
+    border: 0 solid #ffffff;
+    background-color: transparent;
+}
+
 @media screen and (max-width: 780px) {
     .left-content {
         margin-right: 0;

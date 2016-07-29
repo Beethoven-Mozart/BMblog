@@ -216,16 +216,19 @@ export var module_get_api = (ctx) => {
 export var module_get_terms = (ctx) => {
     let limit = (parseInt(ctx.request.body.page) - 1) * 10 + ",10";//分页
     let target = ctx.request.body.target;
-    var posts_order_by = "`name`";
+    var posts_order_by = "`bm_terms`.`term_id`";
     switch (ctx.request.body.order_by) {
-        case 'by_date':
+        case 'by_id':
             posts_order_by = '`bm_terms`.`term_id`';
             break;
         case 'by_name':
-            posts_order_by = '`name`';
+            posts_order_by = '`bm_terms`.`name`';
             break;
-        case 'by_comment':
-            posts_order_by = 'comment_count';
+        case 'by_slug':
+            posts_order_by = '`bm_terms`.`slug`';
+            break;
+        case 'by_count':
+            posts_order_by = '`bm_term_taxonomy`.`count`';
             break;
     }
     var posts_order_type = 'DESC';
@@ -233,13 +236,7 @@ export var module_get_terms = (ctx) => {
         posts_order_type = 'ASC';
     }
     var sql = {
-        //分类目录总数
-        con_terms: "SELECT count(`bm_terms`.`term_id`) AS `all`" +
-        "FROM `bm_terms`,`bm_term_taxonomy` " +
-        "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
-        "AND `bm_term_taxonomy`.`taxonomy` = '" + target + "';",
-
-        //查询当前分类目录
+        //查询当前页面分类目录
         terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
         "FROM `bm_terms`,`bm_term_taxonomy` " +
         "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +

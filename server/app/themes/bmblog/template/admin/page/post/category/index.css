@@ -147,6 +147,10 @@
     color: #000000;
 }
 
+.input-group .form-control {
+    margin-bottom: 4px;
+}
+
 @media screen and (max-width: 780px) {
     .post-control {
         display: block;

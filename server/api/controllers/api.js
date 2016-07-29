@@ -66,9 +66,8 @@ export default (ctx) => {
                         ctx.body = {
                             terms: result.terms,
                             all_terms: result.all_terms,
-                            con_terms: result.con_terms,
                             page_now: ctx.request.body.page,
-                            page_all: Math.ceil(result.con_terms[0].all / 10)
+                            page_all: Math.ceil(result.all_terms.length / 10)
                         };
                     }
                 });
