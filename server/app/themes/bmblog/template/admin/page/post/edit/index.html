@@ -62,7 +62,66 @@
                             <i class="fa fa-caret-down"></i>
                         </div>
                     </div>
-                    <div class="tag-content"></div>
+                    <div class="tag-content">
+                        <ul class="category-tabs">
+                            <li class="tabs" id="category-all">所有分类目录</li>
+                            <li id="category-pop">最常用</li>
+                        </ul>
+                        <div class="tabs-panel category-pop" style="display: none;">
+                            <ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
+                                <li id="popular-category-2" class="popular-category">
+                                    <label class="selectit">
+                                        <input id="in-popular-category-2" type="checkbox" value="2">
+                                        测试目录 </label>
+                                </li>
+                                <li id="popular-category-7" class="popular-category">
+                                    <label class="selectit">
+                                        <input id="in-popular-category-7" type="checkbox" value="7">
+                                        测试目录子 </label>
+                                </li>
+                                <li id="popular-category-1" class="popular-category">
+                                    <label class="selectit">
+                                        <input id="in-popular-category-1" type="checkbox" value="1">
+                                        未分类 </label>
+                                </li>
+                                <li id="popular-category-4" class="popular-category">
+                                    <label class="selectit">
+                                        <input id="in-popular-category-4" type="checkbox" value="4">
+                                        测试目录父 </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-panel category-all">
+                            <ul>
+                                <li>
+                                    <label class="selectit">
+                                        <input value="1" type="checkbox">
+                                        未分类
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="selectit">
+                                        <input value="2" type="checkbox">
+                                        测试目录
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="selectit">
+                                        <input value="4" type="checkbox">
+                                        测试目录父
+                                    </label>
+                                    <ul class="children">
+                                        <li>
+                                            <label class="selectit">
+                                                <input value="7" type="checkbox">
+                                                测试目录子
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="tag">
                     <div class="tag-title">

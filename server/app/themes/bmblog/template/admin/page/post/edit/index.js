@@ -62,7 +62,16 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
                     }
                 }
             });
-        })
+        });
+
+        //分类目录选择事件
+        var now_category_tab = 'category-all';
+        $('.category-tabs li').click(function () {
+            $('.category-tabs li').attr('class', '');
+            now_category_tab = $(this).addClass('tabs').attr('id');
+            $('.tabs-panel').hide();
+            $('.' + now_category_tab).show();
+        });
     };
 
     //载入编辑器
@@ -84,7 +93,7 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
                 if (result.err == 500) {
                     $("#main").html('<h1>数据错误</h1>');
                 } else {
-                    if(FREQUENCY == 1){
+                    if (FREQUENCY == 1) {
 
                     }
                     $('.post-title').val(result.post.post_title);
@@ -102,11 +111,11 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
 
     //初始化变量、函数
     NOW_POST_ID = $_GET('post');
-    if(NOW_POST_ID != null){
+    if (NOW_POST_ID != null) {
         $('.post-page-title').text('编辑文章');
         FREQUENCY = 1;
         get_post(NOW_POST_ID);
-    }else{
+    } else {
         finish_load();
     }
     register_event();

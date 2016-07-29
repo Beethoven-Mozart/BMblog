@@ -156,6 +156,7 @@ var menu = function () {
 
     //页面载入处理
     if (now_route == 'index' || now_route == null || now_route == "") {
+        $('.active ul').show();
         ajax_page('setting', 'index'); //单独处理无路由标示的情况
     } else {
         //处理标签
