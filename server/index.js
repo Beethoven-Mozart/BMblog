@@ -10,6 +10,7 @@ import path from 'path';
 import serve from 'koa-static2';
 import session from "koa-session2";
 import main_routes from './api/routes/main-routes';
+import error_routes from './api/routes/error-routes.js';
 import plugin_loader from './app/tool/plugin_loader.js';
 
 //import assemble from 'assemble';
@@ -25,7 +26,7 @@ app //初始化中间件
     .use(Koa_convert(Koa_json()))   //json格式中间件
     .use(Koa_convert(Koa_logger()))
     .use(Koa_convert(Koa_favicon(path.join(__dirname, '../app/assets/img/favicon.ico'))))  //设置favicon.ico路径
-    .use(serve("assets", path.join(__dirname, '../app/assets'))) //设置静态资源路径
+    .use(serve("assets", path.resolve(__dirname, '../app/assets'))) //设置静态资源路径
     .use(session())
     .use(Koa_Nunjucks({  //Nunjucks模板引擎配置
         ext: 'html',
@@ -37,11 +38,7 @@ app //初始化中间件
     .use(plugin_loader(system_config.System_plugin_path))
     .use(main_routes.routes())
     .use(main_routes.allowedMethods())
-    //404
-    .use((ctx) => {
-        ctx.status = 404;
-        ctx.body = "没找到这个页面 - 404";
-    });
+    .use(error_routes());
 
 // logger
 if (env === 'development') {

@@ -35,7 +35,7 @@
     "koa-nunjucks-2": "^3.0.0-alpha.3",
     "koa-router": "^7.0.1",
     "koa-session2": "^1.0.8",
-    "koa-static2": "^0.1.6",
+    "koa-static2": "^0.1.7",
     "markdown-pdf": "^7.0.0",
     "marked": "^0.3.5",
     "moment": "^2.13.0",

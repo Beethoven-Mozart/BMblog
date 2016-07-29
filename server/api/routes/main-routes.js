@@ -17,7 +17,6 @@ router
     .get('/:page', controllers.page.page)
     .get('/:page/page/:num', controllers.page.list)
     .get('/tag/:name', controllers.tag.default)
-    .get('/tag/:name/page/:num', controllers.tag.list)
-;
+    .get('/tag/:name/page/:num', controllers.tag.list);
 
 module.exports = router;
