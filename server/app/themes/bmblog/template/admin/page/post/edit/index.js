@@ -114,8 +114,8 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         });
     };
 
-    //获取所有terms
-    var get_terms_all = function () {
+    //获取所有category
+    var get_category_all = function () {
         $.ajax({
             cache: false,
             type: 'POST',
@@ -149,7 +149,6 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
                     $('.new_category_parent').append(new_category_parent);
 
                     for (var i = 0; i < category_children.length; i++) {
-                        console.log(category_children[i].parent);
                         $('.category-all input').each(function () {
                             if ($(this).val() == category_children[i].parent) {
                                 var $this_parent = $(this).parent().parent();
@@ -177,9 +176,45 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         });
     };
 
+    //获取所有post_tag
+    var get_post_tag_all = function () {
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: "/api/blog/posts",
+            async: true,
+            data: {
+                api_get: 'terms',
+                target: 'post_tag',
+                page: '1',
+                order_by: 'by_count'
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result.err == 500) {
+                    $("#main").html('<h1>数据错误</h1>');
+                } else {
+                    console.time('b');
+                    var tags = '';
+                    for (var n = 0; n < result.all_terms.length; n++) {
+                        tags += '<a href="javascript:;" title="' + result.all_terms[n].count + '" style="font-size: 8pt;">' + result.all_terms[n].name + '</a>';
+                    }
+                    $('.tag-adder .tags').html(tags);
+                    console.log();
+                    console.timeEnd('b');
+                }
+            },
+            error: function (err) {
+                $("#main").html('<h1>' + err.responseText + '(' + err.status + ')' + '</h1>');
+                console.log(err);
+            }
+        });
+    };
+
     //初始化变量、函数
     NOW_POST_ID = $_GET('post');
-    get_terms_all();
+    get_category_all();
+    get_post_tag_all();
     if (NOW_POST_ID != null) {
         $('.post-page-title').text('编辑文章');
         FREQUENCY = 1;
