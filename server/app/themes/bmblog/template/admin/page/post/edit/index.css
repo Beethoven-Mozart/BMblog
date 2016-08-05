@@ -117,12 +117,20 @@
     background-color: transparent;
 }
 
+.tag-adder {
+    width: 100%;
+}
+
 .tag-adder > .tags {
     margin: 5px 0;
     padding: 8px;
     border: 1px solid #ddd;
     width: 100%;
-    word-spacing: 3px;
+    letter-spacing: 1px;
+}
+
+.tag-adder > .tags a {
+    margin-left: 10px;
 }
 
 @media screen and (max-width: 780px) {

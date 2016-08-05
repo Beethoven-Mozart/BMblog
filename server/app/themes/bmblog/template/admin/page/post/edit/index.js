@@ -23,62 +23,6 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         }, 1000);
     };
 
-    //注册事件
-    var register_event = function () {
-        //tag隐藏
-        var tmp4 = 1;
-        $('.tag-caret').click(function () {
-            var $tag = $(this).parent().parent();
-            if (tmp4 == 1) {
-
-                $tag.find('.tag-content').slideUp(200, function () {
-                    $tag.find('.tag-title').css('border-bottom', '0px');
-                });
-                $(this).find('i').attr('class', 'fa fa-caret-up');
-                tmp4 = 0;
-            } else {
-                $tag.find('.tag-content').slideDown(200, function () {
-                    $tag.find('.tag-title').css('border-bottom', '1px solid #eef1f5');
-                });
-                $(this).find('i').attr('class', 'fa fa-caret-down');
-                tmp4 = 1;
-            }
-        });
-
-        //发布文章按钮
-        $(".save-post").click(function () {
-            $.ajax({
-                cache: false,
-                type: 'POST',
-                url: "/api/blog/posts",
-                async: true,
-                data: {
-                    api_get: 'post',
-                    post_content: simplemde.value()
-                },
-                dataType: "json",
-                success: function (result) {
-                    if (result.err == 500) {
-                    }
-                }
-            });
-        });
-
-        //分类目录选择事件
-        var now_category_tab = 'category-all';
-        $('.category-tabs li').click(function () {
-            $('.category-tabs li').attr('class', '');
-            now_category_tab = $(this).addClass('tabs').attr('id');
-            $('.tabs-panel').hide();
-            $('.' + now_category_tab).show();
-        });
-
-        //添加新的分类目录事件
-        $('.add-category').click(function () {
-            $('.category-add').slideDown(300);
-        });
-    };
-
     //载入编辑器
     var simplemde = new SimpleMDE({element: document.getElementById("edit")});
 
@@ -197,7 +141,7 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
                     console.time('b');
                     var tags = '';
                     for (var n = 0; n < result.all_terms.length; n++) {
-                        tags += '<a href="javascript:;" title="' + result.all_terms[n].count + '" style="font-size: 8pt;">' + result.all_terms[n].name + '</a>';
+                        tags += '<a href="javascript:;" title="' + result.all_terms[n].count + '" style="font-size: ' + result.all_terms[n].count * 2 + 'px;">' + result.all_terms[n].name + '</a>';
                     }
                     $('.tag-adder .tags').html(tags);
                     console.log();
@@ -211,10 +155,70 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         });
     };
 
+    //注册事件
+    var register_event = function () {
+        //tag隐藏
+        var tmp4 = 1;
+        $('.tag-caret').click(function () {
+            var $tag = $(this).parent().parent();
+            if (tmp4 == 1) {
+
+                $tag.find('.tag-content').slideUp(200, function () {
+                    $tag.find('.tag-title').css('border-bottom', '0px');
+                });
+                $(this).find('i').attr('class', 'fa fa-caret-up');
+                tmp4 = 0;
+            } else {
+                $tag.find('.tag-content').slideDown(200, function () {
+                    $tag.find('.tag-title').css('border-bottom', '1px solid #eef1f5');
+                });
+                $(this).find('i').attr('class', 'fa fa-caret-down');
+                tmp4 = 1;
+            }
+        });
+
+        //发布文章按钮
+        $(".save-post").click(function () {
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: "/api/blog/posts",
+                async: true,
+                data: {
+                    api_get: 'post',
+                    post_content: simplemde.value()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.err == 500) {
+                    }
+                }
+            });
+        });
+
+        //分类目录选择事件
+        var now_category_tab = 'category-all';
+        $('.category-tabs li').click(function () {
+            $('.category-tabs li').attr('class', '');
+            now_category_tab = $(this).addClass('tabs').attr('id');
+            $('.tabs-panel').hide();
+            $('.' + now_category_tab).show();
+        });
+
+        //添加新的分类目录事件
+        $('.add-category').click(function () {
+            $('.category-add').slideDown(300);
+        });
+
+        //显示tags
+        $('.show-tag').click(function () {
+            get_post_tag_all();
+        });
+    };
+
     //初始化变量、函数
     NOW_POST_ID = $_GET('post');
     get_category_all();
-    get_post_tag_all();
     if (NOW_POST_ID != null) {
         $('.post-page-title').text('编辑文章');
         FREQUENCY = 1;
