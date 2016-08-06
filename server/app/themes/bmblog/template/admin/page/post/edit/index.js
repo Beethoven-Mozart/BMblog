@@ -211,8 +211,16 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         });
 
         //显示tags
+        var show_tag = 0;
         $('.show-tag').click(function () {
-            get_post_tag_all();
+            if(show_tag == 0){
+                get_post_tag_all();
+                $('.tags').show();
+                show_tag = 1;
+            }else{
+                $('.tags').hide();
+            }
+
         });
     };
 
