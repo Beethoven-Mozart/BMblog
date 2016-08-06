@@ -1,8 +1,10 @@
 var simplemde_CSS = "/assets/css/admin/simplemde.min.css";//CSS文件路径
 if ($('#other_css').attr("src") != simplemde_CSS) {
-    $('head').append('<link rel="stylesheet" href="' + simplemde_CSS + '" id="other_css">');
+    $('head').append('<link rel="stylesheet" href="' + simplemde_CSS + '" id="other_css">')
+        .append('<link rel="stylesheet" href="/assets/css/admin/fileinput.min.css" id="other_css">');
 }
-$.getScript("/assets/js/admin/simplemde.min.js", function () {
+
+var main_js = function () {
     DATE1 = new Date();
     var DATE1, FREQUENCY, NOW_POST_ID;//相对的全局变量,开始时间/请求次数
 
@@ -144,7 +146,22 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
                         tags += '<a href="javascript:;" title="' + result.all_terms[n].count + '" style="font-size: ' + result.all_terms[n].count * 2 + 'px;">' + result.all_terms[n].name + '</a>';
                     }
                     $('.tag-adder .tags').html(tags);
-                    console.log();
+
+                    //注册添加tag到文本框事件
+                    $('.tags a').click(function () {
+                        var text = $(this).text();
+                        var old_text = $('.tag-name').val();
+                        if (old_text == '' || old_text == null) {
+                            $('.tag-name').val(text);
+                        } else {
+                            //检查是否已存在同名标签
+                            if ($.inArray(text, old_text.split(',')) == -1) {
+                                $('.tag-name').val(old_text + ',' + text);
+                            }
+                        }
+
+                    });
+
                     console.timeEnd('b');
                 }
             },
@@ -179,21 +196,27 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
 
         //发布文章按钮
         $(".save-post").click(function () {
-            $.ajax({
-                cache: false,
-                type: 'POST',
-                url: "/api/blog/posts",
-                async: true,
-                data: {
-                    api_get: 'post',
-                    post_content: simplemde.value()
-                },
-                dataType: "json",
-                success: function (result) {
-                    if (result.err == 500) {
-                    }
-                }
-            });
+            console.log('文章标题', $('#post-title').val());
+            console.log('文章内容', simplemde.value());
+            console.log('分类目录', $('.category-all').text());
+            console.log('文章标签', $('#tag-name').val());
+            console.log('特色图片');
+
+            // $.ajax({
+            //     cache: false,
+            //     type: 'POST',
+            //     url: "/api/blog/posts",
+            //     async: true,
+            //     data: {
+            //         api_get: 'post',
+            //         post_content: simplemde.value()
+            //     },
+            //     dataType: "json",
+            //     success: function (result) {
+            //         if (result.err == 500) {
+            //         }
+            //     }
+            // });
         });
 
         //分类目录选择事件
@@ -213,15 +236,45 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
         //显示tags
         var show_tag = 0;
         $('.show-tag').click(function () {
-            if(show_tag == 0){
+            if (show_tag == 0) {
                 get_post_tag_all();
                 $('.tags').show();
                 show_tag = 1;
-            }else{
+            } else {
                 $('.tags').hide();
+                show_tag = 0;
             }
-
         });
+
+        //上传插件
+        var upload_one_img = 0;
+        $('#upload_one_img').click(function () {
+            if(upload_one_img == 0){
+                $.getScript("/assets/js/admin/fileinput.min.js", function () {
+                    $.getScript("/assets/js/admin/fileinput_locale_zh.js", function () {
+                        var filename_save;
+                        $("#input-id").fileinput({
+                            language: 'zh',
+                            showCaption: false,
+                            uploadUrl: 'userupdata.php', // you must set a valid URL here else you will get an error，填写对应/api/imgurl路径即可
+                            allowedFileExtensions: ['jpg', 'png', 'gif', 'doc', 'zip', 'docx', 'jpeg', 'docx', 'ppt', 'pptx', 'pdf', 'xls', 'xlsx'],
+                            overwriteInitial: false,
+                            maxFileSize: 1024000,
+                            maxFilesNum: 1,
+                            slugCallback: function (filename) {
+                                return filename.replace('(', '_').replace(']', '_');
+                            }
+                        });
+                        $('.upload_atr').show();
+                    });
+                });
+                upload_one_img = 1;
+            }else{
+                $('.upload_atr').hide();
+                upload_one_img = 0;
+            }
+        });
+
     };
 
     //初始化变量、函数
@@ -236,4 +289,8 @@ $.getScript("/assets/js/admin/simplemde.min.js", function () {
     }
     register_event();
     loading_page_func($_GET(1));
+};
+
+$.getScript("/assets/js/admin/simplemde.min.js", function () {
+    main_js();
 });

@@ -20,7 +20,7 @@
         <div class="col-md-12 column">
             <div class="left-cont">
                 <div class="left-content">
-                    <input type="text" class="form-control post-title" placeholder="在此输入标题">
+                    <input type="text" id="post-title" class="form-control post-title" placeholder="在此输入标题">
                     <div class="edit_area">
                         <textarea title="editor" id="edit" style="display: none"></textarea>
                     </div>
@@ -52,7 +52,7 @@
                             </select>
                         </p>
                         <p>
-                            <i class="fa fa-calendar"></i> 发布时间: 立即 <a href="javascript:;">修改</a>
+                            <i class="fa fa-calendar"></i> 发布时间: 立即 <a href="javascript:alert('暂不支持');">修改</a>
                         </p>
                     </div>
                     <div class="tag-bottom">
@@ -105,7 +105,7 @@
                     </div>
                     <div class="tag-content">
                         <div class="form-inline">
-                            <input id="tag-name" type="text" class="form-control">
+                            <input id="tag-name" type="text" class="form-control tag-name">
                             <button type="submit" class="btn btn-default">添加</button>
                         </div>
                         <div class="tag-adder">
@@ -123,7 +123,10 @@
                         </div>
                     </div>
                     <div class="tag-content">
-                        <a href="javascript:;">设为特色图像</a>
+                        <a href="javascript:;" id="upload_one_img">设为特色图像</a>
+                        <div class="upload_atr" style="display: none">
+                            <input id="input-id" type="file" class="file-loading">
+                        </div>
                     </div>
                 </div>
             </div>

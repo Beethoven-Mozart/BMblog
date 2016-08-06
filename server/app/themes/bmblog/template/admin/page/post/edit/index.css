@@ -133,6 +133,10 @@
     margin-left: 10px;
 }
 
+.upload_atr {
+    margin-top: 10px;
+}
+
 @media screen and (max-width: 780px) {
     .left-content {
         margin-right: 0;
