@@ -81,6 +81,11 @@ export default function (ctx) {
             "WHERE `post_type` = 'post' " +
             "AND `post_status` = 'draft' " +
             "AND `post_author` = `bm_users`.`ID`",
+            //查询回收站文章总数
+            posts_trash: "SELECT count(`bm_posts`.`ID`) AS `posts_trash` FROM `bm_posts`,`bm_users` " +
+            "WHERE `post_type` = 'post' " +
+            "AND `post_status` = 'trash' " +
+            "AND `post_author` = `bm_users`.`ID`",
             //查询当前文章分类和标签
             posts_terms: "SELECT `bm_terms`.`term_id`,`name`,`taxonomy`,`parent` FROM `bm_terms`,`bm_term_taxonomy` WHERE `bm_term_taxonomy`.`term_id` = `bm_terms`.`term_id` AND `name` IN " +
             "(SELECT `name` FROM `bm_terms`,`bm_term_taxonomy`,`bm_view_post`,`bm_term_relationships` " +

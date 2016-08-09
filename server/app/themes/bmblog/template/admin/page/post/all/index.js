@@ -35,6 +35,11 @@ var register_event = function () {
         get_posts(NOW_PAGE);
     });
 
+    $('.post-trash').click(function () {
+        POST_STATUS = 'trash';
+        get_posts(NOW_PAGE);
+    });
+
     //切换页面事件
     $(".current-page").keydown(function () {
         $(this).css('width', ($(this).val().length * 6.75 + 10));
@@ -138,15 +143,23 @@ var get_posts = function (post_page) {
                 NOW_PAGE = result.posts_now;
 
                 //仅查询一次
-                if(FREQUENCY == 1){
+                if (FREQUENCY == 1) {
                     //处理统计
                     $(".all_post").text(result.posts_publish + result.posts_draft);
                     $(".public_post").text(result.posts_publish);
+
                     if (result.posts_draft == 0) { //如果草稿为0,则隐藏。
                         $(".post-draft-div").hide();
                     } else {
                         $(".draft_post").text(result.posts_draft);
                     }
+
+                    if (result.posts_trash == 0) { //如果回收站为0,则隐藏。
+                        $(".post-trash-div").hide();
+                    } else {
+                        $(".trash_post").text(result.posts_trash);
+                    }
+
                     $(".all_page").text(ALL_PAGES);
 
                     //处理日期归组
@@ -164,9 +177,9 @@ var get_posts = function (post_page) {
                         if (result.posts_all_terms[s]['parent'] != '0') {
                             result.posts_all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.posts_all_terms[s].name;
                         }
-                        if(result.posts_all_terms[s].taxonomy == 'category'){
+                        if (result.posts_all_terms[s].taxonomy == 'category') {
                             $('.filter-all-by-category').append('<option value="' + result.posts_all_terms[s].term_id + '">' + result.posts_all_terms[s].name + '</option>');
-                        }else{
+                        } else {
                             $('.filter-all-by-tag').append('<option value="' + result.posts_all_terms[s].term_id + '">' + result.posts_all_terms[s].name + '</option>');
                         }
                     }
@@ -179,9 +192,9 @@ var get_posts = function (post_page) {
                     if (result.posts_terms[s]['parent'] != '0') {
                         result.posts_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.posts_terms[s].name;
                     }
-                    if(result.posts_terms[s].taxonomy == 'category'){
+                    if (result.posts_terms[s].taxonomy == 'category') {
                         $('.filter-by-category').append('<option value="' + result.posts_terms[s].term_id + '">' + result.posts_terms[s].name + '</option>');
-                    }else{
+                    } else {
                         $('.filter-by-tag').append('<option value="' + result.posts_terms[s].term_id + '">' + result.posts_terms[s].name + '</option>');
                     }
                 }
@@ -225,17 +238,32 @@ var get_posts = function (post_page) {
                     } else if (result.posts[a].post_status == 'draft') {
                         result.posts[a].post_status = '草稿';
                         result.posts[a].post_status_show = '<i style="color:#383838">&nbsp;&nbsp;&nbsp;&nbsp;-草稿</i>';
+                    }else if (result.posts[a].post_status == 'trash') {
+                        result.posts[a].post_status = '最后修改';
+                        result.posts[a].post_status_show = '';
                     }
 
-                    body += '<tr>' +
-                        '<td><input type="checkbox"></td>' +
-                        '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">编辑</a> | 快速编辑 | 移至回收站 | 查看</div></td>' +
-                        '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
-                        '<td>' + result.posts[a].post_category + '</td>' +
-                        '<td>' + result.posts[a].post_tag + '</td>' +
-                        '<td>' + result.posts[a].comment_count + '</td>' +
-                        '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
-                        '</tr>';
+                    if(POST_STATUS != 'trash' && result.posts[a].post_status != '最后修改'){
+                        body += '<tr>' +
+                            '<td><input type="checkbox"></td>' +
+                            '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">编辑</a> | 快速编辑 | <a href="#/post/edit?post=' + result.posts[a].ID + '" style="color: #ff0000">移至回收站</a> | <a href="#/post/edit?post=' + result.posts[a].ID + '">查看</a></div></td>' +
+                            '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
+                            '<td>' + result.posts[a].post_category + '</td>' +
+                            '<td>' + result.posts[a].post_tag + '</td>' +
+                            '<td>' + result.posts[a].comment_count + '</td>' +
+                            '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
+                            '</tr>';
+                    }else if(POST_STATUS == 'trash' && result.posts[a].post_status == '最后修改'){
+                        body += '<tr>' +
+                            '<td><input type="checkbox"></td>' +
+                            '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">还原</a> | <a href="#/post/edit?post=' + result.posts[a].ID + '" style="color: #ff0000">永久删除</a></div></td>' +
+                            '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
+                            '<td>' + result.posts[a].post_category + '</td>' +
+                            '<td>' + result.posts[a].post_tag + '</td>' +
+                            '<td>' + result.posts[a].comment_count + '</td>' +
+                            '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
+                            '</tr>';
+                    }
                 }
                 $('.filter-all').text(result.posts_now_all);
                 $("tbody").html(body);

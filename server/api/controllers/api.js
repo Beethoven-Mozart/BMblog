@@ -29,6 +29,7 @@ export default (ctx) => {
                             posts: result.posts,
                             posts_publish: result.posts_publish[0].posts_publish,
                             posts_draft: result.posts_draft[0].posts_draft,
+                            posts_trash: result.posts_trash[0].posts_trash,
                             posts_page_all: posts_page_all,
                             posts_now_all: result.posts_all[0].all,
                             posts_terms: result.posts_terms,

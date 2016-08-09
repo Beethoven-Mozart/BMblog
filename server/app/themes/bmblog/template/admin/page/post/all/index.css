@@ -73,7 +73,7 @@
     line-height: 1.5 !important;
 }
 
-.post-draft-div {
+.post-draft-div, .post-trash-div {
     display: inline;
 }
 
@@ -140,7 +140,7 @@
     color: #000000;
 }
 
-.filter-by-category,.filter-by-tag {
+.filter-by-category, .filter-by-tag {
     color: #337ab7;
     cursor: pointer;
     background-color: transparent;
