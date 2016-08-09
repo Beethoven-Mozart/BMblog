@@ -265,8 +265,7 @@ a:active, a:hover {
     width: 100%;
     height: 50px;
     position: fixed;
-    overflow: hidden;
-    z-index: 5;
+    z-index: 6;
 }
 
 .admin-top a {
@@ -381,6 +380,7 @@ a:active, a:hover {
 .admin-top-right-menu > ul > li {
     float: left;
     display: inline;
+    position: relative;
 }
 
 .admin-top-right-menu > ul > li > a {
@@ -410,7 +410,7 @@ a:active, a:hover {
     font-style: normal;
 }
 
-.admin-top-right-menu > ul > li > .admin-top-avatar {
+.admin-top-right-menu > ul > li .top-avatar {
     line-height: 50px;
     padding: 17px 5px;
     font-size: 16px;
@@ -418,9 +418,71 @@ a:active, a:hover {
     height: 50px;
 }
 
-.admin-top-avatar > img {
+.top-avatar > img {
     width: 35px;
     height: 35px;
+}
+
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #878787;
+}
+
+.admin-top-avatar {
+    height: 100%;
+}
+
+.admin-top-avatar:hover {
+    height: 200px;
+}
+
+.admin-top-avatar:hover > .drop-menu, .drop-menu:hover {
+    display: block;
+}
+
+.admin-top-avatar > .drop-menu:before {
+    position: absolute;
+    top: -8px;
+    right: 30px;
+    display: inline-block !important;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #6d6d6d;
+    border-left: 8px solid transparent;
+    content: '';
+}
+
+.admin-top-avatar > .drop-menu {
+    background: #6d6d6d;
+    width: 195px;
+    box-shadow: 5px 5px rgba(102, 102, 102, .1);
+    right: 0;
+    min-width: 175px;
+    position: absolute;
+    z-index: 99999999;
+    display: none;
+    float: left;
+    list-style: none;
+    text-shadow: none;
+    padding: -10px 0 0;
+    margin: 10px 0 0;
+}
+
+.admin-top-avatar > .drop-menu > li > a {
+    color: #d4dadf;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    clear: both;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+.drop-menu-default > li a:hover {
+    background: #4a4a4a;
 }
 
 .admin-top-right-menu > ul > li > .sign-out {
@@ -430,7 +492,7 @@ a:active, a:hover {
     text-align: center;
 }
 
-.admin-top-avatar:hover, .sign-out:hover, .admin-top-bars:hover, .notice:hover, .comment:hover, .planning:hover, #toggle:hover {
+.admin-top-avatar:hover > .top-avatar, .sign-out:hover, .admin-top-bars:hover, .notice:hover, .comment:hover, .planning:hover, #toggle:hover {
     background-color: #444444;
 }
 
