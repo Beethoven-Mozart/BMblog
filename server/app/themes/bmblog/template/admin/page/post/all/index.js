@@ -231,6 +231,8 @@ var get_posts = function (post_page) {
                         result.posts[a].comment_count = '&nbsp;&nbsp;' + result.posts[a].comment_count;
                     }
 
+                    var post_url = '/' + result.posts[a].ID + '.html';
+
                     //文章状态
                     if (result.posts[a].post_status == 'publish') {
                         result.posts[a].post_status = '已发布';
@@ -238,22 +240,23 @@ var get_posts = function (post_page) {
                     } else if (result.posts[a].post_status == 'draft') {
                         result.posts[a].post_status = '草稿';
                         result.posts[a].post_status_show = '<i style="color:#383838">&nbsp;&nbsp;&nbsp;&nbsp;-草稿</i>';
-                    }else if (result.posts[a].post_status == 'trash') {
+                        post_url += '&preview=true';
+                    } else if (result.posts[a].post_status == 'trash') {
                         result.posts[a].post_status = '最后修改';
                         result.posts[a].post_status_show = '';
                     }
 
-                    if(POST_STATUS != 'trash' && result.posts[a].post_status != '最后修改'){
+                    if (POST_STATUS != 'trash' && result.posts[a].post_status != '最后修改') {
                         body += '<tr>' +
                             '<td><input type="checkbox"></td>' +
-                            '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">编辑</a> | 快速编辑 | <a href="#/post/edit?post=' + result.posts[a].ID + '" style="color: #ff0000">移至回收站</a> | <a href="#/post/edit?post=' + result.posts[a].ID + '">查看</a></div></td>' +
+                            '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">编辑</a> | 快速编辑 | <a href="#/post/edit?post=' + result.posts[a].ID + '" style="color: #ff0000">移至回收站</a> | <a href="' + post_url + '" target="_blank">查看</a></div></td>' +
                             '<td><a href="#/edit/post/' + result.posts[a].ID + '" target="_blank">' + result.posts[a].display_name + '</a></td>' +
                             '<td>' + result.posts[a].post_category + '</td>' +
                             '<td>' + result.posts[a].post_tag + '</td>' +
                             '<td>' + result.posts[a].comment_count + '</td>' +
                             '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
                             '</tr>';
-                    }else if(POST_STATUS == 'trash' && result.posts[a].post_status == '最后修改'){
+                    } else if (POST_STATUS == 'trash' && result.posts[a].post_status == '最后修改') {
                         body += '<tr>' +
                             '<td><input type="checkbox"></td>' +
                             '<td class="post-td"><a href="#/post/edit?post=' + result.posts[a].ID + '"><div class="post_title" style="max-width:' + title_max_width + '">' + result.posts[a].post_title + '</div>' + result.posts[a].post_status_show + '</a></br><div class="post-control"><a href="#/post/edit?post=' + result.posts[a].ID + '">还原</a> | <a href="#/post/edit?post=' + result.posts[a].ID + '" style="color: #ff0000">永久删除</a></div></td>' +

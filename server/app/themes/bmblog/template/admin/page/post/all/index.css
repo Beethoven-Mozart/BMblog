@@ -103,11 +103,11 @@
 }
 
 .post-control {
-    display: none;
+    visibility: hidden;
 }
 
 .post-td:hover > .post-control {
-    display: block;
+    visibility: visible;
 }
 
 .page-content {

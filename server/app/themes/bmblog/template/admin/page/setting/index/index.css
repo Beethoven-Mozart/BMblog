@@ -27,7 +27,6 @@
 }
 
 .system_info .table > tbody > tr > td:hover {
-    font-size: 16px;
     color: #afafaf;
     cursor: pointer;
 }

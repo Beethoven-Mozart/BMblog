@@ -55,6 +55,16 @@ a:active, a:hover {
     outline: 0
 }
 
+.bold {
+    font-weight: 700 !important;
+}
+
+.scroller {
+    padding: 0 12px 0 0;
+    margin: 0;
+    overflow: hidden;
+}
+
 .pace {
     -webkit-pointer-events: none;
     pointer-events: none;
@@ -434,42 +444,93 @@ a:active, a:hover {
     height: 100%;
 }
 
-.admin-top-avatar:hover {
-    height: 200px;
+.admin-top-avatar:hover, .admin-notice:hover, .admin-comment:hover, .admin-planning:hover {
+    height: 100px;
 }
 
-.admin-top-avatar:hover > .drop-menu, .drop-menu:hover {
+.admin-top-avatar:hover > .drop-menu, .admin-notice:hover > .drop-menu, .admin-comment:hover > .drop-menu, .admin-planning:hover > .drop-menu, .drop-menu:hover {
     display: block;
 }
 
+.admin-top-avatar > .drop-menu {
+    min-width: 175px;
+    width: 195px;
+    margin: 11px 0 0;
+}
+
 .admin-top-avatar > .drop-menu:before {
+    border-bottom: 8px solid #6d6d6d;
+    right: 30px;
+}
+
+.drop-menu:before {
     position: absolute;
     top: -8px;
-    right: 30px;
+    right: 17px;
     display: inline-block !important;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid #6d6d6d;
+    border-bottom: 8px solid #595959;
     border-left: 8px solid transparent;
     content: '';
 }
 
-.admin-top-avatar > .drop-menu {
+.drop-menu {
     background: #6d6d6d;
-    width: 195px;
     box-shadow: 5px 5px rgba(102, 102, 102, .1);
     right: 0;
-    min-width: 175px;
+    min-width: 160px;
+    max-width: 275px;
+    width: 275px;
     position: absolute;
     z-index: 99999999;
+    font-size: 14px;
     display: none;
     float: left;
     list-style: none;
     text-shadow: none;
-    padding: -10px 0 0;
-    margin: 10px 0 0;
+    padding: 0;
+    margin: 1px 0 0;
 }
 
-.admin-top-avatar > .drop-menu > li > a {
+.drop-menu > .menu-title {
+    background: #595959;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.drop-menu > .menu-title > h3 {
+    color: #c5ced4;
+    margin: 0;
+    padding: 0;
+    float: left;
+    font-size: 13px;
+    display: inline-block;
+    font-weight: 300;
+    line-height: 1.1;
+}
+
+.drop-menu > .menu-title > a:hover {
+    background-color: transparent;
+    color: #00a1cb;
+}
+
+.drop-menu > .menu-title > a {
+    color: #337ab7;
+    display: inline-block;
+    padding: 0;
+    background: 0 0;
+    clear: inherit;
+    font-size: 13px;
+    font-weight: 300;
+    position: absolute;
+    right: 10px;
+    border: 0;
+    margin-top: -1px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.drop-menu > li a {
     color: #d4dadf;
     font-size: 14px;
     font-weight: 300;
@@ -481,8 +542,98 @@ a:active, a:hover {
     white-space: nowrap;
 }
 
-.drop-menu-default > li a:hover {
+.drop-menu > li a:hover {
     background: #4a4a4a;
+}
+
+.drop-menu-list {
+    padding-right: 0 !important;
+    padding-left: 0;
+    width: auto;
+    height: 100%;
+    overflow: auto;
+    list-style: none;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+.drop-menu-list > li:first-child a {
+    border-top: none;
+}
+
+.drop-menu-list > li a {
+    color: #d4dadf;
+    border-bottom: 1px solid #595959 !important;
+}
+
+.drop-menu-list > li > a {
+    display: block;
+    clear: both;
+    font-weight: 300;
+    line-height: 20px;
+    white-space: normal;
+    font-size: 13px;
+    padding: 16px 15px 18px;
+    text-shadow: none;
+    text-decoration: none;
+}
+
+.drop-menu-list > li a .time {
+    float: right;
+    max-width: 75px;
+    font-size: 11px;
+    font-weight: 400;
+    opacity: .7;
+    filter: alpha(opacity=70);
+    text-align: right;
+    padding: 1px 5px;
+    background: #5b5b5e;
+}
+
+.drop-menu-list .label-icon {
+    margin-right: 10px;
+}
+
+.details {
+    overflow: hidden;
+}
+
+li [class*=" fa-"], li [class*=" glyphicon-"], li [class*=" icon-"], li [class^=fa-], li [class^=glyphicon-], li [class^=icon-] {
+    display: inline-block;
+    text-align: center !important;
+}
+
+.label {
+    font-size: 100%;
+}
+
+.label-icon {
+    width: 12px;
+    padding: 4px 0 4px 4px !important;
+    margin-right: 2px;
+    text-align: center !important;
+}
+
+.label-sm {
+    font-size: 13px;
+    padding: 2px 5px;
+}
+
+.label.label-icon > i {
+    width: 12px;
+    font-size: 12px;
+    text-align: center !important;
+}
+
+.drop-menu-list .label {
+    text-shadow: none !important;
+    border-radius: 0 !important;
+    vertical-align: baseline;
+}
+
+.drop-menu-list .label-icon i {
+    margin-right: 2px;
+    margin-left: 1px;
 }
 
 .admin-top-right-menu > ul > li > .sign-out {
@@ -492,7 +643,11 @@ a:active, a:hover {
     text-align: center;
 }
 
-.admin-top-avatar:hover > .top-avatar, .sign-out:hover, .admin-top-bars:hover, .notice:hover, .comment:hover, .planning:hover, #toggle:hover {
+.admin-notice, .admin-comment, .admin-planning {
+    height: 50px;
+}
+
+.admin-top-avatar:hover > .top-avatar, .sign-out:hover, .admin-top-bars:hover, .admin-notice:hover > .notice, .admin-comment:hover > .comment, .admin-planning:hover > .planning, #toggle:hover {
     background-color: #444444;
 }
 
