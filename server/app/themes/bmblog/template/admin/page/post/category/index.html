@@ -72,19 +72,17 @@
             </div>
             <div class="input-group">
                 <label for="tag-slug">别名</label>
-                <input name="slug" id="tag-slug" type="text" class="form-control" size="40">
+                <input name="slug" id="tag-slug" type="text" class="form-control" size="40" placeholder="可空">
                 <p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
             </div>
             <div class="input-group">
                 <label for="parent">父节点</label>
                 <select name="parent" id="parent" class="form-control">
-                    <option value="-1">无</option>
-
                 </select>
                 <p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
             </div>
             <div class="input-group" style="text-align: center;width: 100%">
-                <input class="btn btn-default" type="submit" value="添加新分类目录" style="margin: auto;">
+                <input class="btn btn-default" type="submit" id="commit-category" value="添加新分类目录" style="margin: auto;">
             </div>
         </div>
         <div class="col-md-9 column">

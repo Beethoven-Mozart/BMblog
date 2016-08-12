@@ -84,7 +84,7 @@ export default (ctx) => {
     }
 };
 
-export var get_api = (ctx) => {
+export var api_get = (ctx) => {
     return get_type(ctx).then(function (value) {
         console.log('ccc');
         ctx.body = value;

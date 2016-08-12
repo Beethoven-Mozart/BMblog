@@ -18,7 +18,6 @@ var page_waiting = function (str) {
 };
 
 
-
 //注册事件
 var register_event = function () {
     //切换页面事件
@@ -87,6 +86,31 @@ var register_event = function () {
         $click_child.css('display', 'inline');
         last_o = click_class[2];
     });
+
+    $('#commit-category').click(function () {
+        console.log($('#tag-name').val(), $('#tag-slug').val(), $('#parent').val());
+        $.ajax({
+            cache: false,
+            type: 'PUT',
+            url: "/api/blog/posts",
+            async: true,
+            data: {
+                api_get: 'terms',
+                target: 'category',
+                tag_name: $('#tag-name').val(),
+                tag_slug: encodeURI($('#tag-slug').val()),
+                tag_parent: $('#parent').val()
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result.err == 500) {
+                    $("#main").html('<h1>数据错误</h1>');
+                } else {
+                    console.log(result);
+                }
+            }
+        });
+    })
 };
 
 //获取文章列表详情AJAX
@@ -114,12 +138,12 @@ var get_category = function (page) {
                 NOW_PAGE = result.page_now;
 
                 //仅查询一次
-                if(FREQUENCY == 1){
+                if (FREQUENCY == 1) {
                     //处理统计
                     $(".all_category").text(result.all_terms.length);
                     $(".all_page").text(ALL_PAGES);
 
-                    var terms_select = '<option value="-1">无</option';
+                    var terms_select = '<option value="-1">无</option>';
                     for (var s = 0; s < result.all_terms.length; s++) {
                         if (result.all_terms[s]['parent'] != '0') {
                             result.all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.all_terms[s].name;

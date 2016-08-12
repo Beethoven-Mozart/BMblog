@@ -138,6 +138,7 @@ export default function (ctx) {
 };
 
 export var module_get_api = (ctx) => {
+    //百度统计API
     var public_key = '-----BEGIN PUBLIC KEY-----\n' +
         'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHn/hfvTLRXViBXTmBhNYEIJeG\n' +
         'GGDkmrYBxCRelriLEYEcrwWrzp0au9nEISpjMlXeEW4+T82bCM22+JUXZpIga5qd\n' +
