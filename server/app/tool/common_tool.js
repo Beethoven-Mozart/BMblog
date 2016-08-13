@@ -31,13 +31,13 @@ export var option_format = (get_options)=> {
 
 //替换SQL字符串中的前缀
 export var sql_format = (str)=> {
-    if(system_config.mysql_prefix != "bm_"){
+    if (system_config.mysql_prefix != "bm_") {
         str.replace(/bm_/g, system_config.mysql_prefix);
     }
 };
 
 //数组去重
-var hovercUnique = function (arr) {
+export var hovercUnique = function (arr) {
     var result = [], hash = {};
     for (var i = 0, elem; (elem = arr[i]) != null; i++) {
         if (!hash[elem]) {
@@ -46,4 +46,13 @@ var hovercUnique = function (arr) {
         }
     }
     return result;
+};
+
+//json长度
+export var getJsonLength = function (jsonData) {
+    var jsonLength = 0;
+    for (var item in jsonData) {
+        jsonLength++;
+    }
+    return jsonLength;
 };

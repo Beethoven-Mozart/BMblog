@@ -2,6 +2,7 @@ import {
     default as get_posts,
     module_put_terms as put_terms,
 } from '../models/api_put.js';
+import {getJsonLength} from '../../app/tool/common_tool.js';
 
 export var api_put = (ctx) => {
     if (ctx.params.api_type == 'blog') {
@@ -20,14 +21,27 @@ export var api_put = (ctx) => {
                 break;
             case 'terms': {
                 return put_terms(ctx).then((result) => {
-                    if (result.length == 0 || result == '500') {
+                    if (result == '' || result == '500') {
                         ctx.body = {
                             err: '500'
                         };
                     } else {
-                        ctx.body = {
-                            a: ctx.request.body.tag_name
-                        };
+                        if (result == 'exists') {
+                            ctx.body = {
+                                status: result
+                            };
+                        } else if (result != null && result.indexOf('添加失败') != -1) {
+                            ctx.body = {
+                                status: 'error',
+                                back: result
+                            };
+                        } else {
+                            ctx.body = {
+                                status: 'ok',
+                                back: result
+                            };
+                        }
+
                     }
                 });
             }
