@@ -33,10 +33,10 @@ export var module_put_terms = (ctx) => {
         }
     }).then(data2 => {
         if (data2.affectedRows > 0) {
-            let sql_3 = "INSERT INTO `bm_term_taxonomy` (`term_id`,`taxonomy`,`description`,`parent`) VALUES (" + data2.insertId + ",'category',''," + ctx.request.body.tag_parent + ")";
+            let sql_3 = "INSERT INTO `bm_term_taxonomy` (`term_id`,`taxonomy`,`description`,`parent`) VALUES (" + data2.insertId + ",'" + ctx.request.body.category + "',''," + ctx.request.body.tag_parent + ")";
             // return query('INSERT INTO `bm_term_taxonomy` SET ?', {
             //     term_id: data2.insertId,
-            //     taxonomy: 'category',
+            //     taxonomy: ctx.request.body.category,
             //     description: '',
             //     parent: ctx.request.body.tag_parent,
             // });

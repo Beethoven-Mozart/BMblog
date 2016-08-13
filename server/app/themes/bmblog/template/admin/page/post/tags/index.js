@@ -28,7 +28,7 @@ var register_event = function () {
         if (event.keyCode == 13) {
             var input_page = $(this).val();
             if (input_page > 0 && input_page <= ALL_PAGES) {
-                get_category(input_page);
+                get_tags(input_page);
             } else {
                 page_waiting('最大只能输入 ' + ALL_PAGES);
             }
@@ -39,7 +39,7 @@ var register_event = function () {
         if (NOW_PAGE == '1') {
             page_waiting('已经是第一页');
         } else {
-            get_category(1);
+            get_tags(1);
         }
     });
 
@@ -47,7 +47,7 @@ var register_event = function () {
         if (NOW_PAGE == 1) {
             page_waiting('已经是第一页');
         } else {
-            get_category(NOW_PAGE - 1);
+            get_tags(NOW_PAGE - 1);
         }
     });
 
@@ -55,7 +55,7 @@ var register_event = function () {
         if (NOW_PAGE == ALL_PAGES) {
             page_waiting('已经是最后一页');
         } else {
-            get_category(parseInt(NOW_PAGE) + 1);
+            get_tags(parseInt(NOW_PAGE) + 1);
         }
     });
 
@@ -63,7 +63,7 @@ var register_event = function () {
         if (ALL_PAGES == NOW_PAGE) {
             page_waiting('已经是最后一页');
         } else {
-            get_category(ALL_PAGES);
+            get_tags(ALL_PAGES);
         }
     });
 
@@ -80,17 +80,57 @@ var register_event = function () {
             $click_child.attr('class', 'fa fa-caret-down ' + click_class[2]);
         }
         ORDER_BY = click_class[2];
-        get_category(NOW_PAGE);
+        get_tags(NOW_PAGE);
         if (last_o != click_class[2]) {
             $('.' + last_o).attr('style', '');
         }
         $click_child.css('display', 'inline');
         last_o = click_class[2];
     });
+
+    //添加标签按钮事件
+    $('#commit-tags').click(function () {
+        var tag_slug = null;
+        if($('#tag-slug').val() == '' || $('#tag-slug').val() == null){
+            tag_slug = encodeURI($('#tag-name').val());
+        }else{
+            tag_slug = encodeURI($('#tag-slug').val());
+        }
+        $.ajax({
+            cache: false,
+            type: 'PUT',
+            url: "/api/blog/posts",
+            async: true,
+            data: {
+                api_get: 'terms',
+                category: 'post_tag',
+                tag_name: $('#tag-name').val(),
+                tag_slug: tag_slug,
+                tag_parent: '0'
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result.err == 500) {
+                    $("#main").html('<h1>数据错误</h1>');
+                } else {
+                    console.log(result.status);
+                    if(result.status == 'exists'){
+                        page_waiting('此标签名称已存在。');
+                    }else if(result.status == 'error'){
+                        page_waiting(result.back);
+                    }else if(result.status == 'ok'){
+                        page_waiting('添加成功');
+                        get_tags(1);
+                    }
+                    console.log(result);
+                }
+            }
+        });
+    })
 };
 
 //获取文章列表详情AJAX
-var get_category = function (page) {
+var get_tags = function (page) {
     DATE1 = new Date();
     $.ajax({
         cache: false,
@@ -115,19 +155,21 @@ var get_category = function (page) {
 
                 //仅查询一次
                 if(FREQUENCY == 1){
-                    //处理统计
-                    $(".all_category").text(result.all_terms.length);
-                    $(".all_page").text(ALL_PAGES);
-
-                    var terms_select = '<option value="-1">无</option';
-                    for (var s = 0; s < result.all_terms.length; s++) {
-                        if (result.all_terms[s]['parent'] != '0') {
-                            result.all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.all_terms[s].name;
-                        }
-                        terms_select += '<option value="' + result.all_terms[s].term_id + '">' + result.all_terms[s].name + '</option>';
-                    }
-                    $("#parent").append(terms_select);
+                    FREQUENCY++;
                 }
+
+                //处理统计
+                $(".all_category").text(result.all_terms.length);
+                $(".all_page").text(ALL_PAGES);
+
+                var terms_select = '<option value="-1">无</option';
+                for (var s = 0; s < result.all_terms.length; s++) {
+                    if (result.all_terms[s]['parent'] != '0') {
+                        result.all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.all_terms[s].name;
+                    }
+                    terms_select += '<option value="' + result.all_terms[s].term_id + '">' + result.all_terms[s].name + '</option>';
+                }
+                $("#parent").append(terms_select);
 
                 //处理文章列表
                 $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);
@@ -143,7 +185,6 @@ var get_category = function (page) {
                 }
                 $('.filter-all').text(result.terms.length);
                 $("tbody").html(body);
-                FREQUENCY++;
                 finish_load();
             }
         },
@@ -159,5 +200,5 @@ TERM = 'all';
 ORDER_BY = '';
 ORDER_TYPE = 'DESC';
 FREQUENCY = 1;
-get_category(1);
+get_tags(1);
 register_event();

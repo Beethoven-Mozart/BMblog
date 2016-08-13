@@ -87,6 +87,7 @@ var register_event = function () {
         last_o = click_class[2];
     });
 
+    //添加目录按钮事件
     $('#commit-category').click(function () {
         var tag_slug = null;
         if($('#tag-slug').val() == '' || $('#tag-slug').val() == null){
@@ -124,7 +125,7 @@ var register_event = function () {
                 }
             }
         });
-    })
+    });
 };
 
 //获取列表详情AJAX
@@ -153,20 +154,21 @@ var get_category = function (page) {
 
                 //仅查询一次
                 if (FREQUENCY == 1) {
-                    //处理统计
-                    $(".all_category").text(result.all_terms.length);
-                    $(".all_page").text(ALL_PAGES);
-
-                    var terms_select = '<option value="0">无</option>';
-                    for (var s = 0; s < result.all_terms.length; s++) {
-                        if (result.all_terms[s]['parent'] != '0') {
-                            result.all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.all_terms[s].name;
-                        }
-                        terms_select += '<option value="' + result.all_terms[s].term_id + '">' + result.all_terms[s].name + '</option>';
-                    }
-                    $("#parent").append(terms_select);
                     FREQUENCY++;
                 }
+
+                //处理统计
+                $(".all_category").text(result.all_terms.length);
+                $(".all_page").text(ALL_PAGES);
+
+                var terms_select = '<option value="0">无</option>';
+                for (var s = 0; s < result.all_terms.length; s++) {
+                    if (result.all_terms[s]['parent'] != '0') {
+                        result.all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.all_terms[s].name;
+                    }
+                    terms_select += '<option value="' + result.all_terms[s].term_id + '">' + result.all_terms[s].name + '</option>';
+                }
+                $("#parent").html(terms_select);
 
                 //处理列表
                 $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);
