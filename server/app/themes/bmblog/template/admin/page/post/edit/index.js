@@ -28,7 +28,7 @@ var main_js = function () {
     //载入编辑器
     var simplemde = new SimpleMDE({element: document.getElementById("edit")});
 
-    //获取文章列表详情AJAX
+    //获取文章内容AJAX
     var get_post = function (post_id) {
         $.ajax({
             cache: false,
@@ -44,12 +44,8 @@ var main_js = function () {
                 if (result.err == 500) {
                     $("#main").html('<h1>数据错误</h1>');
                 } else {
-                    if (FREQUENCY == 1) {
-
-                    }
                     $('.post-title').val(result.post.post_title);
                     simplemde.value(result.post.post_content);
-                    FREQUENCY++;
                     finish_load();
                 }
             },
@@ -104,8 +100,8 @@ var main_js = function () {
                                 }
                             }
                         });
-                        $('#new_category_parent option').each(function(){
-                            if($(this).attr('value') == category_children[i].parent){
+                        $('#new_category_parent option').each(function () {
+                            if ($(this).attr('value') == category_children[i].parent) {
                                 $(this).after('<option value="' + category_children[i].term_id + '">&nbsp;&nbsp;&nbsp;' + category_children[i].name + '</option>');
                             }
                         });
@@ -147,7 +143,13 @@ var main_js = function () {
                     console.time('b');
                     var tags = '';
                     for (var n = 0; n < result.all_terms.length; n++) {
-                        tags += '<a href="javascript:;" title="' + result.all_terms[n].count + '" style="font-size: ' + result.all_terms[n].count * 2 + 'px;">' + result.all_terms[n].name + '</a>';
+                        var font_sise = 2;
+                        if (result.all_terms[n].count != 0 && result.all_terms[n].count <= 25) {
+                            font_sise = result.all_terms[n].count * 2;
+                        } else if (result.all_terms[n].count > 25) {
+                            font_sise = 50;
+                        }
+                        tags += '<a href="javascript:;" title="' + result.all_terms[n].count + '" style="font-size: ' + font_sise + 'px;">' + result.all_terms[n].name + '</a>';
                     }
                     $('.tag-adder .tags').html(tags);
 
@@ -168,7 +170,8 @@ var main_js = function () {
 
                     console.timeEnd('b');
                 }
-            },
+            }
+            ,
             error: function (err) {
                 $("#main").html('<h1>' + err.responseText + '(' + err.status + ')' + '</h1>');
                 console.log(err);
@@ -196,31 +199,6 @@ var main_js = function () {
                 $(this).find('i').attr('class', 'fa fa-caret-down');
                 tmp4 = 1;
             }
-        });
-
-        //发布文章按钮
-        $(".save-post").click(function () {
-            console.log('文章标题', $('#post-title').val());
-            console.log('文章内容', simplemde.value());
-            console.log('分类目录', $('.category-all').text());
-            console.log('文章标签', $('#tag-name').val());
-            console.log('特色图片');
-
-            // $.ajax({
-            //     cache: false,
-            //     type: 'POST',
-            //     url: "/api/blog/posts",
-            //     async: true,
-            //     data: {
-            //         api_get: 'post',
-            //         post_content: simplemde.value()
-            //     },
-            //     dataType: "json",
-            //     success: function (result) {
-            //         if (result.err == 500) {
-            //         }
-            //     }
-            // });
         });
 
         //分类目录选择事件
@@ -309,6 +287,55 @@ var main_js = function () {
                     }
                 }
             });
+        });
+
+        //发布文章按钮
+        $(".save-post").click(function () {
+            var category = null;
+            $('.category-all input').each(function () {
+                if ($(this).is(':checked')) {
+                    if (category == null) {
+                        category = $(this).val();
+                    } else {
+                        category += "," + $(this).val();
+                    }
+                }
+            });
+
+            console.log('文章标题:', $('#post-title').val());
+            console.log('文章内容:', simplemde.value());
+            console.log('分类目录:', category);
+            console.log('文章标签:', $('#tag-name').val());
+            console.log('特色图片:');
+
+            $.ajax({
+                cache: false,
+                type: 'PUT',
+                url: "/api/blog/posts",
+                async: true,
+                data: {
+                    api_get: 'post',
+                    taxonomy: 'category',
+                    category: category,
+                    post_tag: $('#tag-name').val(),
+                    post_title: $('#post-title').val(),
+                    post_content: simplemde.value()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.err == 500) {
+                        $("#main").html('<h1>数据错误</h1>');
+                    } else {
+                        if (result.status == 'error') {
+                            page_waiting(result.back);
+                        } else if (result.status == 'ok') {
+                            page_waiting('添加成功');
+
+                        }
+                    }
+                }
+            });
+
         });
     };
 
