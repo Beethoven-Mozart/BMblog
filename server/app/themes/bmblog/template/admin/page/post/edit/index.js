@@ -88,7 +88,6 @@ var main_js = function () {
                             new_category_parent += '<option value="' + result.all_terms[n].term_id + '">' + result.all_terms[n].name + '</option>';
                         } else {
                             category_children.push(result.all_terms[n]);
-                            new_category_parent += '<option value="' + result.all_terms[n].term_id + '">&nbsp;&nbsp;&nbsp;' + result.all_terms[n].name + '</option>';
                         }
                     }
                     $('.category-all').html(category_all + '</ul>');
@@ -104,7 +103,12 @@ var main_js = function () {
                                     $this_parent.append('<ul class="children"><li><label class="select-it"><input value="' + category_children[i].term_id + '" type="checkbox"> ' + category_children[i].name + '</label></li></ul>');
                                 }
                             }
-                        })
+                        });
+                        $('#new_category_parent option').each(function(){
+                            if($(this).attr('value') == category_children[i].parent){
+                                $(this).after('<option value="' + category_children[i].term_id + '">&nbsp;&nbsp;&nbsp;' + category_children[i].name + '</option>');
+                            }
+                        });
                     }
 
                     var category_pop = '<ul>';
@@ -249,7 +253,7 @@ var main_js = function () {
         //上传插件
         var upload_one_img = 0;
         $('#upload_one_img').click(function () {
-            if(upload_one_img == 0){
+            if (upload_one_img == 0) {
                 $.getScript("/assets/js/admin/fileinput.min.js", function () {
                     $.getScript("/assets/js/admin/fileinput_locale_zh.js", function () {
                         var filename_save;
@@ -269,12 +273,43 @@ var main_js = function () {
                     });
                 });
                 upload_one_img = 1;
-            }else{
+            } else {
                 $('.upload_atr').hide();
                 upload_one_img = 0;
             }
         });
 
+        //添加目录按钮事件
+        $('#category-add-submit').click(function () {
+            $.ajax({
+                cache: false,
+                type: 'PUT',
+                url: "/api/blog/posts",
+                async: true,
+                data: {
+                    api_get: 'terms',
+                    taxonomy: 'category',
+                    name: $('#new_category').val(),
+                    slug: encodeURI($('#new_category').val()),
+                    parent: $('#new_category_parent').val()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.err == 500) {
+                        $("#main").html('<h1>数据错误</h1>');
+                    } else {
+                        if (result.status == 'exists') {
+                            page_waiting('此目录名称已存在。');
+                        } else if (result.status == 'error') {
+                            page_waiting(result.back);
+                        } else if (result.status == 'ok') {
+                            page_waiting('添加成功');
+                            get_category_all();
+                        }
+                    }
+                }
+            });
+        });
     };
 
     //初始化变量、函数

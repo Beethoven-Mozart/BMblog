@@ -103,10 +103,10 @@ var register_event = function () {
             async: true,
             data: {
                 api_get: 'terms',
-                category: 'post_tag',
-                tag_name: $('#tag-name').val(),
-                tag_slug: tag_slug,
-                tag_parent: '0'
+                taxonomy: 'post_tag',
+                name: $('#tag-name').val(),
+                slug: tag_slug,
+                parent: '0'
             },
             dataType: "json",
             success: function (result) {

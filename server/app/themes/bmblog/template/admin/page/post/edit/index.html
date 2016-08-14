@@ -85,13 +85,13 @@
                             <a href="javascript:;" class="add-category"> + 添加新分类目录</a>
                             <p id="category-add" class="category-add">
                                 <label for="new_category">添加新分类目录:</label>
-                                <input type="text" id="new_category" class="form-control" value="新分类目录名">
+                                <input type="text" id="new_category" class="form-control" placeholder="新分类目录名">
                                 <label for="new_category_parent">
                                     其父级分类目录: </label>
                                 <select id="new_category_parent" class="new_category_parent form-control">
-                                    <option value="-1">— 父级分类目录 —</option>
+                                    <option value="0">— 父级分类目录 —</option>
                                 </select>
-                                <input type="button" class="btn btn-default category-add-submit" value="添加新分类目录">
+                                <input type="button" class="btn btn-default" id="category-add-submit" value="添加新分类目录">
                             </p>
                         </div>
                     </div>

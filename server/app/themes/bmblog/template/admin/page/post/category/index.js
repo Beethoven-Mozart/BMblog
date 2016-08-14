@@ -90,9 +90,9 @@ var register_event = function () {
     //添加目录按钮事件
     $('#commit-category').click(function () {
         var tag_slug = null;
-        if($('#tag-slug').val() == '' || $('#tag-slug').val() == null){
+        if ($('#tag-slug').val() == '' || $('#tag-slug').val() == null) {
             tag_slug = encodeURI($('#tag-name').val());
-        }else{
+        } else {
             tag_slug = encodeURI($('#tag-slug').val());
         }
         $.ajax({
@@ -102,21 +102,21 @@ var register_event = function () {
             async: true,
             data: {
                 api_get: 'terms',
-                category: 'category',
-                tag_name: $('#tag-name').val(),
-                tag_slug: tag_slug,
-                tag_parent: $('#parent').val()
+                taxonomy: 'category',
+                name: $('#tag-name').val(),
+                slug: tag_slug,
+                parent: $('#parent').val()
             },
             dataType: "json",
             success: function (result) {
                 if (result.err == 500) {
                     $("#main").html('<h1>数据错误</h1>');
                 } else {
-                    if(result.status == 'exists'){
+                    if (result.status == 'exists') {
                         page_waiting('此目录名称已存在。');
-                    }else if(result.status == 'error'){
+                    } else if (result.status == 'error') {
                         page_waiting(result.back);
-                    }else if(result.status == 'ok'){
+                    } else if (result.status == 'ok') {
                         page_waiting('添加成功');
                         get_category(1);
                     }
@@ -160,13 +160,24 @@ var get_category = function (page) {
                 $(".all_page").text(ALL_PAGES);
 
                 var terms_select = '<option value="0">无</option>';
+                var category_children = [];
                 for (var s = 0; s < result.all_terms.length; s++) {
-                    if (result.all_terms[s]['parent'] != '0') {
-                        result.all_terms[s].name = '&nbsp;&nbsp;&nbsp;' + result.all_terms[s].name;
+                    if (result.all_terms[s]['parent'] == '0') {
+                        terms_select += '<option value="' + result.all_terms[s].term_id + '">' + result.all_terms[s].name + '</option>';
+                    } else {
+                        category_children.push(result.all_terms[s]);
                     }
-                    terms_select += '<option value="' + result.all_terms[s].term_id + '">' + result.all_terms[s].name + '</option>';
                 }
+
                 $("#parent").html(terms_select);
+
+                for (var i = 0; i < category_children.length; i++) {
+                    $('#parent option').each(function(){
+                        if($(this).attr('value') == category_children[i].parent){
+                            $(this).after('<option value="' + category_children[i].term_id + '">&nbsp;&nbsp;&nbsp;' + category_children[i].name + '</option>');
+                        }
+                    });
+                }
 
                 //处理列表
                 $(".current-page").val(NOW_PAGE).css('width', NOW_PAGE.length * 6.75 + 10);

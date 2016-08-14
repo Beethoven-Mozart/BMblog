@@ -16,10 +16,10 @@ export var module_put_terms = (ctx) => {
     let sql_1 = "SELECT `bm_terms`.`term_id` " +
         "FROM `bm_terms`,`bm_term_taxonomy` " +
         "WHERE `bm_terms`.`term_id` = `bm_term_taxonomy`.`term_id`" +
-        "AND `bm_term_taxonomy`.`taxonomy` = '" + ctx.request.body.category + "' " +
-        "AND (`bm_terms`.`name` = '" + ctx.request.body.tag_name + "' " +
-        "OR `bm_terms`.`slug` = '" + ctx.request.body.tag_slug + "')";
-    let sql_2 = "INSERT INTO `bm_terms` (`name`,`slug`,`term_group`) VALUES ('" + ctx.request.body.tag_name + "','" + ctx.request.body.tag_slug + "',0);";
+        "AND `bm_term_taxonomy`.`taxonomy` = '" + ctx.request.body.taxonomy + "' " +
+        "AND (`bm_terms`.`name` = '" + ctx.request.body.name + "' " +
+        "OR `bm_terms`.`slug` = '" + ctx.request.body.slug + "')";
+    let sql_2 = "INSERT INTO `bm_terms` (`name`,`slug`,`term_group`) VALUES ('" + ctx.request.body.name + "','" + ctx.request.body.slug + "',0);";
     return query(sql_1).then(data1 => {
         if (data1 != '') {
             return 'exists';
@@ -33,7 +33,7 @@ export var module_put_terms = (ctx) => {
         }
     }).then(data2 => {
         if (data2.affectedRows > 0) {
-            let sql_3 = "INSERT INTO `bm_term_taxonomy` (`term_id`,`taxonomy`,`description`,`parent`) VALUES (" + data2.insertId + ",'" + ctx.request.body.category + "',''," + ctx.request.body.tag_parent + ")";
+            let sql_3 = "INSERT INTO `bm_term_taxonomy` (`term_id`,`taxonomy`,`description`,`parent`) VALUES (" + data2.insertId + ",'" + ctx.request.body.taxonomy + "',''," + ctx.request.body.parent + ")";
             // return query('INSERT INTO `bm_term_taxonomy` SET ?', {
             //     term_id: data2.insertId,
             //     taxonomy: ctx.request.body.category,
