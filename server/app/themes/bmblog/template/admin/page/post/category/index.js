@@ -112,7 +112,6 @@ var register_event = function () {
                 if (result.err == 500) {
                     $("#main").html('<h1>数据错误</h1>');
                 } else {
-                    console.log(result.status);
                     if(result.status == 'exists'){
                         page_waiting('此目录名称已存在。');
                     }else if(result.status == 'error'){
@@ -121,7 +120,6 @@ var register_event = function () {
                         page_waiting('添加成功');
                         get_category(1);
                     }
-                    console.log(result);
                 }
             }
         });
