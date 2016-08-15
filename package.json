@@ -39,6 +39,7 @@
     "markdown-pdf": "^7.0.0",
     "marked": "^0.3.5",
     "moment": "^2.13.0",
+    "moment-timezone": "^0.5.5",
     "mysql": "^2.10.2",
     "promise-mysql": "^1.3.2",
     "request": "^2.73.0",

@@ -8,7 +8,9 @@ export var api_put = (ctx) => {
     if (ctx.params.api_type == 'blog') {
         switch (ctx.request.body.api_get) {
             case 'post': {
+                console.time('putterms');
                 return put_post(ctx).then((result) => {
+                    console.timeEnd('putterms');
                     if (result == '' || result == '500') {
                         ctx.body = {
                             err: '500'
