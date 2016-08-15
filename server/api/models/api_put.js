@@ -47,52 +47,6 @@ var add_terms = function (names) {
 
 //添加新文章
 export default function (ctx) {
-
-    let now_time = moment().format("YYYY-MM-DD HH:mm:ss");
-    let now_time_gmt = moment(now_time).tz("Europe/London").format("YYYY-MM-DD HH:mm:ss");
-    var add_post_objects = {
-        post_author: 1,
-        post_date: now_time,
-        post_date_gmt: now_time_gmt,
-        post_content: ctx.request.body.post_content,
-        post_title: ctx.request.body.post_title,
-        post_excerpt: '',
-        post_status: 'publish',
-        comment_status: 'open',
-        ping_status: 'open',
-        post_password: '',
-        post_name: decodeURI(ctx.request.body.post_title),
-        to_ping: '',
-        pinged: '',
-        post_modified: now_time,
-        post_modified_gmt: now_time_gmt,
-        post_content_filtered: '',
-        post_parent: 0,
-        guid: 'id',
-        menu_order: 0,
-        post_type: 'post',
-        post_mime_type: '',
-        comment_count: 0
-    };
-    var array_sql = underscore.pairs(add_post_objects);
-    var string_sql = '';
-    for (var n = 0; n < array_sql.length; n++) {
-        if (typeof array_sql[n][1] == 'string') {
-            string_sql += "`" + array_sql[n][0] + "`='" + array_sql[n][1] + "', ";
-        } else {
-            string_sql += "`" + array_sql[n][0] + "`=" + array_sql[n][1] + ', ';
-        }
-    }
-    var add_post_sql = "INSERT INTO `bm_posts` SET " + string_sql.substring(0, string_sql.length - 2);
-    console.log(add_post_sql);
-    // var add_post_sql = "INSERT INTO `bm_posts` (`post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES (" + '0' + ")";
-
-    var add_post = () => {
-        return query(add_post_sql).then(back_id => {
-
-        });
-    };
-
     var add_terms = (post_id) => {
         var add_category = (get_category) => {
             if (get_category != '') {
@@ -184,26 +138,96 @@ export default function (ctx) {
         };
         return Promise.all([add_category(ctx.request.body.category), add_tags(ctx.request.body.post_tag)]).then(terms => {
             var back_terms = [];
-            return new Promise((resolve, reject) => {
-                if (terms[0] != 'category_zero' && terms[1] != 'tag_zero') {
-                    back_terms = underscore.union(terms[0], terms[1]);
-                } else if (data != 'category_zero') {
-                    back_terms = terms[0];
+            //return new Promise((resolve, reject) => {
+            if (terms[0] != 'category_zero' && terms[1] != 'tag_zero') {
+                back_terms = underscore.union(terms[0], terms[1]);
+            } else if (data != 'category_zero') {
+                back_terms = terms[0];
+            } else {
+                back_terms = terms[1];
+            }
+
+            var add_terms = null;
+            for (var n = 0; n < back_terms.length; n++) {
+                if (add_terms == null) {
+                    add_terms = "(" + post_id + "," + back_terms[n] + ",0)";
                 } else {
-                    back_terms = terms[1];
+                    add_terms += ",(" + post_id + "," + back_terms[n] + ",0)";
                 }
-                resolve(back_terms);
+
+            }
+
+            let add_term_sql = "INSERT INTO `bm_term_relationships` (`object_id`,`term_taxonomy_id`,`term_order`) VALUES " + add_terms;
+            return query(add_term_sql).then(terms_add_status => {
+                if (terms_add_status.affectedRows > 0) {
+                    console.log(terms_add_status.insertId);
+                    return terms_add_status.insertId;
+                }else{
+                    return '添加失败,无法写入term数据。';
+                }
             });
+            //resolve(back_terms);
+            //});
         });
     };
 
-    return add_terms().then(terms => {
-        console.log(terms);
-        return terms;
-        // return new Promise(function (resolve, reject) {
-        //     resolve(terms);
-        // });
-    });
+    let now_time = moment().format("YYYY-MM-DD HH:mm:ss");
+    let now_time_gmt = moment(now_time).tz("Europe/London").format("YYYY-MM-DD HH:mm:ss");
+    var add_post_objects = {
+        post_author: 1,
+        post_date: now_time,
+        post_date_gmt: now_time_gmt,
+        post_content: ctx.request.body.post_content,
+        post_title: ctx.request.body.post_title,
+        post_excerpt: '',
+        post_status: 'publish',
+        comment_status: 'open',
+        ping_status: 'open',
+        post_password: '',
+        post_name: decodeURI(ctx.request.body.post_title),
+        to_ping: '',
+        pinged: '',
+        post_modified: now_time,
+        post_modified_gmt: now_time_gmt,
+        post_content_filtered: '',
+        post_parent: 0,
+        guid: 'id',
+        menu_order: 0,
+        post_type: 'post',
+        post_mime_type: '',
+        comment_count: 0
+    };
+    var array_sql = underscore.pairs(add_post_objects);
+    var string_sql = '';
+    for (var n = 0; n < array_sql.length; n++) {
+        if (typeof array_sql[n][1] == 'string') {
+            string_sql += "`" + array_sql[n][0] + "`='" + array_sql[n][1] + "', ";
+        } else {
+            string_sql += "`" + array_sql[n][0] + "`=" + array_sql[n][1] + ', ';
+        }
+    }
+    var add_post_sql = "INSERT INTO `bm_posts` SET " + string_sql.substring(0, string_sql.length - 2);
+    console.log(add_post_sql);
+    // var add_post_sql = "INSERT INTO `bm_posts` (`post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES (" + '0' + ")";
+
+    var add_post = () => {
+        return query(add_post_sql).then(back_id => {
+            if (back_id.affectedRows > 0) {
+                console.log(back_id.insertId);
+                return add_terms(back_id.insertId).then(result => {
+                    console.log(result);
+                    return result;
+                    // return new Promise(function (resolve, reject) {
+                    //     resolve(terms);
+                    // });
+                });
+            } else {
+                return '添加失败,无法写入文章数据。';
+            }
+        });
+    };
+
+    return add_post();
 };
 
 //新增term
