@@ -6,7 +6,7 @@ import moment from 'moment';
 moment.locale(system_config.System_country);//设置当地时间格式
 
 //添加新文章
-export default function (ctx) {
+export default (ctx) => {
 
     var add_terms = (post_id) => {
         //新增多条tag——不考虑重复

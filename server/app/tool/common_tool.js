@@ -1,6 +1,6 @@
 import {system_config} from '../../config.js';
 //截取字符串，多余的部分用...代替
-export var setString = function (str, len) {
+export var setString = (str, len) => {
     var str_len = 0;
     var s = "";
     for (var i = 0; i < str.length; i++) {

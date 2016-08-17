@@ -3,7 +3,7 @@ import path from "path";
 import compose from "koa-compose";
 
 
-export default function(srcpath, filename = "index.js") {
+export default (srcpath, filename = "index.js") => {
     let plugins = {};
 
     let dirs = getDirs(srcpath);

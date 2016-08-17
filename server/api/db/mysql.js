@@ -13,17 +13,17 @@ export var pool = mysql.createPool({
 });
 
 //执行一行SQL语句并返回结果
-export function query(sql) {
+export var query = (sql) => {
     return pool.query(sql_format(sql));
-}
+};
 
 //异步执行多行SQL语句并返回结果
-export function querys(sqls) {
+export var querys = (sqls) => {
     return querys_Parallelism(sql_format(sqls));
-}
+};
 
 //并发执行多行SQL语句并返回结果
-export function querys_Parallelism(sqls) {
+export var querys_Parallelism = (sqls) => {
     let keys = Object.keys(sqls);
     let list = Object.values(sqls);
     var promises = list.map(function (sql) {
@@ -37,7 +37,7 @@ export function querys_Parallelism(sqls) {
         }
         return result;
     });
-}
+};
 
 //顺序执行多行SQL语句并返回结果
 // query(sql_1)

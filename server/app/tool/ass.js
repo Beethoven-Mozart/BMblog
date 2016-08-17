@@ -16,11 +16,11 @@ var randomString = function (len) {
     return pwd;
 };
 
-var ord = function (v) {
+var ord = (v) => {
     return v.charCodeAt(0);
 };
 
-var encode64 = function ($input, $count) {
+var encode64 = ($input, $count) => {
     var $itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     var $i, $output, $value;
     $output = '';
@@ -48,9 +48,9 @@ var encode64 = function ($input, $count) {
 };
 
 /**
- * @return {string}
+ * @return {boolean}
  */
-export var CheckPassword = function (pass, old_pass) {
+export var CheckPassword = (pass, old_pass) => {
     var salt = "";
     if (old_pass == null) {
         salt = randomString(8);

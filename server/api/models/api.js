@@ -5,7 +5,7 @@ import zlib from 'zlib';
 import ursa from 'ursa';
 
 //获取文章列表详情,该页面请勿使用自动排版
-export default function (ctx) {
+export default (ctx) => {
     //判断文章总状态
     var post_status = "!= 'auto-draft'";
     switch (ctx.request.body.post_status) {
