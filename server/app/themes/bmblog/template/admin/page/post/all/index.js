@@ -241,6 +241,10 @@ var get_posts = function (post_page) {
                         result.posts[a].post_status = '草稿';
                         result.posts[a].post_status_show = '<i style="color:#383838">&nbsp;&nbsp;&nbsp;&nbsp;-草稿</i>';
                         post_url += '&preview=true';
+                    } else if (result.posts[a].post_status == 'pending') {
+                        result.posts[a].post_status = '等待复审';
+                        result.posts[a].post_status_show = '<i style="color:#383838">&nbsp;&nbsp;&nbsp;&nbsp;-待发布</i>';
+                        post_url += '&preview=true';
                     } else if (result.posts[a].post_status == 'trash') {
                         result.posts[a].post_status = '最后修改';
                         result.posts[a].post_status_show = '';
@@ -254,7 +258,7 @@ var get_posts = function (post_page) {
                             '<td>' + result.posts[a].post_category + '</td>' +
                             '<td>' + result.posts[a].post_tag + '</td>' +
                             '<td>' + result.posts[a].comment_count + '</td>' +
-                            '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
+                            '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_modified + '</td>' +
                             '</tr>';
                     } else if (POST_STATUS == 'trash' && result.posts[a].post_status == '最后修改') {
                         body += '<tr>' +
@@ -264,7 +268,7 @@ var get_posts = function (post_page) {
                             '<td>' + result.posts[a].post_category + '</td>' +
                             '<td>' + result.posts[a].post_tag + '</td>' +
                             '<td>' + result.posts[a].comment_count + '</td>' +
-                            '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_date + '</td>' +
+                            '<td>' + result.posts[a].post_status + '</br>' + result.posts[a].post_modified + '</td>' +
                             '</tr>';
                     }
                 }
