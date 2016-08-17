@@ -1,7 +1,6 @@
 import mysql from 'promise-mysql';
-import async from 'async';
 import {system_config} from '../../config.js';
-const mysql_prefix = system_config.mysql_prefix;//数据库前缀
+import {sql_format} from '../../app/tool/common_tool.js';
 
 export var pool = mysql.createPool({
     //connectionLimit: 4,     //连接池最多可以创建的连接数
@@ -15,17 +14,12 @@ export var pool = mysql.createPool({
 
 //执行一行SQL语句并返回结果
 export function query(sql) {
-    return pool.query(sql);
+    return pool.query(sql_format(sql));
 }
 
 //异步执行多行SQL语句并返回结果
 export function querys(sqls) {
-    return querys_Parallelism(sqls);
-}
-
-//建立MySQL连接
-export function getConnection() {
-    return pool.getConnection();
+    return querys_Parallelism(sql_format(sqls));
 }
 
 //并发执行多行SQL语句并返回结果

@@ -34,10 +34,11 @@ export var sql_format = (str)=> {
     if (system_config.mysql_prefix != "bm_") {
         str.replace(/bm_/g, system_config.mysql_prefix);
     }
+    return str;
 };
 
 //数组去重
-export var hovercUnique = function (arr) {
+export var hovercUnique = (arr) => {
     var result = [], hash = {};
     for (var i = 0, elem; (elem = arr[i]) != null; i++) {
         if (!hash[elem]) {
@@ -49,7 +50,7 @@ export var hovercUnique = function (arr) {
 };
 
 //json长度
-export var getJsonLength = function (jsonData) {
+export var getJsonLength = (jsonData) => {
     var jsonLength = 0;
     for (var item in jsonData) {
         jsonLength++;
