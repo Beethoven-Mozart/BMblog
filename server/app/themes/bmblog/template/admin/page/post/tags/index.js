@@ -151,11 +151,6 @@ var get_tags = function (page) {
                 ALL_PAGES = result.page_all;
                 NOW_PAGE = result.page_now;
 
-                //仅查询一次
-                if(FREQUENCY == 1){
-                    FREQUENCY++;
-                }
-
                 //处理统计
                 $(".all_category").text(result.all_terms.length);
                 $(".all_page").text(ALL_PAGES);
@@ -194,6 +189,7 @@ var get_tags = function (page) {
 };
 
 //初始化变量、函数
+DATE1 = new Date();
 TERM = 'all';
 ORDER_BY = '';
 ORDER_TYPE = 'DESC';

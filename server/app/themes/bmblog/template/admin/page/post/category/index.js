@@ -204,6 +204,7 @@ var get_category = function (page) {
 };
 
 //初始化变量、函数
+DATE1 = new Date();
 TERM = 'all';
 ORDER_BY = '';
 ORDER_TYPE = 'DESC';
