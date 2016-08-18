@@ -14,3 +14,26 @@
     left: 50%;
     top: 10px;
 }
+
+.table > tbody > tr > td {
+    border-top: 1px solid transparent;
+    height: 80px;
+}
+
+.table > tbody > tr:first-child > td, .table > tfoot > tr > td {
+    border-top: 1px solid #eaeaea;
+}
+
+.table > thead > tr, .table > tfoot > tr {
+    background-color: #ffffff;
+    font-weight: bolder;
+    color: #212121;
+}
+
+.filter-by-role {
+    color: #337ab7;
+    cursor: pointer;
+    background-color: transparent;
+    border: transparent;
+    height: 100%;
+}

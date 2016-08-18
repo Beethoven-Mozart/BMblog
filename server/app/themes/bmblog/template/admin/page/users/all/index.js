@@ -22,6 +22,9 @@ var register_event = () => {
 
 };
 
+//查询用户信息
+
+
 //初始化变量、函数
 DATE1 = new Date();
 register_event();
