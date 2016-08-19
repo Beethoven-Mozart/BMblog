@@ -47,13 +47,13 @@ Date.prototype.Format = function (fmt) { //author: meizz
 };
 
 //获取URL中参数
-var $_GET = function(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
-    var url = window.location.hash.split("?",2);
-    if(url.length >= 1){
-        if(name == 1){
+var $_GET = function (name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var url = window.location.hash.split("?", 2);
+    if (url.length >= 1) {
+        if (name == 1) {
             return url[0].slice(1);
-        }else if (url.length >= 2){
+        } else if (url.length >= 2) {
             return url[1].match(reg)[2];
         }
     }
@@ -232,19 +232,38 @@ var ajax_page = function (path, route) {
         },
         dataType: "json",
         success: function (result) {
-            if (result.html == 404) {
-                $('#ajax-css').remove();
-                $("#main").html('<h1>页面不存在! - 405</h1>');
-            } else {
-                $("#main").html(result.html);
-                $('#ajax-css').remove();
-                $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
-                eval(result.js);
+            switch (result.status) {
+                case 200: {
+                    $("#main").html(result.html);
+                    $('#ajax-css').remove();
+                    $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
+                    eval(result.js);
+                }
+                    break;
+                case 500: {
+                    $('#ajax-css').remove();
+                    $("#main").html('<h1>服务器错误! - 500</h1>');
+                }
+                    break;
+                case 403: {
+                    $('#ajax-css').remove();
+                    $("#main").html('<h1>没有访问权限! - 403</h1>');
+                }
+                    break;
+                case 404: {
+                    $('#ajax-css').remove();
+                    $("#main").html('<h1>页面不存在! - 405</h1>');
+                }
+                    break;
+                default: {
+                    $('#ajax-css').remove();
+                    $("#main").html('<h1>未知错误</h1>');
+                }
             }
         },
         error: function (err) {
             $('#ajax-css').remove();
-            $("#content-main").html('<h1>' + err.responseText + '</h1>');
+            $("#main").html('<h1>' + err.responseText + '-' + err.status + '</h1>');
             console.log(err);
         }
     });

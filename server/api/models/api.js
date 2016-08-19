@@ -1,5 +1,4 @@
 import {querys, query} from "../db/mysql.js";
-import {system_config} from "../../config.js";
 import request from 'request';
 import zlib from 'zlib';
 import ursa from 'ursa';

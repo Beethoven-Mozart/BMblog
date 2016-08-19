@@ -36,30 +36,4 @@ $('document').ready(function () {
             }
         }
     }
-
-    //当登录按钮被按下
-    $("#log_in").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: "/admin/login",
-            data: {
-                username: $("#login-name").val(),
-                password: $("#login-pass").val()
-            },
-            dataType: "json",
-            success: function (result) {
-                if (result.check == "ok"){
-                    alert("验证成功!");
-                } else if (result.check == "no_acc") {
-                    alert("用户名或密码不正确!");
-                }
-            },
-            error: function (err) {
-                console.log(err);
-                alert("通信发送错误,请检查网络连接.");
-            }
-        });
-    });
-
-
 });

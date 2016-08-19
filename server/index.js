@@ -27,7 +27,10 @@ app //初始化中间件
     .use(Koa_convert(Koa_logger()))
     .use(Koa_convert(Koa_favicon(path.join(__dirname, '../app/assets/img/favicon.ico'))))  //设置favicon.ico路径
     .use(serve("assets", path.resolve(__dirname, '../app/assets'))) //设置静态资源路径
-    .use(session())
+    //.use(serve("/", path.resolve(__dirname, '../app'))) //设置静态资源路径
+    .use(session({
+        key: "BMblog"
+    }))
     .use(Koa_Nunjucks({  //Nunjucks模板引擎配置
         ext: 'html',
         path: path.join(__dirname, 'app/themes/' + system_config.System_theme + '/template'), //引入主题模板
