@@ -1,4 +1,13 @@
 $('document').ready(function () {
+
+    console.log(detector.browser.name);
+    if (window.applicationCache) {
+        //alert("你的浏览器支持HTML5");
+    } else {
+        alert("你的浏览器不支持HTML5");
+    }
+
+
     var login = function () {
         $.ajax({
             type: 'POST',
@@ -10,7 +19,7 @@ $('document').ready(function () {
             dataType: "json",
             success: function (result) {
                 if (result.statue == 200 && result.check == "ok") {
-                    console.log("身份验证成功!");
+
                     window.location.href = "/admin";
                 } else if (result.check == "no_acc") {
                     alert("用户名或密码不正确!");

@@ -17,10 +17,3 @@ ul, menu, dir {
 .blog-footer {
     text-align: center;
 }
-
-.login-form {
-    width: auto;
-    max-width: 500px;
-    padding: 1px 23px 20px;
-    margin: 50px auto;
-}

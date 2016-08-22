@@ -3,6 +3,66 @@
 {% block title %}管理登录{% endblock %}
 
 {% block content %}
+<style>
+    .login-form {
+        width: auto;
+        max-width: 500px;
+        padding: 1px 23px 20px;
+        margin: 50px auto;
+    }
+
+    .check_from {
+        text-align: left;
+        font-size: 12px;
+        border: 1px solid #000000;
+    }
+
+    #sidebar {
+        width: 110px;
+        float: right;
+    }
+
+    #content {
+        margin-left: -120px;
+        float: left;
+        width: 100%;
+    }
+
+    #contentb {
+        margin-left: 120px;
+    }
+
+    .checkbox {
+        margin-top: 0;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 20px;
+        line-height: 20px;
+        border-top: 0;
+        font-size: 12px;
+    }
+
+    ul li {
+        display: block;
+        width: 50%;
+        float: left;
+        text-indent: 2em
+    }
+
+    .glyphicon-ok {
+        color: #00cf00;
+    }
+
+    .glyphicon-remove {
+        color: #ec0006;
+    }
+
+</style>
 <div class="text-center">
     <div class="login-form">
         <div class="text-center">
@@ -19,22 +79,48 @@
             <label class="login-field-icon fui-lock" for="login-pass"></label>
         </div>
 
-        <!--<label class="checkbox" for="checkbox">-->
-        <!--<input type="checkbox" checked="checked" value="" id="checkbox" data-toggle="checkbox">-->
-        <!--记住状态-->
-        <!--</label>-->
-        <label class="checkbox" for="checkbox">
-            <input type="checkbox" checked="checked" value="" id="checkbox" data-toggle="checkbox">
-            记住用户名
-        </label>
+        <div class="container-fuild check_from">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div id="wrap"> 
+                        <div id="content" style="height:70px;">
+                            <div id="contentb">
+                                <strong>浏览器功能支持项</strong>
+                                <ul>
+                                    <li>HTML5</li>
+                                    <li><i class="glyphicon glyphicon-ok"></i></li>
+                                </ul>
+                                <ul>
+                                    <li>HTML5</li>
+                                    <li><i class="glyphicon glyphicon-remove"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="sidebar" style="height:70px;">
+                            <label class="checkbox" for="remember_username" style="font-size: 12px">
+                                <input type="checkbox" checked="checked" value="" id="remember_username">
+                                记住用户名
+                            </label>
+                            <label class="checkbox" for="remember_statues" style="font-size: 12px">
+                                <input type="checkbox" checked="checked" value="" id="remember_statues">
+                                记住登录状态
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <a class="btn btn-primary btn-lg btn-block" href="#" id="log_in">登录</a>
-        <a class="login-link" href="#">忘记密码?</a>
+        <div class="form-group">
+            <a class="btn btn-primary btn-lg btn-block" href="#" id="log_in">登录</a>
+            <a class="login-link" href="#">忘记密码?</a>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block js %}
+<script src="/assets/js/admin/web-detector.js"></script>
 <script src="/assets/js/admin/login.js"></script>
 {% endblock %}
 
