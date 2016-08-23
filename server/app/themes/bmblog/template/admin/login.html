@@ -14,7 +14,6 @@
     .check_from {
         text-align: left;
         font-size: 12px;
-        border: 1px solid #000000;
     }
 
     #sidebar {
@@ -30,6 +29,10 @@
 
     #contentb {
         margin-left: 120px;
+        border: 1px solid #a6a6a6;
+        margin-bottom: 10px;
+        text-align: center;
+        padding: 5px;
     }
 
     .checkbox {
@@ -62,6 +65,12 @@
         color: #ec0006;
     }
 
+    @media screen and (max-width: 510px) {
+        #content {
+            display: none;
+        }
+    }
+
 </style>
 <div class="text-center">
     <div class="login-form">
@@ -79,20 +88,62 @@
             <label class="login-field-icon fui-lock" for="login-pass"></label>
         </div>
 
+        <div id="info"></div>
+
         <div class="container-fuild check_from">
             <div class="row clearfix">
                 <div class="col-md-12 column">
                     <div id="wrap"> 
-                        <div id="content" style="height:70px;">
+                        <div id="content" style="height:100%;">
                             <div id="contentb">
                                 <strong>浏览器功能支持项</strong>
                                 <ul>
-                                    <li>HTML5</li>
-                                    <li><i class="glyphicon glyphicon-ok"></i></li>
+                                    <li>当前浏览器</li>
+                                    <li id="browser"></li>
                                 </ul>
                                 <ul>
-                                    <li>HTML5</li>
-                                    <li><i class="glyphicon glyphicon-remove"></i></li>
+                                    <li>渲染引擎</li>
+                                    <li id="engine"></li>
+                                </ul>
+                                <ul>
+                                    <li>渲染模式</li>
+                                    <li id="engine_mod"></li>
+                                </ul>
+                                <ul>
+                                    <li>操作系统</li>
+                                    <li id="os"></li>
+                                </ul>
+                                <ul>
+                                    <li>当前设备</li>
+                                    <li id="device"></li>
+                                </ul>
+                                <ul>
+                                    <li>Application Cache</li>
+                                    <li id="applicationcache"></li>
+                                </ul>
+                                <ul>
+                                    <li>Local Storage</li>
+                                    <li id="localstorage"></li>
+                                </ul>
+                                <ul>
+                                    <li>Session Storage</li>
+                                    <li id="sessionstorage"></li>
+                                </ul>
+                                <ul>
+                                    <li>JSON</li>
+                                    <li id="json"></li>
+                                </ul>
+                                <ul>
+                                    <li>Canvas</li>
+                                    <li id="canvas"></li>
+                                </ul>
+                                <ul>
+                                    <li>CSS rgba</li>
+                                    <li id="rgba"></li>
+                                </ul>
+                                <ul>
+                                    <li>CSS Supports</li>
+                                    <li id="supports"></li>
                                 </ul>
                             </div>
                         </div>
@@ -111,7 +162,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 10px">
             <a class="btn btn-primary btn-lg btn-block" href="#" id="log_in">登录</a>
             <a class="login-link" href="#">忘记密码?</a>
         </div>
@@ -122,5 +173,6 @@
 {% block js %}
 <script src="/assets/js/admin/web-detector.js"></script>
 <script src="/assets/js/admin/login.js"></script>
+<script src="/assets/js/admin/modernizr-custom.js"></script>
 {% endblock %}
 
