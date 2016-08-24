@@ -14,7 +14,7 @@ $('document').ready(function () {
                     window.location.href = "/admin";
                 } else if (result.check == "no_acc") {
                     alert("用户名或密码不正确!");
-                }else{
+                } else {
                     alert("系统错误。");
                 }
             },
@@ -44,7 +44,7 @@ $('document').ready(function () {
     $("#os").text(detector.os.name + " " + detector.os.fullVersion);
     $("#device").text(detector.device.name + " " + detector.device.fullVersion);
     // 判断老旧浏览器
-    if(detector.browser.ie && detector.browser.version < 9){
+    if (detector.browser.ie && detector.browser.version < 9) {
         $("#info").html('<div class="alert alert-danger" role="alert">你的浏览器太老了。管理系统暂不支持IE9以下浏览器。请升级浏览器或使用Chrome浏览器。</div>');
     }
 
