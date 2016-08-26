@@ -19,7 +19,6 @@
     "start": "./node_modules/.bin/nodemon"
   },
   "dependencies": {
-    "assemble": "^0.11.0",
     "async": "^2.0.0-rc.4",
     "babel-core": "^6.7.6",
     "babel-preset-stage-3": "^6.5.0",
