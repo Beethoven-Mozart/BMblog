@@ -32,7 +32,7 @@ export var option_format = (get_options)=> {
 //替换SQL字符串中的前缀
 export var sql_format = (str)=> {
     if (system_config.mysql_prefix != "bm_") {
-        str.replace(/bm_/g, system_config.mysql_prefix);
+        str = str.replace(/bm_/g, system_config.mysql_prefix);
     }
     return str;
 };
