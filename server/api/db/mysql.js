@@ -19,11 +19,10 @@ export var query = (sql) => {
 
 //执行多行SQL语句并返回结果
 export var querys = (sqls) => {
-    sqls = sql_format(sqls);
     let keys = Object.keys(sqls);
     let list = Object.values(sqls);
     var promises = list.map(function (sql) {
-        return pool.query(sql);
+        return query(sql);
     });
 
     return Promise.all(promises).then(data => {
