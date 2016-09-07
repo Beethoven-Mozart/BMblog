@@ -22,7 +22,7 @@ export default (ctx, next) => {
                 friendly_link: result.friendly_link
             };
 
-            ctx.render('post', posts);
+          return ctx.render('post', posts);
         }
     });
 };
@@ -54,7 +54,7 @@ export var page = (ctx) => {
                 friendly_link: result.friendly_link
             };
 
-            ctx.render('list', posts);
+          return ctx.render('list', posts);
         }
     });
 };
@@ -96,7 +96,7 @@ export var list = (ctx) => {
                 friendly_link: result.friendly_link
             };
 
-            ctx.render('list', posts);
+          return ctx.render('list', posts);
         }
     });
 };

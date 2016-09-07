@@ -22,6 +22,6 @@ export default (ctx) => {
             friendly_link: result.friendly_link
         };
 
-        ctx.render('post', posts);
+      return ctx.render('post', posts);
     });
 };

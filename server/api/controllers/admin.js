@@ -6,7 +6,7 @@ const router = new Koa_router();
 export default (ctx) => {
     let user_id = ctx.session.user_id;
     if ((user_id != '' || user_id != null) && user_id > 0) {
-        ctx.render('admin/index', {double: 'rainbow'});
+        return ctx.render('admin/index', {double: 'rainbow'});
     } else {
         ctx.redirect('/admin/login');
         ctx.status = 302;
@@ -14,7 +14,7 @@ export default (ctx) => {
 };
 
 export var login = (ctx) => {
-    ctx.render('admin/login');
+    return ctx.render('admin/login');
 };
 
 export var login_post = (ctx) => {
