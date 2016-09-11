@@ -1,5 +1,7 @@
 # BMblog
 
+BMblog仍处于开发阶段,尚无稳定版本。请关注项目,敬请期待第一个测试版的发布。
+
 BMblog 是一个极速高效,拓展性强的博客系统.
 BMblog is a fast blog framework.
 
