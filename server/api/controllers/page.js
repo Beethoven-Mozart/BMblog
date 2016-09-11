@@ -1,7 +1,7 @@
 import {default as model_default, page as model_page, list as model_list} from '../models/page';
 import {setString, option_format} from '../../app/tool/common_tool.js';
 import {system_config} from '../../config.js';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 moment.locale(system_config.System_country);//设置当地时间格式
 export default (ctx, next) => {

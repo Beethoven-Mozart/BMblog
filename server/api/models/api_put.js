@@ -1,7 +1,7 @@
 import {query} from "../db/mysql.js";
 import {system_config} from '../../config.js';
 import underscore from 'underscore';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 moment.locale(system_config.System_country);//设置当地时间格式
 

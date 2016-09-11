@@ -6,7 +6,7 @@ import {
     module_get_terms as get_terms,
     module_get_post as get_post
 } from '../models/api.js';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 moment.locale(system_config.System_country);//设置当地时间格式
 
