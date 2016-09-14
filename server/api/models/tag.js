@@ -1,4 +1,4 @@
-import {querys} from '../db/mysql.js';
+const {querys} = require('../db/mysql.js');
 
 export default (ctx) => {
     var sql = {

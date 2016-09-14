@@ -1,4 +1,7 @@
-import requireDir from 'require-dir';
-var dir = requireDir('./');
+// const requireDir = require('require-dir';
+// var dir = requireDir('./');
+//
+// export default dir;
 
-export default dir;
+let requireDirectory = require('require-directory');
+module.exports = requireDirectory(module);

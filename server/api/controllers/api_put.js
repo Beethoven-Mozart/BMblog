@@ -2,7 +2,6 @@ import {
     default as put_post,
     module_put_terms as put_terms,
 } from '../models/api_put.js';
-import {getJsonLength} from '../../app/tool/common_tool.js';
 
 export var api_put = (ctx) => {
     if (ctx.params.api_type == 'blog') {

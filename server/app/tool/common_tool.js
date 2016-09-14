@@ -1,4 +1,5 @@
-import {system_config} from '../../config.js';
+const {system_config} = require('../../config.js');
+
 //截取字符串，多余的部分用...代替
 export var setString = (str, len) => {
     var str_len = 0;

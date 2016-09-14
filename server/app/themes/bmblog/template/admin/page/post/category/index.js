@@ -81,7 +81,7 @@ var register_event = function () {
         ORDER_BY = click_class[2];
         get_category(NOW_PAGE);
         if (last_o != click_class[2]) {
-            $('.' + last_o).attr('style', '');
+            $('.' + last_o).attr('style', ');
         }
         $click_child.css('display', 'inline');
         last_o = click_class[2];

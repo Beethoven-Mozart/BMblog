@@ -1,4 +1,4 @@
-import browserSync from 'browser-sync';
+const browserSync = require('browser-sync');
 
 browserSync({
     files: [

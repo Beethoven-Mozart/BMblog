@@ -1,39 +1,33 @@
-import Koa from 'koa';
-import Koa_logger from 'koa-logger';
-import Koa_favicon from 'koa-favicon';
-import Koa_convert from 'koa-convert';
-import Koa_json from 'koa-json';
-import Koa_body_parser from 'koa-bodyparser';
-import Koa_Nunjucks from 'koa-nunjucks-2';
-import {system_config} from './config.js';
-import path from 'path';
-import serve from 'koa-static2';
-import session from "koa-session2";
-import main_routes from './api/routes/main-routes';
-import error_routes from './api/routes/error-routes.js';
-import plugin_loader from './app/tool/plugin_loader.js';
+const Koa = require('koa');
+const Koa_logger = require('koa-logger');
+const Koa_favicon = require('koa-favicon');
+const Koa_convert = require('koa-convert');
+const Koa_json = require('koa-json');
+const Koa_body_parser = require('koa-bodyparser');
+const Koa_Nunjucks = require('koa-nunjucks-2');
+const {system_config} = require('./config.js');
+const path = require('path');
+const serve = require('koa-static2');
+const session = require('koa-session');
+const main_routes = require('./api/routes/main-routes');
+const error_routes = require('./api/routes/error-routes.js');
+const plugin_loader = require('./app/tool/plugin_loader.js');
 
-//import assemble from 'assemble';
-
-//初始化
 const app = new Koa();
 const body_parser = new Koa_body_parser();
+const env = system_config.System_type || 'development';//Current mode
 
-const env = system_config.System_type || 'development';//判断开发模式
-
-app //初始化中间件
-    .use(Koa_convert(body_parser))  //请求体解析中间件
-    .use(Koa_convert(Koa_json()))   //json格式中间件
+app.keys = ['BMblog'];
+app //Start module
+    .use(Koa_convert(body_parser))  //Processing request
+    .use(Koa_convert(Koa_json()))   //Json handle module
     .use(Koa_convert(Koa_logger()))
-    .use(Koa_convert(Koa_favicon(path.join(__dirname, '../app/assets/img/favicon.ico'))))  //设置favicon.ico路径
-    .use(serve("assets", path.resolve(__dirname, '../app/assets'))) //设置静态资源路径
-    //.use(serve("/", path.resolve(__dirname, '../app'))) //设置静态资源路径
-    .use(session({
-        key: "BMblog"
-    }))
-    .use(Koa_Nunjucks({  //Nunjucks模板引擎配置
+    .use(Koa_convert(Koa_favicon(path.join(__dirname, '../app/assets/img/favicon.ico'))))
+    .use(serve("assets", path.resolve(__dirname, '../app/assets'))) //Static resource
+    .use(Koa_convert(session(app)))
+    .use(Koa_Nunjucks({  //Nunjucks Config
         ext: 'html',
-        path: path.join(__dirname, 'app/themes/' + system_config.System_theme + '/template'), //引入主题模板
+        path: path.join(__dirname, 'app/themes/' + system_config.System_theme + '/template'), //Themes
         nunjucksConfig: {
             autoescape: false
         }
@@ -43,9 +37,8 @@ app //初始化中间件
     .use(main_routes.allowedMethods())
     .use(error_routes());
 
-// logger
-if (env === 'development') {
-    app.use((ctx, next) => {   //输出执行时间
+if (env === 'development') { // logger
+    app.use((ctx, next) => {
         const start = new Date();
         return next().then(() => {
             const ms = new Date() - start;

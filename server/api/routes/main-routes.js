@@ -1,5 +1,5 @@
-import Koa_router from 'koa-router';
-import controllers from '../controllers/index.js';
+const Koa_router = require('koa-router');
+let controllers = require('../controllers/index.js');
 
 const router = new Koa_router();
 

@@ -1,7 +1,7 @@
-import {querys, query} from "../db/mysql.js";
-import request from 'request';
-import zlib from 'zlib';
-import ursa from 'ursa';
+const {querys, query} = require("../db/mysql.js");
+const request = require('request');
+const zlib = require('zlib');
+const ursa = require('ursa');
 
 //获取文章列表详情,该页面请勿使用自动排版
 export default (ctx) => {

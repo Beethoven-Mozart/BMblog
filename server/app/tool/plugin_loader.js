@@ -1,9 +1,14 @@
-import fs from "fs";
-import path from "path";
-import compose from "koa-compose";
+const fs  = require("fs");
+const path  = require("path");
+const compose  = require("koa-compose");
 
+function getDirs(srcpath) {
+    return fs.readdirSync(srcpath).filter(file => {
+        return fs.statSync(path.join(srcpath, file)).isDirectory();
+    });
+}
 
-export default (srcpath, filename = "index.js") => {
+module.exports = (srcpath, filename = "index.js") => {
     let plugins = {};
 
     let dirs = getDirs(srcpath);
@@ -26,10 +31,4 @@ export default (srcpath, filename = "index.js") => {
     }
 
     return compose(list);
-}
-
-function getDirs(srcpath) {
-    return fs.readdirSync(srcpath).filter(file => {
-        return fs.statSync(path.join(srcpath, file)).isDirectory();
-    });
-}
+};

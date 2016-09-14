@@ -1,4 +1,4 @@
-import path from "path";
+const path = require('path');
 
 export var system_config = {
     HTTP_server_type: 'http://', //HTTP服务器地址,包含"http://"或"https://"

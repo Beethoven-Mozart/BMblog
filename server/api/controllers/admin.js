@@ -1,7 +1,4 @@
 import {login_post as model_login_post, page_post as model_admin_page_post} from '../models/admin';
-import Koa_router from 'koa-router';
-
-const router = new Koa_router();
 
 export default (ctx) => {
     let user_id = ctx.session.user_id;

@@ -204,7 +204,7 @@ var main_js = function () {
         //分类目录选择事件
         var now_category_tab = 'category-all';
         $('.category-tabs li').click(function () {
-            $('.category-tabs li').attr('class', '');
+            $('.category-tabs li').attr('class', ');
             now_category_tab = $(this).addClass('tabs').attr('id');
             $('.tabs-panel').hide();
             $('.' + now_category_tab).show();

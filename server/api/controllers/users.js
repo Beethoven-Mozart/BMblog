@@ -1,5 +1,4 @@
 
-
 // ctx.session.user_name = result[0].user_login;
 // ctx.session.user_nicename = result[0].user_nicename;
 // ctx.session.user_email = result[0].user_email;

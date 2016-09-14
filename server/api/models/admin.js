@@ -1,7 +1,7 @@
-import {query} from "../db/mysql.js";
-import {CheckPassword} from '../../app/tool/ass';
-import fs from 'fs';
-import path from 'path';
+const {query} = require("../db/mysql.js");
+const {CheckPassword} = require('../../app/tool/ass');
+const fs = require('fs');
+const path = require('path');
 
 export var login_post = (ctx)=> {
     return query("SELECT * FROM  `bm_users`  WHERE `user_login` = '" + ctx.request.body.username + "'").then(result => {
