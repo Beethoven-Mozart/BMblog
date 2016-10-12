@@ -44,3 +44,9 @@ export var page = (ctx) => {
         ctx.body = result;
     });
 };
+
+export var page_get = (ctx) => {
+    return model_admin_page_get(ctx).then((result) => {
+        ctx.body = result;
+    });
+};
