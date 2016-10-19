@@ -36,8 +36,11 @@ npm start
 在浏览器中输入[http://localhost:3000/](http://localhost:3000/)并打开，即可进入BMblog.
 
 ## 版本更新记录
-v0.0.1 beta 2016年05月14日12:52:12
+v0.0.2 alpha 2016年10月19日09:56:50  
+调整BMblog系统结构,使之更适合大型系统。
+
+v0.0.1 beta 2016年05月14日12:52:12  
 使用koa2重写BMblog
 
-v0.0.5 alpha 2016年03月19日12:11:23
+v0.0.5 alpha 2016年03月19日12:11:23  
 取消了"postinstall": "make".

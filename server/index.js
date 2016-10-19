@@ -22,8 +22,8 @@ app //Start module
     .use(Koa_convert(body_parser))  //Processing request
     .use(Koa_convert(Koa_json()))   //Json handle module
     .use(Koa_convert(Koa_logger()))
-    .use(Koa_convert(Koa_favicon(path.join(__dirname, '../app/assets/img/favicon.ico'))))
-    .use(serve("assets", path.resolve(__dirname, '../app/assets'))) //Static resource
+    .use(Koa_convert(Koa_favicon(path.join(__dirname, '../client/web/assets/img/favicon.ico'))))
+    .use(serve("assets", path.resolve(__dirname, '../client/web/assets'))) //Static resource
     .use(Koa_convert(session(app)))
     .use(Koa_Nunjucks({  //Nunjucks Config
         ext: 'html',
@@ -38,13 +38,7 @@ app //Start module
     .use(error_routes());
 
 if (env === 'development') { // logger
-    app.use((ctx, next) => {
-        const start = new Date();
-        return next().then(() => {
-            const ms = new Date() - start;
-            console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
-        });
-    })
+
 }
 
 app.listen(system_config.HTTP_server_port);
