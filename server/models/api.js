@@ -1,4 +1,4 @@
-const {querys, query} = require("../db/mysql.js");
+const {querys, query} = require("./mysql.js");
 const request = require('request');
 const zlib = require('zlib');
 const ursa = require('ursa');

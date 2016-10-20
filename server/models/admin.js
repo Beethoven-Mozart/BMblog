@@ -1,4 +1,4 @@
-import {query} from "../db/mysql.js";
+import {query} from "../lib/mysql.js";
 import {CheckPassword} from '../../app/tool/ass';
 import fs from 'fs';
 import path from 'path';

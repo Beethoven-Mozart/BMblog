@@ -7,11 +7,11 @@ import Koa_body_parser from 'koa-bodyparser';
 import Koa_Nunjucks from 'koa-nunjucks-2';
 import {system_config} from './config.js';
 import path from 'path';
-import serve from 'koa-static2';
+import Koa_static from 'koa-static2';
 import session from "koa-session";
-import main_routes from './api/routes/main-routes';
-import error_routes from './api/routes/error-routes.js';
-import plugin_loader from './app/tool/plugin_loader.js';
+import main_routes from './routes/main-routes';
+import error_routes from './routes/error-routes.js';
+import plugin_loader from './tool/plugin_loader.js';
 
 const app = new Koa();
 const body_parser = new Koa_body_parser();
@@ -23,7 +23,7 @@ app //Start module
     .use(Koa_convert(Koa_json()))   //Json handle module
     .use(Koa_convert(Koa_logger()))
     .use(Koa_convert(Koa_favicon(path.join(__dirname, '../client/web/assets/img/favicon.ico'))))
-    .use(serve("assets", path.resolve(__dirname, '../client/web/assets'))) //Static resource
+    .use(Koa_static("assets", path.resolve(__dirname, '../client/web/assets'))) //Static resource
     .use(Koa_convert(session(app)))
     .use(Koa_Nunjucks({  //Nunjucks Config
         ext: 'html',

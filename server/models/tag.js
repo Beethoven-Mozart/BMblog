@@ -1,4 +1,4 @@
-const {querys} = require('../db/mysql.js');
+const {querys} = require('./mysql.js');
 
 export default (ctx) => {
     var sql = {

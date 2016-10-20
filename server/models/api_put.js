@@ -1,4 +1,4 @@
-const {query} = require("../db/mysql.js");
+const {query} = require("./mysql.js");
 const {system_config} = require('../../config.js');
 const underscore = require('underscore');
 const moment = require('moment-timezone');
