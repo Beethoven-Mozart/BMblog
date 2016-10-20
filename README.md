@@ -35,6 +35,47 @@ npm start
 
 在浏览器中输入[http://localhost:3000/](http://localhost:3000/)并打开，即可进入BMblog.
 
+## 引入的包和库的说明
+"dependencies":   
+    "babel-core": babel核心库
+    "babel-preset-stage-3": "^6.5.0",
+    "babel-runtime": "^6.6.1",
+    "bluebird": "^3.4.0",
+    "koa": "^2.0.0-alpha.7",
+    "koa-bodyparser": "^2.0.1",
+    "koa-compose": "^3.1.0",
+    "koa-convert": "^1.2.0",
+    "koa-favicon": "^2.0.0",
+    "koa-json": "^1.1.3",
+    "koa-logger": "^1.3.0",
+    "koa-nunjucks-2": "^3.0.0-alpha.4",
+    "koa-router": "^7.0.1",
+    "koa-session": "^3.3.1",
+    "koa-static2": "^0.1.8",
+    "marked": "^0.3.5",
+    "moment-timezone": "^0.5.5",
+    "promise-mysql": "^1.3.2",
+    "request": "^2.73.0",
+    "require-directory": "^2.1.1",
+    "underscore": "^1.8.3",
+    "ursa": "^0.9.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-plugin-transform-es2015-classes": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.7.5",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-register": "^6.7.2",
+    "browser-sync": "^2.12.3",
+    "gulp": "^3.9.1",
+    "mocha": "^2.4.5",
+    "nodemon": "^1.9.2",
+    "should": "^8.3.2",
+    "supertest": "^1.2.0",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1"
+  }
+
 ## 版本更新记录
 v0.0.2 alpha 2016年10月19日09:56:50  
 调整BMblog系统结构,使之更适合大型系统。
