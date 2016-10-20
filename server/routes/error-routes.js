@@ -1,5 +1,3 @@
-"use strict"
-
 module.exports = function() {
     
     return function(ctx, next) {
@@ -11,4 +9,4 @@ module.exports = function() {
 
         return next();
     }
-}
+};

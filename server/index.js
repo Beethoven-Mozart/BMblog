@@ -21,13 +21,12 @@ app.keys = ['BMblog'];
 app //Start module
     .use(Koa_convert(body_parser))  //Processing request
     .use(Koa_convert(Koa_json()))   //Json handle module
-    .use(Koa_convert(Koa_logger()))
     .use(Koa_convert(Koa_favicon(path.join(__dirname, '../client/web/assets/img/favicon.ico'))))
     .use(Koa_static("assets", path.resolve(__dirname, '../client/web/assets'))) //Static resource
-    .use(Koa_convert(session(app)))
-    .use(Koa_Nunjucks({  //Nunjucks Config
+    .use(Koa_convert(session(app))) //Set Session
+    .use(Koa_Nunjucks({  //Nunjucks - Themes Config
         ext: 'html',
-        path: path.join(__dirname, 'app/themes/' + system_config.System_theme + '/template'), //Themes
+        path: path.join(__dirname, 'app/themes/' + system_config.System_theme + '/template'),
         nunjucksConfig: {
             autoescape: false
         }
@@ -38,7 +37,7 @@ app //Start module
     .use(error_routes());
 
 if (env === 'development') { // logger
-
+    app.use(Koa_convert(Koa_logger()));
 }
 
 app.listen(system_config.HTTP_server_port);
