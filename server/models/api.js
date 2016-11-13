@@ -1,7 +1,6 @@
-const {querys, query} = require("./mysql.js");
+const {querys, query} = require("../lib/mysql.js");
 const request = require('request');
 const zlib = require('zlib');
-const ursa = require('ursa');
 
 //获取文章列表详情,该页面请勿使用自动排版
 export default (ctx) => {
@@ -137,84 +136,9 @@ export default (ctx) => {
 };
 
 export var module_get_api = (ctx) => {
-    //百度统计API
-    var public_key = '-----BEGIN PUBLIC KEY-----\n' +
-        'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHn/hfvTLRXViBXTmBhNYEIJeG\n' +
-        'GGDkmrYBxCRelriLEYEcrwWrzp0au9nEISpjMlXeEW4+T82bCM22+JUXZpIga5qd\n' +
-        'BrPkjU08Ktf5n7Nsd7n9ZeI0YoAKCub3ulVExcxGeS3RVxFai9ozERlavpoTOdUz\n' +
-        'EH6YWHP4reFfpMpLzwIDAQAB\n' +
-        '-----END PUBLIC KEY-----';
-    var query_body = {
-        username: '373226722',
-        token: '42977f2a53ede879d5cd90881b5a5fca',
-        functionName: 'preLogin',
-        request: {
-            PreLoginRequest: {
-                osVersion: 'Windows',
-                deviceType: 'pad',
-                clientVersion: '1.0'
-            }
-        }
-    };
-
-    let promise = new Promise(function (resolve, reject) {
-        zlib.deflate(JSON.stringify(query_body), (err, buffer) => {
-            if (!err) {
-                var data = buffer.toString('base64');
-                var data_str = [];
-                var a = 0;
-                for (var n = 0; n < data.length; n = n + 117) {
-                    data_str[a] = data.substring(n, n + 117);
-                    a++;
-                }
-                console.log(data_str);
-                var crt = ursa.createPublicKey(public_key);
-                var enc_str = '';
-                for (var z = 0; z < a; z++) {
-                    //data_str[z]
-                    enc_str += crt.encrypt('aaaaaa', 'utf8', 'base64');
-                }
-                resolve(enc_str);
-            } else {
-                reject(err);
-            }
-        });
-    });
-    return promise.then(function (gzip_str) {
-        return new Promise(function (resolve, reject) {
-            console.log(gzip_str);
-            request({
-                method: 'POST',
-                url: 'https://api.baidu.com/sem/common/HolmesLoginService',
-                headers: [{
-                    name: 'UUID',
-                    value: '00-23-5A-15-99-42'
-                }, {
-                    name: 'account_type',
-                    value: '1'
-                }, {
-                    name: 'Content-Type',
-                    value: 'data/gzencode and rsa public encrypt;charset=UTF-8'
-                    // 'UUID': 'test_device',
-                    // 'account_type': '1',
-                    // 'Content-Type': 'data/gzencode and rsa public encrypt;charset=UTF-8'
-                }],
-                postData: {
-                    serviceName: 'report',
-                    methodName: 'query',
-                    parameterJSON: gzip_str
-                }
-            }, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    console.log('bbb');
-                    body = Buffer.from(body, 'ascii').toString('hex');
-                    resolve(body);
-                } else {
-                    reject(response);
-                }
-            });
-        });
-    });
+    return new Promise(function(resolve,reject){
+			resolve("ok");
+	});
 };
 
 //查询分类

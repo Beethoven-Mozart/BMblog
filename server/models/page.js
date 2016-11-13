@@ -1,4 +1,4 @@
-const {querys} = require('./mysql.js');
+const {querys} = require('../lib/mysql.js');
 export default (ctx)=>{
     var sql = {
         options: "SELECT `option_name`,`option_value` FROM `bm_options` WHERE `option_id` < 7",

@@ -1,6 +1,6 @@
 const mysql = require('promise-mysql');
-const {system_config} = require('../../config.js');
-const {sql_format} = require('../../app/tool/common_tool.js');
+const {system_config} = require('../config.js');
+const {sql_format} = require('../tool/common_tool.js');
 
 var pool = mysql.createPool({
     //connectionLimit: 4,     //连接池最多可以创建的连接数

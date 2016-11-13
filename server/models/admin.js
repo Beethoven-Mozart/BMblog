@@ -1,5 +1,5 @@
 import {query} from "../lib/mysql.js";
-import {CheckPassword} from '../../app/tool/ass';
+import {CheckPassword} from '../tool/ass';
 import fs from 'fs';
 import path from 'path';
 

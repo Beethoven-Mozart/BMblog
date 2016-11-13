@@ -1,4 +1,4 @@
-const {querys} = require("./mysql.js");
+const {querys} = require("../lib/mysql.js");
 
 export default function () {
     var sqls = {

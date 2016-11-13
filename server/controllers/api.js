@@ -1,5 +1,5 @@
-import {system_config} from '../../config.js';
-import {setString, option_format} from '../../app/tool/common_tool.js';
+import {system_config} from '../config.js';
+import {setString, option_format} from '../tool/common_tool.js';
 import {
     default as get_posts,
     module_get_api as get_type,

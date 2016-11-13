@@ -1,6 +1,6 @@
 import {model_post} from '../models/post';
-import {option_format} from '../../app/tool/common_tool';
-import {system_config} from '../../config.js';
+import {option_format} from '../tool/common_tool';
+import {system_config} from '../config.js';
 import marked from 'marked';
 import moment from 'moment-timezone';
 
