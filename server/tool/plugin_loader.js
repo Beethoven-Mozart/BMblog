@@ -1,6 +1,6 @@
-const fs  = require("fs");
-const path  = require("path");
-const compose  = require("koa-compose");
+import fs from "fs";
+import path  from "path";
+import compose  from "koa-compose";
 
 function getDirs(srcpath) {
     return fs.readdirSync(srcpath).filter(file => {
