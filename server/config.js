@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-export var system_config = {
+export let system_config = {
     HTTP_server_type: 'http://', //HTTP服务器地址,包含"http://"或"https://"
     HTTP_server_host: 'localhost',//HTTP服务器地址,请勿添加"http://"
     HTTP_server_port: '3000',//HTTP服务器端口号

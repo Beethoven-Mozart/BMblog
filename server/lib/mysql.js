@@ -13,15 +13,15 @@ var pool = mysql.createPool({
 });
 
 //执行一行SQL语句并返回结果
-export var query = (sql) => {
+export let query = (sql) => {
     return pool.query(sql_format(sql));
 };
 
 //执行多行SQL语句并返回结果
-export var querys = (sqls) => {
+export let querys = (sqls) => {
     let keys = Object.keys(sqls);
     let list = Object.values(sqls);
-    var promises = list.map(function (sql) {
+    let promises = list.map(function (sql) {
         return query(sql);
     });
 
@@ -33,3 +33,20 @@ export var querys = (sqls) => {
         return result;
     });
 };
+
+//返回连接
+export let getSqlConnection = () => {
+    return pool.getConnection().disposer(function(connection) {
+        pool.releaseConnection(connection);
+    });
+};
+
+//连接使用方法
+//var Promise = require("bluebird");
+// Promise.using(getSqlConnection(), function(connection) {
+//     return connection.query('select `name` from hobbits').then(function(row) {
+//         return process(rows);
+//     }).catch(function(error) {
+//         console.log(error);
+//     });
+// })
