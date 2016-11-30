@@ -10,11 +10,11 @@ export default (ctx) => {
     }
 };
 
-export var login = (ctx) => {
+export let login = (ctx) => {
     return ctx.render('admin/login');
 };
 
-export var login_post = (ctx) => {
+export let login_post = (ctx) => {
     return model_login_post(ctx).then((result) => {
         console.log(result);
         if (result.length == 0) {
@@ -26,7 +26,7 @@ export var login_post = (ctx) => {
     });
 };
 
-export var logout_post = (ctx) => {
+export let logout_post = (ctx) => {
     return model_login_post(ctx).then((result) => {
         console.log(result);
         if (result.length == 0) {
@@ -38,14 +38,14 @@ export var logout_post = (ctx) => {
     });
 };
 
-export var page = (ctx) => {
+export let page = (ctx) => {
     return model_admin_page_post(ctx).then((result) => {
         console.log(ctx.session);
         ctx.body = result;
     });
 };
 
-export var page_get = (ctx) => {
+export let page_get = (ctx) => {
     return model_admin_page_get(ctx).then((result) => {
         ctx.body = result;
     });
