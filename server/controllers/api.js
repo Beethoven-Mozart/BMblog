@@ -20,10 +20,10 @@ export default (ctx) => {
                             err: '500'
                         };
                     } else {
-                        for (var a = 0; a < result.posts.length; a++) {
+                        for (let a = 0; a < result.posts.length; a++) {
                             result.posts[a].post_date = moment(result.posts[a].post_date).format('ll'); //格式化时间
                         }
-                        var posts_page_all = Math.ceil(result.posts_all[0].all / 10);
+                        let posts_page_all = Math.ceil(result.posts_all[0].all / 10);
                         ctx.body = {
                             options: option_format(result.options),
                             posts: result.posts,
@@ -84,7 +84,7 @@ export default (ctx) => {
     }
 };
 
-export var api_get = (ctx) => {
+export let api_get = (ctx) => {
     return get_type(ctx).then(function (value) {
         console.log('ccc');
         ctx.body = value;

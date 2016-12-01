@@ -5,7 +5,7 @@ const zlib = require('zlib');
 //获取文章列表详情,该页面请勿使用自动排版
 export default (ctx) => {
     //判断文章总状态
-    var post_status = "!= 'auto-draft'";
+    let post_status = "!= 'auto-draft'";
     switch (ctx.request.body.post_status) {
         case 'all':
             post_status = "!= 'auto-draft'";
@@ -19,7 +19,7 @@ export default (ctx) => {
     }
 
     let limit = (parseInt(ctx.request.body.post_page) - 1) * 10 + ",10";//文章分页
-    var posts_order_by = 'post_date';
+    let posts_order_by = 'post_date';
     switch (ctx.request.body.order_by) {
         case 'by_date':
             posts_order_by = 'post_date';
@@ -31,7 +31,7 @@ export default (ctx) => {
             posts_order_by = 'comment_count';
             break;
     }
-    var posts_order_type = 'DESC';
+    let posts_order_type = 'DESC';
     if (ctx.request.body.order_type == 'ASC') {
         posts_order_type = 'ASC';
     }
@@ -61,8 +61,8 @@ export default (ctx) => {
         "WHERE A1.ID = A2.ID " +
         "ORDER BY `" + posts_order_by + "` " + posts_order_type + " ;";
 
-    var get_posts = function () {
-        var sql = {
+    let get_posts = function () {
+        let sql = {
             //查询设置
             options: "SELECT `option_name`,`option_value` " +
             "FROM `bm_options` " +
@@ -113,12 +113,12 @@ export default (ctx) => {
         });
     };
 
-    var filter = '';
+    let filter = '';
     if (ctx.request.body.term != 'all' && ctx.request.body.term != '') {
         filter = "AND `bm_posts`.`ID` IN (SELECT `object_id` FROM `bm_term_relationships` WHERE `term_taxonomy_id` = (SELECT `term_taxonomy_id` FROM `bm_term_taxonomy` WHERE `term_id` = '" + ctx.request.body.term + "'))";
     }
 
-    var create_VIEW = "CREATE OR REPLACE VIEW `bm_view_post` AS " +
+    let create_VIEW = "CREATE OR REPLACE VIEW `bm_view_post` AS " +
         "(SELECT `bm_posts`.`ID`, `post_title`, `post_date`, `display_name`, `comment_count`, `post_status` " +
         "FROM `bm_posts`,`bm_users` " +
         "WHERE `post_type` = 'post' " +
@@ -135,17 +135,17 @@ export default (ctx) => {
     });
 };
 
-export var module_get_api = (ctx) => {
+export let module_get_api = (ctx) => {
     return new Promise(function(resolve,reject){
 			resolve("ok");
 	});
 };
 
 //查询分类
-export var module_get_terms = (ctx) => {
+export let module_get_terms = (ctx) => {
     let limit = (parseInt(ctx.request.body.page) - 1) * 10 + ",10";//分页
     let target = ctx.request.body.target;
-    var posts_order_by = "`bm_terms`.`term_id`";
+    let posts_order_by = "`bm_terms`.`term_id`";
     switch (ctx.request.body.order_by) {
         case 'by_id':
             posts_order_by = '`bm_terms`.`term_id`';
@@ -160,11 +160,11 @@ export var module_get_terms = (ctx) => {
             posts_order_by = '`bm_term_taxonomy`.`count`';
             break;
     }
-    var posts_order_type = 'DESC';
+    let posts_order_type = 'DESC';
     if (ctx.request.body.order_type == 'ASC') {
         posts_order_type = 'ASC';
     }
-    var sql = {
+    let sql = {
         //查询当前页面分类目录
         terms: "SELECT `bm_terms`.`term_id`,`name`,`count`,`parent`,`slug` " +
         "FROM `bm_terms`,`bm_term_taxonomy` " +
@@ -184,9 +184,9 @@ export var module_get_terms = (ctx) => {
 };
 
 //查询文章内容
-export var module_get_post = (ctx) => {
+export let module_get_post = (ctx) => {
     let post_id = ctx.request.body.post_id;
-    var sql = {
+    let sql = {
         //获取文章内容
         post: "SELECT * FROM `bm_posts`,`bm_users` " +
         "WHERE `post_type` = 'post' " +

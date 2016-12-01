@@ -36,6 +36,7 @@
     "koa-static2": "^0.1.8",
     "marked": "^0.3.5",
     "moment-timezone": "^0.5.5",
+    "nodemailer": "^2.6.4",
     "promise": "^7.1.1",
     "request": "^2.73.0",
     "require-directory": "^2.1.1",
