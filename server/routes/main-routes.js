@@ -4,6 +4,14 @@ let controllers = require('../controllers/index.js');
 const router = new Koa_router();
 
 router
+    .all('/upload', controllers.upload.upload.array('file'), function (ctx, next) {
+        return new Promise(function (resolve, reject) {
+            //允许跨域，正式环境要改为对应域名
+            ctx.set("Access-Control-Allow-Origin", "*");
+            //ctx.req.files.filename = ctx.req.files.path;
+            resolve(ctx.body = ctx.req.files);
+        });
+    })
     .get('/', controllers.home.default) // HOME 路由
     .put('/api/:api_type/:name', controllers.api_put.api_put)
     .get('/api/:api_type/:name', controllers.api.api_get)
