@@ -19,7 +19,11 @@ const env = system_config.System_type || 'development';//Current mode
 
 app.keys = ['BMblog'];
 app //Start module
-    .use(Koa_convert(body_parser))  //Processing request
+    .use(Koa_body_parser({
+        extendTypes: {
+            json: ['application/x-javascript'] // will parse application/x-javascript type body as a JSON string
+        }
+    }))  //Processing request
     .use(Koa_convert(Koa_json()))   //Json handle module
     .use(Koa_convert(Koa_favicon(path.join(__dirname, '../client/web/assets/img/favicon.ico'))))
     .use(Koa_static("assets", path.resolve(__dirname, '../client/web/assets'))) //Static resource
