@@ -234,6 +234,7 @@ var ajax_page = function (path, route) {
         success: function (result) {
             switch (result.status) {
                 case 200: {
+                    console.log(result);
                     $("#main").html(result.html);
                     $('#ajax-css').remove();
                     $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');

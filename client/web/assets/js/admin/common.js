@@ -225,7 +225,7 @@ var ajax_page = function (path, route) {
     $.ajax({
         cache: false,
         type: 'POST',
-        url: "/admin/page/" + path,
+        url: "/admin/pages/" + path,
         async: true,
         data: {
             route: route
@@ -234,30 +234,38 @@ var ajax_page = function (path, route) {
         success: function (result) {
             switch (result.status) {
                 case 200: {
-                    $("#main").html(result.html);
+                    console.log(result);
+                    nunjucks.configure('views', {
+                        autoescape: false
+                    });
+                    eval(result.first_js);
+                    $("#main").html(nunjucks.render("../admin/pages/" + path + "/" + route + "/index.html", window.theme_data));
                     $('#ajax-css').remove();
                     $("head").append('<style type="text/css" id="ajax-css">' + result.css + '</style>');
+                    // if(window.ueditor_id != undefined){
+                    //     UE.delEditor(window.ueditor_id);
+                    // }
                     eval(result.js);
                 }
                     break;
                 case 500: {
                     $('#ajax-css').remove();
-                    $("#main").html('<h1>服务器错误! - 500</h1>');
+                    $("#main").html(html_404('服务器错误! - 500'));
                 }
                     break;
                 case 403: {
                     $('#ajax-css').remove();
-                    $("#main").html('<h1>没有访问权限! - 403</h1>');
+                    $("#main").html(html_404('没有访问权限! - 403'));
                 }
                     break;
                 case 404: {
                     $('#ajax-css').remove();
-                    $("#main").html('<h1>页面不存在! - 405</h1>');
+                    $("#main").html(html_404('页面不存在! - 405'));
                 }
                     break;
                 default: {
                     $('#ajax-css').remove();
-                    $("#main").html('<h1>未知错误</h1>');
+                    $("#main").html(html_404('未知错误'));
                 }
             }
         },
@@ -267,6 +275,12 @@ var ajax_page = function (path, route) {
             console.log(err);
         }
     });
+};
+
+//刷新
+window.pages_reload = function () {
+    var router = $_GET(1).split("/");
+    ajax_page(router[1],router[2]);
 };
 
 //路由

@@ -1,4 +1,8 @@
-import {login_post as model_login_post, page_post as model_admin_page_post} from '../models/admin';
+import {
+    login_post as model_login_post,
+    page_post as model_admin_page_post,
+    page_get as model_admin_page_get
+} from '../models/admin';
 
 export default (ctx) => {
     let user_id = ctx.session.user_id;

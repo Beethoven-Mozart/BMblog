@@ -9,8 +9,7 @@ $('document').ready(function () {
             },
             dataType: "json",
             success: function (result) {
-                if (result.statue == 200 && result.check == "ok") {
-
+                if (result.status == 200 && result.check == "ok") {
                     window.location.href = "/admin";
                 } else if (result.check == "no_acc") {
                     alert("用户名或密码不正确!");

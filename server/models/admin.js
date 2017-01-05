@@ -1,12 +1,12 @@
 import {query} from "../lib/mysql.js";
-import {CheckPassword} from '../tool/algorithm';
+import {CheckPassword} from '../lib/ass';
 import fs from 'fs';
 import path from 'path';
 
-export let login_post = (ctx)=> {
+export let login_post = (ctx) => {
     return query("SELECT * FROM  `bm_users`  WHERE `user_login` = '" + ctx.request.body.username + "'").then(result => {
         let check = null;
-        if (CheckPassword(ctx.request.body.password, result[0].user_pass)) {
+        if (result.length != 0 && CheckPassword(ctx.request.body.password, result[0].user_pass)) {
             //身份认证成功
             result[0].user_pass = '1';
             ctx.session.user_id = result[0].ID;
@@ -17,17 +17,17 @@ export let login_post = (ctx)=> {
     });
 };
 
-export let logout_post = (ctx)=> {
+export let logout_post = (ctx) => {
     return new Promise(function (resolve, reject) {
         ctx.session = null;
         resolve({status: 200, check: 'ok'});
     });
 };
 
-export let page_get = (ctx)=> {
+export let page_get = (ctx) => {
     let user_id = ctx.session.user_id;
     if ((user_id != '' || user_id != null) && user_id > 0) {
-        let paths = path.join(__dirname, '../../app/themes/bmblog/template/admin/page/' + ctx.params.name + '/' + ctx.params.route + '/index');
+        let paths = path.join(__dirname, '../web_server/themes/bmblog/template/admin/page/' + ctx.params.name + '/' + ctx.params.route + '/index');
         return new Promise(function (resolve, reject) {
             fs.exists(paths + '.html', function (exists) {
                 if (exists) {
@@ -51,10 +51,10 @@ export let page_get = (ctx)=> {
     }
 };
 
-export let page_post = (ctx)=> {
+export let page_post = (ctx) => {
     let user_id = ctx.session.user_id;
     if ((user_id != '' || user_id != null) && user_id > 0) {
-        let path_url = path.join(__dirname, '../../app/themes/bmblog/template/admin/page/' + ctx.params.name + '/');
+        let path_url = path.join(__dirname, '../web_server/themes/bmblog/template/admin/page/' + ctx.params.name + '/');
         let header = path_url + ctx.request.body.route + '/header';
         let paths = path_url + ctx.request.body.route + '/index';
 
