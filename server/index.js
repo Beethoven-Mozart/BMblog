@@ -30,7 +30,7 @@ app //Start module
     .use(Koa_convert(session(app))) //Set Session
     .use(Koa_Nunjucks({  //Nunjucks - Themes Config
         ext: 'html',
-        path: path.join(__dirname, 'app/web_server/themes/' + system_config.System_theme + '/template'),
+        path: path.join(__dirname, 'web_server/themes/' + system_config.System_theme + '/template'),
         nunjucksConfig: {
             autoescape: false
         }
